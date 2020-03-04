@@ -40,7 +40,7 @@ password = dbcred["password"]
 database = dbcred["database"]
 
 # write query
-
+registerQuery=""
 
 # execute query
 def doQuery( conn ):
