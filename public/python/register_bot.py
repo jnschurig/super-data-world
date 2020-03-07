@@ -5,7 +5,6 @@ helpText = "This program is designed to register (or deregister) a bot to help w
 
 parser = argparse.ArgumentParser(description = helpText)
 
-
 parser.add_argument("--botname","-b", help="a valid bot name (required)")
 parser.add_argument("--desc","-d", help="description of the bot (optional)")
 parser.add_argument("--disable","-x", help="'True' to deactivate")
@@ -18,7 +17,8 @@ isVerbose=False
 botName="Null"
 botDesc=args.desc
 enableBot=True
-botStatus="Active"
+botStatus="active"
+botStatusID=0
 
 if args.verbose:
     isVerbose=args.verbose
@@ -39,8 +39,8 @@ if args.disable:
     botStatus="disabled"
 
 if isVerbose: 
-    print("botName= " + botName)
-    print("botDesc= '" + botDesc + "'")
+    print("botName = " + botName)
+    print("botDesc = '" + botDesc + "'")
     print("enableBot = " + str(enableBot))
 
 
@@ -55,33 +55,58 @@ hostname = dbcred["hostname"]
 username = dbcred["username"]
 password = dbcred["password"]
 database = dbcred["database"]
+port     = dbcred["port"]
+
+statusQuery="select a.entity_status_id bot_status_id from game.entity_status a where a.status_name = '"+botStatus+"'"
+if isVerbose: print ("statusQuery = \n" + statusQuery)
+
+# execute query
+conn = psycopg2.connect(user=username, password=password, host=hostname, port=port, database=database)
+cur = conn.cursor()
+cur.execute( statusQuery )
+bot_status_id = cur.fetchone()
+botStatusID = int(bot_status_id[-1])
+if isVerbose: print ("botStatusID = " + str(botStatusID))
+
+if(conn):
+    cur.close()
+    conn.close()
+    if isVerbose: print("Connection to DB is closed...")
+
 
 # write query
-registerQuery=""
-registerQuery+="with \n"
-registerQuery+="    parms as (select 'active' bot_status_name, 'botName' bot_name, 'botDesc' bot_description)\n"
-registerQuery+=" select current_timestamp  created_date \n"
-registerQuery+="       ,current_timestamp  modified_date\n"
-registerQuery+="       ,a.entity_status_id bot_status_id\n"
-registerQuery+="       ,x.bot_name\n"
-registerQuery+="       ,x.bot_description\n"
-registerQuery+="   from game.entity_status a \n"
-registerQuery+="   cross join parms x\n"
-registerQuery+="  where a.status_name = x.bot_status_name\n"
+registerQuery = ""
+registerQuery += "insert into game.bot_registration \n"
+registerQuery += "  (created_date \n"
+registerQuery += "  ,modified_date \n"
+registerQuery += "  ,bot_status_id \n"
+registerQuery += "  ,bot_name\n"
+registerQuery += "  ,bot_description\n"
+registerQuery += "  )\n"
+registerQuery += "values\n"
+registerQuery += "  (current_timestamp\n"
+registerQuery += "  ,current_timestamp\n"
+registerQuery += "  ," + str(botStatusID) + "\n"
+registerQuery += "  ,'" + botName + "'\n"
+registerQuery += "  ,'" + botDesc + "'\n"
+registerQuery += "  )\n"
+registerQuery += "on conflict on constraint AK_bot_registraton\n"
+registerQuery += "do update set \n"
+registerQuery += "   modified_date   = current_timestamp\n"
+registerQuery += "  ,bot_status_id   = " + str(botStatusID) + "\n"
+registerQuery += "  ,bot_name        = '" + botName + "'\n"
+registerQuery += "  ,bot_description = '" + botDesc + "'\n"
+registerQuery += "returning bot_status_id\n"
+# registerQuery += "; commit\n"
+
+if isVerbose: print ("registerQuery = \n" + registerQuery)
+
+conn2 = psycopg2.connect(user=username, password=password, host=hostname, port=port, database=database)
+regCur = conn2.cursor()
+regCur.execute( registerQuery )
+registerResult = regCur.fetchone()
+botRegistrationID=int(registerResult[-1])
+if isVerbose: print("botRegistrationID = " + str(botRegistrationID))
+print(botRegistrationID)
 
 
-print(registerQuery)
-# # execute query
-# def doQuery( conn ):
-#    cur = conn.cursor()
-
-#    cur.execute( "select 'Hi Molly' as current_timest")
-
-#    for current_timestamp in cur.fetchall() :
-#        print (current_timestamp)
-
-# print ("using psycopg2...")
-# #import psycopg2
-# myConnection = psycopg2.connect (host=hostname, user=username, password=password, dbname=database)
-# doQuery(myConnection)
-# myConnection.close()
