@@ -6,8 +6,14 @@
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
+    <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
+      <parameter>
+        <name>PARALLEL</name>
+        <default_value>8</default_value>
+        <description/>
+      </parameter>
     </parameters>
     <log>
       <trans-log-table>
@@ -437,23 +443,13 @@
   </notepads>
   <order>
     <hop>
-      <from>Filter rows</from>
-      <to>Lookup pokemon</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>JSON input</from>
-      <to>Filter rows</to>
+      <to>Filter mons</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Capture Lines</from>
       <to>Captured</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Lookup pokemon</from>
-      <to>Split field to rows</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -478,13 +474,63 @@
     </hop>
     <hop>
       <from>Clean html</from>
-      <to>Select values 2</to>
+      <to>Convenient Select</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Trash List</from>
+      <to>Stream lookup</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Convenient Select</from>
+      <to>Stream lookup</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Stream lookup</from>
+      <to>Null if</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Null if</from>
+      <to>Is good</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Is good</from>
+      <to>Trash</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Is good</from>
+      <to>Row denormaliser</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows</from>
+      <to>Split field to rows</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Filter mons</from>
+      <to>Receive</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Receive</from>
+      <to>Lookup pokemon</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Lookup pokemon</from>
+      <to>Sort rows</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Filter rows</name>
-    <type>FilterRows</type>
+    <name>Calculator</name>
+    <type>Calculator</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -493,25 +539,22 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <send_true_to>Lookup pokemon</send_true_to>
-    <send_false_to/>
-    <compare>
-      <condition>
-        <negated>N</negated>
-        <leftvalue>pokemon_number</leftvalue>
-        <function>=</function>
-        <rightvalue/>
-        <value>
-          <name>constant</name>
-          <type>String</type>
-          <text>001</text>
-          <length>-1</length>
-          <precision>-1</precision>
-          <isnull>N</isnull>
-          <mask/>
-        </value>
-      </condition>
-    </compare>
+    <failIfNoFile>Y</failIfNoFile>
+    <calculation>
+      <field_name>decoded</field_name>
+      <calc_type>UNESCAPE_HTML</calc_type>
+      <field_a>captureText</field_a>
+      <field_b/>
+      <field_c/>
+      <value_type>String</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -521,169 +564,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>222</xloc>
-      <yloc>69</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>JSON input</name>
-    <type>JsonInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <include>N</include>
-    <include_field/>
-    <rownum>N</rownum>
-    <addresultfile>N</addresultfile>
-    <readurl>N</readurl>
-    <removeSourceField>N</removeSourceField>
-    <IsIgnoreEmptyFile>N</IsIgnoreEmptyFile>
-    <doNotFailIfNoFile>Y</doNotFailIfNoFile>
-    <ignoreMissingPath>Y</ignoreMissingPath>
-    <defaultPathLeafToNull>Y</defaultPathLeafToNull>
-    <rownum_field/>
-    <file>
-      <name>${Internal.Entry.Current.Directory}</name>
-      <filemask>dex.*json</filemask>
-      <exclude_filemask/>
-      <file_required>N</file_required>
-      <include_subfolders>N</include_subfolders>
-    </file>
-    <fields>
-      <field>
-        <name>pokemon_number</name>
-        <path>$.dex..pokemon_number</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>both</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>pokemon_name</name>
-        <path>$.dex..pokemon_name</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>both</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>pokedex_url</name>
-        <path>$.dex..pokedex_url</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>both</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>thumb_url</name>
-        <path>$.dex..thumb_url</path>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>both</trim_type>
-        <repeat>N</repeat>
-      </field>
-    </fields>
-    <limit>0</limit>
-    <IsInFields>N</IsInFields>
-    <IsAFile>N</IsAFile>
-    <valueField/>
-    <shortFileFieldName/>
-    <pathFieldName/>
-    <hiddenFieldName/>
-    <lastModificationTimeFieldName/>
-    <uriNameFieldName/>
-    <rootUriNameFieldName/>
-    <extensionFieldName/>
-    <sizeFieldName/>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>81</xloc>
-      <yloc>69</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Lookup pokemon</name>
-    <type>Rest</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <applicationType>TEXT PLAIN</applicationType>
-    <method>GET</method>
-    <url/>
-    <urlInField>Y</urlInField>
-    <dynamicMethod>N</dynamicMethod>
-    <methodFieldName/>
-    <urlField>pokedex_url</urlField>
-    <bodyField/>
-    <httpLogin/>
-    <httpPassword>Encrypted </httpPassword>
-    <proxyHost/>
-    <proxyPort/>
-    <preemptive>N</preemptive>
-    <trustStoreFile/>
-    <trustStorePassword>Encrypted </trustStorePassword>
-    <headers>
-      </headers>
-    <parameters>
-      </parameters>
-    <matrixParameters>
-      </matrixParameters>
-    <result>
-      <name>result</name>
-      <code/>
-      <response_time/>
-      <response_header/>
-    </result>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>363</xloc>
-      <yloc>69</yloc>
+      <xloc>927</xloc>
+      <yloc>280</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -936,7 +818,7 @@ if(capture==0) {
       </output>
     </remotesteps>
     <GUI>
-      <xloc>645</xloc>
+      <xloc>711</xloc>
       <yloc>69</yloc>
       <draw>Y</draw>
     </GUI>
@@ -980,8 +862,366 @@ if(capture==0) {
       </output>
     </remotesteps>
     <GUI>
-      <xloc>786</xloc>
+      <xloc>816</xloc>
       <yloc>69</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Clean html</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>//Script here
+var cap = captureName;
+
+var tags = /&lt;.*?>/g;
+
+var def = />&lt;\/td>/g;
+
+var newDecode = decoded;
+
+if(cap=="Type defenses") newDecode = decoded.replace(def,">1&lt;/td>");
+
+var tagless = newDecode.replace(tags,"");</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>tagless</name>
+        <rename>tagless</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>786</xloc>
+      <yloc>280</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Filter mons</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <send_true_to>Receive</send_true_to>
+    <send_false_to/>
+    <compare>
+      <condition>
+        <negated>N</negated>
+        <leftvalue>pokemon_number</leftvalue>
+        <function>=</function>
+        <rightvalue/>
+        <value>
+          <name>constant</name>
+          <type>String</type>
+          <text>001</text>
+          <length>-1</length>
+          <precision>-1</precision>
+          <isnull>N</isnull>
+          <mask/>
+        </value>
+      </condition>
+    </compare>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>186</xloc>
+      <yloc>69</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>JSON input</name>
+    <type>JsonInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <include>N</include>
+    <include_field/>
+    <rownum>N</rownum>
+    <addresultfile>N</addresultfile>
+    <readurl>N</readurl>
+    <removeSourceField>N</removeSourceField>
+    <IsIgnoreEmptyFile>N</IsIgnoreEmptyFile>
+    <doNotFailIfNoFile>Y</doNotFailIfNoFile>
+    <ignoreMissingPath>Y</ignoreMissingPath>
+    <defaultPathLeafToNull>Y</defaultPathLeafToNull>
+    <rownum_field/>
+    <file>
+      <name>${Internal.Entry.Current.Directory}</name>
+      <filemask>dex.*json</filemask>
+      <exclude_filemask/>
+      <file_required>N</file_required>
+      <include_subfolders>N</include_subfolders>
+    </file>
+    <fields>
+      <field>
+        <name>pokemon_number</name>
+        <path>$.dex..pokemon_number</path>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>pokemon_name</name>
+        <path>$.dex..pokemon_name</path>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>pokedex_url</name>
+        <path>$.dex..pokedex_url</path>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>thumb_url</name>
+        <path>$.dex..thumb_url</path>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+      </field>
+    </fields>
+    <limit>0</limit>
+    <IsInFields>N</IsInFields>
+    <IsAFile>N</IsAFile>
+    <valueField/>
+    <shortFileFieldName/>
+    <pathFieldName/>
+    <hiddenFieldName/>
+    <lastModificationTimeFieldName/>
+    <uriNameFieldName/>
+    <rootUriNameFieldName/>
+    <extensionFieldName/>
+    <sizeFieldName/>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>81</xloc>
+      <yloc>69</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Lookup pokemon</name>
+    <type>Rest</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>${PARALLEL}</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <applicationType>TEXT PLAIN</applicationType>
+    <method>GET</method>
+    <url/>
+    <urlInField>Y</urlInField>
+    <dynamicMethod>N</dynamicMethod>
+    <methodFieldName/>
+    <urlField>pokedex_url</urlField>
+    <bodyField/>
+    <httpLogin/>
+    <httpPassword>Encrypted </httpPassword>
+    <proxyHost/>
+    <proxyPort/>
+    <preemptive>N</preemptive>
+    <trustStoreFile/>
+    <trustStorePassword>Encrypted </trustStorePassword>
+    <headers>
+      </headers>
+    <parameters>
+      </parameters>
+    <matrixParameters>
+      </matrixParameters>
+    <result>
+      <name>result</name>
+      <code/>
+      <response_time/>
+      <response_header/>
+    </result>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>396</xloc>
+      <yloc>69</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>pokemon_number</name>
+      </field>
+      <field>
+        <name>pokemon_name</name>
+      </field>
+      <field>
+        <name>pokedex_url</name>
+      </field>
+      <field>
+        <name>thumb_url</name>
+      </field>
+      <field>
+        <name>captureName</name>
+      </field>
+      <field>
+        <name>captureText</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>927</xloc>
+      <yloc>69</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Convenient Select</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>pokemon_number</name>
+        <rename/>
+      </field>
+      <field>
+        <name>pokemon_name</name>
+        <rename/>
+      </field>
+      <field>
+        <name>pokedex_url</name>
+        <rename/>
+      </field>
+      <field>
+        <name>thumb_url</name>
+        <rename/>
+      </field>
+      <field>
+        <name>captureName</name>
+        <rename/>
+      </field>
+      <field>
+        <name>tagless</name>
+        <rename/>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>645</xloc>
+      <yloc>280</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1012,14 +1252,14 @@ if(capture==0) {
       </output>
     </remotesteps>
     <GUI>
-      <xloc>504</xloc>
+      <xloc>606</xloc>
       <yloc>69</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Select values</name>
-    <type>SelectValues</type>
+    <name>Trash List</name>
+    <type>DataGrid</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -1030,174 +1270,245 @@ if(capture==0) {
     </partitioning>
     <fields>
       <field>
-        <name>pokemon_number</name>
-        <rename/>
-      </field>
-      <field>
-        <name>pokemon_name</name>
-        <rename/>
-      </field>
-      <field>
-        <name>pokedex_url</name>
-        <rename/>
-      </field>
-      <field>
-        <name>thumb_url</name>
-        <rename/>
-      </field>
-      <field>
-        <name>captureName</name>
-        <rename/>
-      </field>
-      <field>
-        <name>captureText</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>927</xloc>
-      <yloc>69</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Calculator</name>
-    <type>Calculator</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <failIfNoFile>Y</failIfNoFile>
-    <calculation>
-      <field_name>decoded</field_name>
-      <calc_type>UNESCAPE_HTML</calc_type>
-      <field_a>captureText</field_a>
-      <field_b/>
-      <field_c/>
-      <value_type>String</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <remove>N</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>922</xloc>
-      <yloc>227</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Select values 2</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>pokemon_number</name>
-        <rename/>
-      </field>
-      <field>
-        <name>pokemon_name</name>
-        <rename/>
-      </field>
-      <field>
-        <name>pokedex_url</name>
-        <rename/>
-      </field>
-      <field>
-        <name>thumb_url</name>
-        <rename/>
-      </field>
-      <field>
-        <name>captureName</name>
-        <rename/>
-      </field>
-      <field>
-        <name>tagless</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>529</xloc>
-      <yloc>286</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Clean html</name>
-    <type>ScriptValueMod</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <compatible>N</compatible>
-    <optimizationLevel>9</optimizationLevel>
-    <jsScripts>
-      <jsScript>
-        <jsScript_type>0</jsScript_type>
-        <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>//Script here
-
-var tags = /&lt;.*?>/g;
-
-var def = />&lt;\/td>/g;
-
-var newDecode = decoded.replace(def,">1&lt;/td>");
-
-var tagless = newDecode.replace(tags,"");</jsScript_script>
-      </jsScript>
-    </jsScripts>
-    <fields>
-      <field>
-        <name>tagless</name>
-        <rename>tagless</rename>
+        <name>tagless_trash</name>
         <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
         <length>-1</length>
         <precision>-1</precision>
-        <replace>N</replace>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>toss</name>
+        <type>Integer</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+    <data>
+      <line>
+        <item/>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Type</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Species</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Height</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Weight</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Abilities</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Local №</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>EV yield</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Catch rate</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Base Friendship</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Base Exp.</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Growth Rate</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Egg Groups</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Gender</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Egg cycles</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>HP</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Attack</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Defense</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Sp. Atk</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Sp. Def</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Speed</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Total</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Min</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Max</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Type defenses</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Evolution chart</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Sword/Shield</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Let's Go Pikachu/Let's Go Eevee</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Generation 1</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Generation 2</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Generation 3</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Generation 4</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Generation 5</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Generation 6</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Generation 7</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Generation 8</item>
+        <item>1</item>
+      </line>
+    </data>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>504</xloc>
+      <yloc>174</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Stream lookup</name>
+    <type>StreamLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <from>Trash List</from>
+    <input_sorted>N</input_sorted>
+    <preserve_memory>Y</preserve_memory>
+    <sorted_list>N</sorted_list>
+    <integer_pair>N</integer_pair>
+    <lookup>
+      <key>
+        <name>tagless</name>
+        <field>tagless_trash</field>
+      </key>
+      <value>
+        <name>toss</name>
+        <rename>toss</rename>
+        <default>0</default>
+        <type>Integer</type>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>504</xloc>
+      <yloc>280</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Null if</name>
+    <type>NullIf</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>tagless</name>
+        <value/>
       </field>
     </fields>
     <attributes/>
@@ -1209,8 +1520,548 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>717</xloc>
-      <yloc>278</yloc>
+      <xloc>363</xloc>
+      <yloc>280</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Is good</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <send_true_to>Row denormaliser</send_true_to>
+    <send_false_to>Trash</send_false_to>
+    <compare>
+      <condition>
+        <negated>N</negated>
+        <conditions>
+          <condition>
+            <negated>N</negated>
+            <leftvalue>tagless</leftvalue>
+            <function>IS NOT NULL</function>
+            <rightvalue/>
+          </condition>
+          <condition>
+            <negated>N</negated>
+            <operator>AND</operator>
+            <leftvalue>toss</leftvalue>
+            <function>=</function>
+            <rightvalue/>
+            <value>
+              <name>constant</name>
+              <type>Integer</type>
+              <text>0</text>
+              <length>-1</length>
+              <precision>0</precision>
+              <isnull>N</isnull>
+              <mask>####0;-####0</mask>
+            </value>
+          </condition>
+        </conditions>
+      </condition>
+    </compare>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>222</xloc>
+      <yloc>280</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Trash</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>222</xloc>
+      <yloc>174</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Row denormaliser</name>
+    <type>Denormaliser</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <key_field>captureName</key_field>
+    <group>
+      <field>
+        <name>pokemon_number</name>
+      </field>
+      <field>
+        <name>pokemon_name</name>
+      </field>
+      <field>
+        <name>pokedex_url</name>
+      </field>
+      <field>
+        <name>thumb_url</name>
+      </field>
+    </group>
+    <fields>
+      <field>
+        <field_name>tagless</field_name>
+        <key_value>Pokemon Types</key_value>
+        <target_name>pokemon_type</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>-1</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>CONCAT_COMMA</target_aggregation_type>
+      </field>
+      <field>
+        <field_name>tagless</field_name>
+        <key_value>Pokemon Species</key_value>
+        <target_name>pokemon_species</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>-1</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>CONCAT_COMMA</target_aggregation_type>
+      </field>
+      <field>
+        <field_name>tagless</field_name>
+        <key_value>Pokemon Height</key_value>
+        <target_name>pokemon_height</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>-1</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>CONCAT_COMMA</target_aggregation_type>
+      </field>
+      <field>
+        <field_name>tagless</field_name>
+        <key_value>Pokemon Weight</key_value>
+        <target_name>pokemon_weight</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>-1</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>CONCAT_COMMA</target_aggregation_type>
+      </field>
+      <field>
+        <field_name>tagless</field_name>
+        <key_value>Pokemon Abilities</key_value>
+        <target_name>pokemon_abilities</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>-1</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>CONCAT_COMMA</target_aggregation_type>
+      </field>
+      <field>
+        <field_name>tagless</field_name>
+        <key_value>Pokemon Local Numbers</key_value>
+        <target_name>pokemon_local_no</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>-1</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>CONCAT_COMMA</target_aggregation_type>
+      </field>
+      <field>
+        <field_name>tagless</field_name>
+        <key_value>Training EV yield</key_value>
+        <target_name>training_ev_yield</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>-1</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>CONCAT_COMMA</target_aggregation_type>
+      </field>
+      <field>
+        <field_name>tagless</field_name>
+        <key_value>Training Catch rate</key_value>
+        <target_name>training_catch_rate</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>-1</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>CONCAT_COMMA</target_aggregation_type>
+      </field>
+      <field>
+        <field_name>tagless</field_name>
+        <key_value>Training Base Friendship</key_value>
+        <target_name>training_base_friendship</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>-1</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>CONCAT_COMMA</target_aggregation_type>
+      </field>
+      <field>
+        <field_name>tagless</field_name>
+        <key_value>Training Base Exp</key_value>
+        <target_name>training_base_exp</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>-1</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>CONCAT_COMMA</target_aggregation_type>
+      </field>
+      <field>
+        <field_name>tagless</field_name>
+        <key_value>Training Growth Rate</key_value>
+        <target_name>training_growth_rate</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>-1</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>CONCAT_COMMA</target_aggregation_type>
+      </field>
+      <field>
+        <field_name>tagless</field_name>
+        <key_value>Breeding Egg Groups</key_value>
+        <target_name>breeding_egg_groups</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>-1</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>CONCAT_COMMA</target_aggregation_type>
+      </field>
+      <field>
+        <field_name>tagless</field_name>
+        <key_value>Breeding Gender</key_value>
+        <target_name>breeding_gender</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>-1</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>CONCAT_COMMA</target_aggregation_type>
+      </field>
+      <field>
+        <field_name>tagless</field_name>
+        <key_value>Breeding Egg cycles</key_value>
+        <target_name>breeding_egg_cycles</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>-1</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>CONCAT_COMMA</target_aggregation_type>
+      </field>
+      <field>
+        <field_name>tagless</field_name>
+        <key_value>Base stats HP</key_value>
+        <target_name>base_stats_hp</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>-1</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>CONCAT_COMMA</target_aggregation_type>
+      </field>
+      <field>
+        <field_name>tagless</field_name>
+        <key_value>Base stats Attack</key_value>
+        <target_name>base_stats_attack</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>-1</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>CONCAT_COMMA</target_aggregation_type>
+      </field>
+      <field>
+        <field_name>tagless</field_name>
+        <key_value>Base stats Defense</key_value>
+        <target_name>base_stats_defense</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>-1</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>CONCAT_COMMA</target_aggregation_type>
+      </field>
+      <field>
+        <field_name>tagless</field_name>
+        <key_value>Base stats Sp Atk</key_value>
+        <target_name>base_stats_sp_atk</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>-1</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>CONCAT_COMMA</target_aggregation_type>
+      </field>
+      <field>
+        <field_name>tagless</field_name>
+        <key_value>Base stats Sp Def</key_value>
+        <target_name>base_stats_sp_def</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>-1</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>CONCAT_COMMA</target_aggregation_type>
+      </field>
+      <field>
+        <field_name>tagless</field_name>
+        <key_value>Base stats Speed</key_value>
+        <target_name>base_stats_speed</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>-1</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>CONCAT_COMMA</target_aggregation_type>
+      </field>
+      <field>
+        <field_name>tagless</field_name>
+        <key_value>Base stats Total</key_value>
+        <target_name>base_stats_total</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>-1</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>CONCAT_COMMA</target_aggregation_type>
+      </field>
+      <field>
+        <field_name>tagless</field_name>
+        <key_value>Type defenses</key_value>
+        <target_name>type_defenses</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>-1</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>CONCAT_COMMA</target_aggregation_type>
+      </field>
+      <field>
+        <field_name>tagless</field_name>
+        <key_value>Evolution chart</key_value>
+        <target_name>evolution_chart</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>-1</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>CONCAT_COMMA</target_aggregation_type>
+      </field>
+      <field>
+        <field_name>tagless</field_name>
+        <key_value>Pokemon changes</key_value>
+        <target_name>pokemon_changes</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>-1</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>CONCAT_COMMA</target_aggregation_type>
+      </field>
+      <field>
+        <field_name>tagless</field_name>
+        <key_value>Moves dex</key_value>
+        <target_name>moves_dex</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>-1</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>CONCAT_COMMA</target_aggregation_type>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>81</xloc>
+      <yloc>280</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>pokemon_number</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>501</xloc>
+      <yloc>69</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Receive</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>291</xloc>
+      <yloc>69</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
