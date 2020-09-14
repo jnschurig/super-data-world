@@ -527,6 +527,11 @@
       <to>Sort rows</to>
       <enabled>Y</enabled>
     </hop>
+    <hop>
+      <from>Row denormaliser</from>
+      <to>Split fields</to>
+      <enabled>Y</enabled>
+    </hop>
   </order>
   <step>
     <name>Calculator</name>
@@ -923,6 +928,52 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
     </GUI>
   </step>
   <step>
+    <name>Convenient Select</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>pokemon_number</name>
+      </field>
+      <field>
+        <name>pokemon_name</name>
+      </field>
+      <field>
+        <name>pokedex_url</name>
+      </field>
+      <field>
+        <name>thumb_url</name>
+      </field>
+      <field>
+        <name>captureName</name>
+      </field>
+      <field>
+        <name>tagless</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>645</xloc>
+      <yloc>280</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>Filter mons</name>
     <type>FilterRows</type>
     <description/>
@@ -939,12 +990,12 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
       <condition>
         <negated>N</negated>
         <leftvalue>pokemon_number</leftvalue>
-        <function>=</function>
+        <function>&lt;</function>
         <rightvalue/>
         <value>
           <name>constant</name>
           <type>String</type>
-          <text>001</text>
+          <text>007</text>
           <length>-1</length>
           <precision>-1</precision>
           <isnull>N</isnull>
@@ -963,6 +1014,62 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
     <GUI>
       <xloc>186</xloc>
       <yloc>69</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Is good</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <send_true_to>Row denormaliser</send_true_to>
+    <send_false_to>Trash</send_false_to>
+    <compare>
+      <condition>
+        <negated>N</negated>
+        <conditions>
+          <condition>
+            <negated>N</negated>
+            <leftvalue>tagless</leftvalue>
+            <function>IS NOT NULL</function>
+            <rightvalue/>
+          </condition>
+          <condition>
+            <negated>N</negated>
+            <operator>AND</operator>
+            <leftvalue>toss</leftvalue>
+            <function>=</function>
+            <rightvalue/>
+            <value>
+              <name>constant</name>
+              <type>Integer</type>
+              <text>0</text>
+              <length>-1</length>
+              <precision>0</precision>
+              <isnull>N</isnull>
+              <mask>####0;-####0</mask>
+            </value>
+          </condition>
+        </conditions>
+      </condition>
+    </compare>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>222</xloc>
+      <yloc>280</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1128,373 +1235,6 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
     </GUI>
   </step>
   <step>
-    <name>Select values</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>pokemon_number</name>
-      </field>
-      <field>
-        <name>pokemon_name</name>
-      </field>
-      <field>
-        <name>pokedex_url</name>
-      </field>
-      <field>
-        <name>thumb_url</name>
-      </field>
-      <field>
-        <name>captureName</name>
-      </field>
-      <field>
-        <name>captureText</name>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>927</xloc>
-      <yloc>69</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Convenient Select</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>pokemon_number</name>
-        <rename/>
-      </field>
-      <field>
-        <name>pokemon_name</name>
-        <rename/>
-      </field>
-      <field>
-        <name>pokedex_url</name>
-        <rename/>
-      </field>
-      <field>
-        <name>thumb_url</name>
-        <rename/>
-      </field>
-      <field>
-        <name>captureName</name>
-        <rename/>
-      </field>
-      <field>
-        <name>tagless</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>645</xloc>
-      <yloc>280</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Split field to rows</name>
-    <type>SplitFieldToRows3</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <splitfield>result</splitfield>
-    <delimiter>\n</delimiter>
-    <newfield>text</newfield>
-    <rownum>N</rownum>
-    <rownum_field/>
-    <resetrownumber>Y</resetrownumber>
-    <delimiter_is_regex>Y</delimiter_is_regex>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>606</xloc>
-      <yloc>69</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Trash List</name>
-    <type>DataGrid</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>tagless_trash</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>toss</name>
-        <type>Integer</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-    <data>
-      <line>
-        <item/>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Type</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Species</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Height</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Weight</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Abilities</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Local №</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>EV yield</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Catch rate</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Base Friendship</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Base Exp.</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Growth Rate</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Egg Groups</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Gender</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Egg cycles</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>HP</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Attack</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Defense</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Sp. Atk</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Sp. Def</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Speed</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Total</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Min</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Max</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Type defenses</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Evolution chart</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Sword/Shield</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Let's Go Pikachu/Let's Go Eevee</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Generation 1</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Generation 2</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Generation 3</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Generation 4</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Generation 5</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Generation 6</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Generation 7</item>
-        <item>1</item>
-      </line>
-      <line>
-        <item>Generation 8</item>
-        <item>1</item>
-      </line>
-    </data>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>504</xloc>
-      <yloc>174</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Stream lookup</name>
-    <type>StreamLookup</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <from>Trash List</from>
-    <input_sorted>N</input_sorted>
-    <preserve_memory>Y</preserve_memory>
-    <sorted_list>N</sorted_list>
-    <integer_pair>N</integer_pair>
-    <lookup>
-      <key>
-        <name>tagless</name>
-        <field>tagless_trash</field>
-      </key>
-      <value>
-        <name>toss</name>
-        <rename>toss</rename>
-        <default>0</default>
-        <type>Integer</type>
-      </value>
-    </lookup>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>504</xloc>
-      <yloc>280</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
     <name>Null if</name>
     <type>NullIf</type>
     <description/>
@@ -1526,63 +1266,7 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
     </GUI>
   </step>
   <step>
-    <name>Is good</name>
-    <type>FilterRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <send_true_to>Row denormaliser</send_true_to>
-    <send_false_to>Trash</send_false_to>
-    <compare>
-      <condition>
-        <negated>N</negated>
-        <conditions>
-          <condition>
-            <negated>N</negated>
-            <leftvalue>tagless</leftvalue>
-            <function>IS NOT NULL</function>
-            <rightvalue/>
-          </condition>
-          <condition>
-            <negated>N</negated>
-            <operator>AND</operator>
-            <leftvalue>toss</leftvalue>
-            <function>=</function>
-            <rightvalue/>
-            <value>
-              <name>constant</name>
-              <type>Integer</type>
-              <text>0</text>
-              <length>-1</length>
-              <precision>0</precision>
-              <isnull>N</isnull>
-              <mask>####0;-####0</mask>
-            </value>
-          </condition>
-        </conditions>
-      </condition>
-    </compare>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>222</xloc>
-      <yloc>280</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Trash</name>
+    <name>Receive</name>
     <type>Dummy</type>
     <description/>
     <distribute>Y</distribute>
@@ -1601,8 +1285,8 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>222</xloc>
-      <yloc>174</yloc>
+      <xloc>291</xloc>
+      <yloc>69</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1999,6 +1683,52 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
     </GUI>
   </step>
   <step>
+    <name>Select values</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>pokemon_number</name>
+      </field>
+      <field>
+        <name>pokemon_name</name>
+      </field>
+      <field>
+        <name>pokedex_url</name>
+      </field>
+      <field>
+        <name>thumb_url</name>
+      </field>
+      <field>
+        <name>captureName</name>
+      </field>
+      <field>
+        <name>captureText</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>927</xloc>
+      <yloc>69</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>Sort rows</name>
     <type>SortRows</type>
     <description/>
@@ -2041,7 +1771,81 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
     </GUI>
   </step>
   <step>
-    <name>Receive</name>
+    <name>Split field to rows</name>
+    <type>SplitFieldToRows3</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <splitfield>result</splitfield>
+    <delimiter>\n</delimiter>
+    <newfield>text</newfield>
+    <rownum>N</rownum>
+    <rownum_field/>
+    <resetrownumber>Y</resetrownumber>
+    <delimiter_is_regex>Y</delimiter_is_regex>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>606</xloc>
+      <yloc>69</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Stream lookup</name>
+    <type>StreamLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <from>Trash List</from>
+    <input_sorted>N</input_sorted>
+    <preserve_memory>Y</preserve_memory>
+    <sorted_list>N</sorted_list>
+    <integer_pair>N</integer_pair>
+    <lookup>
+      <key>
+        <name>tagless</name>
+        <field>tagless_trash</field>
+      </key>
+      <value>
+        <name>toss</name>
+        <rename>toss</rename>
+        <default>0</default>
+        <type>Integer</type>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>504</xloc>
+      <yloc>280</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Trash</name>
     <type>Dummy</type>
     <description/>
     <distribute>Y</distribute>
@@ -2060,8 +1864,267 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>291</xloc>
-      <yloc>69</yloc>
+      <xloc>222</xloc>
+      <yloc>174</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Trash List</name>
+    <type>DataGrid</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>tagless_trash</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>toss</name>
+        <type>Integer</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+    <data>
+      <line>
+        <item/>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Type</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Species</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Height</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Weight</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Abilities</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Local №</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>EV yield</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Catch rate</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Base Friendship</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Base Exp.</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Growth Rate</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Egg Groups</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Gender</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Egg cycles</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>HP</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Attack</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Defense</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Sp. Atk</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Sp. Def</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Speed</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Total</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Min</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Max</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Type defenses</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Evolution chart</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Sword/Shield</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Let's Go Pikachu/Let's Go Eevee</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Generation 1</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Generation 2</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Generation 3</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Generation 4</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Generation 5</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Generation 6</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Generation 7</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Generation 8</item>
+        <item>1</item>
+      </line>
+    </data>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>504</xloc>
+      <yloc>174</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Split fields</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>//Script here
+
+var types = pokemon_type.split(" ");
+var type1 = types[0];
+var type2 = types[1];</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>types</name>
+        <rename>types</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>type1</name>
+        <rename>type1</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>type2</name>
+        <rename>type2</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>111</xloc>
+      <yloc>441</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
