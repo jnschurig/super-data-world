@@ -440,6 +440,27 @@
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
+    <notepad>
+      <note>Next time - Normalize data into pokemon variations (mega venusaur, mega charizard x/y, etc)</note>
+      <xloc>323</xloc>
+      <yloc>403</yloc>
+      <width>506</width>
+      <heigth>26</heigth>
+      <fontname>Segoe UI</fontname>
+      <fontsize>9</fontsize>
+      <fontbold>N</fontbold>
+      <fontitalic>N</fontitalic>
+      <fontcolorred>0</fontcolorred>
+      <fontcolorgreen>0</fontcolorgreen>
+      <fontcolorblue>0</fontcolorblue>
+      <backgroundcolorred>255</backgroundcolorred>
+      <backgroundcolorgreen>205</backgroundcolorgreen>
+      <backgroundcolorblue>112</backgroundcolorblue>
+      <bordercolorred>100</bordercolorred>
+      <bordercolorgreen>100</bordercolorgreen>
+      <bordercolorblue>100</bordercolorblue>
+      <drawshadow>Y</drawshadow>
+    </notepad>
   </notepads>
   <order>
     <hop>
@@ -479,11 +500,6 @@
     </hop>
     <hop>
       <from>Trash List</from>
-      <to>Stream lookup</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Convenient Select</from>
       <to>Stream lookup</to>
       <enabled>Y</enabled>
     </hop>
@@ -528,8 +544,18 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
+      <from>Convenient Select</from>
+      <to>More cleaning</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>More cleaning</from>
+      <to>Stream lookup</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
       <from>Row denormaliser</from>
-      <to>Split fields</to>
+      <to>Post Denorm Cleaning</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -766,6 +792,13 @@ if(captureText=='&lt;div id="dex-moves">&lt;/div>') {
   captureName = "Moves dex";
   }
 
+//- Tabs List -//
+
+if(captureText=='&lt;div class="tabs-tab-list">') {
+  capture=1;
+  captureName = "Tabs List";
+  }
+
 //-- Rules Section End --//
 
 if(captureText=="&lt;/tr>" &amp;&amp; capture==1) {
@@ -896,7 +929,7 @@ var tags = /&lt;.*?>/g;
 
 var def = />&lt;\/td>/g;
 
-var newDecode = decoded;
+var newDecode = decoded.replace(/&lt;a href=\"\/ability/g,'·&lt;a href="/ability');
 
 if(cap=="Type defenses") newDecode = decoded.replace(def,">1&lt;/td>");
 
@@ -1068,7 +1101,7 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>222</xloc>
+      <xloc>81</xloc>
       <yloc>280</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1235,6 +1268,52 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
     </GUI>
   </step>
   <step>
+    <name>More cleaning</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>//Script here
+
+var cleaned = tagless.replace(/,/g,"·");</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>cleaned</name>
+        <rename>tagless</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>504</xloc>
+      <yloc>280</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>Null if</name>
     <type>NullIf</type>
     <description/>
@@ -1260,8 +1339,145 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>363</xloc>
+      <xloc>222</xloc>
       <yloc>280</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Post Denorm Cleaning</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>
+
+function statSplit(myString,nthOccurrance) {
+	var newStr = "";
+	var splitStr = myString.split(",");
+	var iterations = splitStr.length;
+	var idx = 1;
+	
+	while(idx &lt; iterations) {
+		newStr += splitStr[idx-1];
+		if((idx % nthOccurrance) == 0) newStr += ",";
+		else newStr += "·";
+		idx ++;
+	}
+
+	newStr += splitStr[iterations-1];
+	return newStr;
+}
+
+var hp    = statSplit(base_stats_hp,3);
+var atk   = statSplit(base_stats_attack,3);
+var def   = statSplit(base_stats_defense,3);
+var spatk = statSplit(base_stats_sp_atk,3);
+var spdef = statSplit(base_stats_sp_def,3);
+var spd   = statSplit(base_stats_speed,3);
+var total = statSplit(base_stats_total,3);
+
+
+var typeDef = type_defenses.replace(/The.*?\.,/g,"");
+var pokeChng = pokemon_changes.replace(/&lt;.*?>/g,"");</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>hp</name>
+        <rename>base_stats_hp</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>atk</name>
+        <rename>base_stats_attack</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>def</name>
+        <rename>base_stats_defense</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>spatk</name>
+        <rename>base_stats_sp_atk</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>spdef</name>
+        <rename>base_stats_sp_def</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>spd</name>
+        <rename>base_stats_speed</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>total</name>
+        <rename>base_stats_total</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>typeDef</name>
+        <rename>type_defenses</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>pokeChng</name>
+        <rename>pokemon_changes</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>222</xloc>
+      <yloc>420</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1317,6 +1533,20 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
       </field>
     </group>
     <fields>
+      <field>
+        <field_name>tagless</field_name>
+        <key_value>Tabs List</key_value>
+        <target_name>tabs_list</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>-1</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>CONCAT_COMMA</target_aggregation_type>
+      </field>
       <field>
         <field_name>tagless</field_name>
         <key_value>Pokemon Types</key_value>
@@ -1678,7 +1908,7 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
     </remotesteps>
     <GUI>
       <xloc>81</xloc>
-      <yloc>280</yloc>
+      <yloc>420</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1839,7 +2069,7 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>504</xloc>
+      <xloc>363</xloc>
       <yloc>280</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1864,7 +2094,7 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>222</xloc>
+      <xloc>81</xloc>
       <yloc>174</yloc>
       <draw>Y</draw>
     </GUI>
@@ -2059,72 +2289,8 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>504</xloc>
+      <xloc>363</xloc>
       <yloc>174</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Split fields</name>
-    <type>ScriptValueMod</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <compatible>N</compatible>
-    <optimizationLevel>9</optimizationLevel>
-    <jsScripts>
-      <jsScript>
-        <jsScript_type>0</jsScript_type>
-        <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>//Script here
-
-var types = pokemon_type.split(" ");
-var type1 = types[0];
-var type2 = types[1];</jsScript_script>
-      </jsScript>
-    </jsScripts>
-    <fields>
-      <field>
-        <name>types</name>
-        <rename>types</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>type1</name>
-        <rename>type1</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>type2</name>
-        <rename>type2</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>111</xloc>
-      <yloc>441</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
