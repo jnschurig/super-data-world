@@ -441,10 +441,10 @@
   </info>
   <notepads>
     <notepad>
-      <note>Next time - Normalize data into pokemon variations (mega venusaur, mega charizard x/y, etc)</note>
-      <xloc>323</xloc>
-      <yloc>403</yloc>
-      <width>506</width>
+      <note>Solve the issue with the 14th row</note>
+      <xloc>457</xloc>
+      <yloc>169</yloc>
+      <width>188</width>
       <heigth>26</heigth>
       <fontname>Segoe UI</fontname>
       <fontsize>9</fontsize>
@@ -529,13 +529,13 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Filter mons</from>
-      <to>Receive</to>
+      <from>Receive</from>
+      <to>Lookup pokemon</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Receive</from>
-      <to>Lookup pokemon</to>
+      <from>Filter mons</from>
+      <to>Receive</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -557,6 +557,56 @@
       <from>Row denormaliser</from>
       <to>Post Denorm Cleaning</to>
       <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Split Variants</from>
+      <to>Obtain Variant Values</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Obtain Variant Values</from>
+      <to>String operations</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>String operations</from>
+      <to>Replace in string</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Post Denorm Cleaning</from>
+      <to>Split Variants</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Replace in string</from>
+      <to>Type Effectiveness</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Type Effectiveness</from>
+      <to>Stats</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Stats</from>
+      <to>Dex Moves</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Dex Moves</from>
+      <to>Final Select</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Final Select</from>
+      <to>JSON output</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>JSON input</from>
+      <to>Receive</to>
+      <enabled>N</enabled>
     </hop>
   </order>
   <step>
@@ -596,7 +646,7 @@
     </remotesteps>
     <GUI>
       <xloc>927</xloc>
-      <yloc>280</yloc>
+      <yloc>311</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -956,7 +1006,7 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
     </remotesteps>
     <GUI>
       <xloc>786</xloc>
-      <yloc>280</yloc>
+      <yloc>311</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1002,7 +1052,7 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
     </remotesteps>
     <GUI>
       <xloc>645</xloc>
-      <yloc>280</yloc>
+      <yloc>311</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1023,12 +1073,12 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
       <condition>
         <negated>N</negated>
         <leftvalue>pokemon_number</leftvalue>
-        <function>&lt;</function>
+        <function>&lt;=</function>
         <rightvalue/>
         <value>
           <name>constant</name>
           <type>String</type>
-          <text>007</text>
+          <text>014</text>
           <length>-1</length>
           <precision>-1</precision>
           <isnull>N</isnull>
@@ -1046,7 +1096,7 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
     </remotesteps>
     <GUI>
       <xloc>186</xloc>
-      <yloc>69</yloc>
+      <yloc>138</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1102,7 +1152,7 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
     </remotesteps>
     <GUI>
       <xloc>81</xloc>
-      <yloc>280</yloc>
+      <yloc>311</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1309,7 +1359,7 @@ var cleaned = tagless.replace(/,/g,"·");</jsScript_script>
     </remotesteps>
     <GUI>
       <xloc>504</xloc>
-      <yloc>280</yloc>
+      <yloc>311</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1340,7 +1390,7 @@ var cleaned = tagless.replace(/,/g,"·");</jsScript_script>
     </remotesteps>
     <GUI>
       <xloc>222</xloc>
-      <yloc>280</yloc>
+      <yloc>311</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1477,7 +1527,7 @@ var pokeChng = pokemon_changes.replace(/&lt;.*?>/g,"");</jsScript_script>
     </remotesteps>
     <GUI>
       <xloc>222</xloc>
-      <yloc>420</yloc>
+      <yloc>432</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1908,7 +1958,7 @@ var pokeChng = pokemon_changes.replace(/&lt;.*?>/g,"");</jsScript_script>
     </remotesteps>
     <GUI>
       <xloc>81</xloc>
-      <yloc>420</yloc>
+      <yloc>432</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2070,7 +2120,7 @@ var pokeChng = pokemon_changes.replace(/&lt;.*?>/g,"");</jsScript_script>
     </remotesteps>
     <GUI>
       <xloc>363</xloc>
-      <yloc>280</yloc>
+      <yloc>311</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2095,7 +2145,7 @@ var pokeChng = pokemon_changes.replace(/&lt;.*?>/g,"");</jsScript_script>
     </remotesteps>
     <GUI>
       <xloc>81</xloc>
-      <yloc>174</yloc>
+      <yloc>190</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2290,7 +2340,2273 @@ var pokeChng = pokemon_changes.replace(/&lt;.*?>/g,"");</jsScript_script>
     </remotesteps>
     <GUI>
       <xloc>363</xloc>
-      <yloc>174</yloc>
+      <yloc>190</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Split Variants</name>
+    <type>SplitFieldToRows3</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <splitfield>tabs_list</splitfield>
+    <delimiter>,</delimiter>
+    <newfield>pokemon_variant</newfield>
+    <rownum>Y</rownum>
+    <rownum_field>variant_idx</rownum_field>
+    <resetrownumber>Y</resetrownumber>
+    <delimiter_is_regex>N</delimiter_is_regex>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>363</xloc>
+      <yloc>432</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Obtain Variant Values</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>//Script here
+
+function getNth(myString,nthOccurrance) {
+	var splitStr = myString.split(",");
+	var newStr = splitStr[nthOccurrance-1];
+	return newStr;
+}
+
+var a = getNth(pokemon_type            ,variant_idx);
+var b = getNth(pokemon_species         ,variant_idx);
+var c = getNth(pokemon_height          ,variant_idx);
+var d = getNth(pokemon_weight          ,variant_idx);
+var e = getNth(pokemon_abilities       ,variant_idx);
+var f = getNth(training_ev_yield       ,variant_idx);
+var g = getNth(training_catch_rate     ,variant_idx);
+var h = getNth(training_base_friendship,variant_idx);    
+var i = getNth(training_base_exp       ,variant_idx);
+var j = getNth(training_growth_rate    ,variant_idx);
+var k = getNth(breeding_egg_groups     ,variant_idx);
+var l = getNth(breeding_gender         ,variant_idx);
+var m = getNth(breeding_egg_cycles     ,variant_idx);
+var n = getNth(base_stats_hp           ,variant_idx);
+var o = getNth(base_stats_attack       ,variant_idx);
+var p = getNth(base_stats_defense      ,variant_idx);
+var q = getNth(base_stats_sp_atk       ,variant_idx);
+var r = getNth(base_stats_sp_def       ,variant_idx);
+var s = getNth(base_stats_speed        ,variant_idx);
+var t = getNth(base_stats_total.replace(/·/g,","),variant_idx);
+var u = getNth(type_defenses           ,variant_idx);
+var v = getNth(pokemon_local_no        ,variant_idx);</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>a</name>
+        <rename>pokemon_type</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>b</name>
+        <rename>pokemon_species</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>c</name>
+        <rename>pokemon_height</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>d</name>
+        <rename>pokemon_weight</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>e</name>
+        <rename>pokemon_abilities</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>f</name>
+        <rename>training_ev_yield</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>g</name>
+        <rename>training_catch_rate</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>h</name>
+        <rename>training_base_friendship</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>i</name>
+        <rename>training_base_exp</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>j</name>
+        <rename>training_growth_rate</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>k</name>
+        <rename>breeding_egg_groups</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>l</name>
+        <rename>breeding_gender</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>m</name>
+        <rename>breeding_egg_cycles</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>n</name>
+        <rename>base_stats_hp</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>o</name>
+        <rename>base_stats_attack</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>p</name>
+        <rename>base_stats_defense</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>q</name>
+        <rename>base_stats_sp_atk</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>r</name>
+        <rename>base_stats_sp_def</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>s</name>
+        <rename>base_stats_speed</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>t</name>
+        <rename>base_stats_total</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>u</name>
+        <rename>type_defenses</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>v</name>
+        <rename>pokemon_local_no</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>504</xloc>
+      <yloc>432</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Replace in string</name>
+    <type>ReplaceString</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <in_stream_name>pokemon_type</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string> </replace_string>
+        <replace_by_string>, </replace_by_string>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+      <field>
+        <in_stream_name>pokemon_abilities</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>1. ·</replace_string>
+        <replace_by_string/>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+      <field>
+        <in_stream_name>pokemon_abilities</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>·</replace_string>
+        <replace_by_string>, </replace_by_string>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+      <field>
+        <in_stream_name>pokemon_local_no</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>)</replace_string>
+        <replace_by_string>), </replace_by_string>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+      <field>
+        <in_stream_name>pokemon_local_no</in_stream_name>
+        <out_stream_name/>
+        <use_regex>yes</use_regex>
+        <replace_string>, $</replace_string>
+        <replace_by_string/>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+      <field>
+        <in_stream_name>training_ev_yield</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>·</replace_string>
+        <replace_by_string>,</replace_by_string>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+      <field>
+        <in_stream_name>training_catch_rate</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>·</replace_string>
+        <replace_by_string> at</replace_by_string>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+      <field>
+        <in_stream_name>breeding_egg_groups</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>·</replace_string>
+        <replace_by_string>,</replace_by_string>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+      <field>
+        <in_stream_name>breeding_egg_cycles</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>·</replace_string>
+        <replace_by_string/>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+      <field>
+        <in_stream_name>breeding_gender</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>·</replace_string>
+        <replace_by_string>,</replace_by_string>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+      <field>
+        <in_stream_name>evolution_chart</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>,</replace_string>
+        <replace_by_string>, </replace_by_string>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+      <field>
+        <in_stream_name>evolution_chart</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>·</replace_string>
+        <replace_by_string>&amp;</replace_by_string>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+      <field>
+        <in_stream_name>evolution_chart</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>)</replace_string>
+        <replace_by_string>) </replace_by_string>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+      <field>
+        <in_stream_name>pokemon_changes</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>·</replace_string>
+        <replace_by_string/>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+      <field>
+        <in_stream_name>pokemon_changes</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>,</replace_string>
+        <replace_by_string> </replace_by_string>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+      <field>
+        <in_stream_name>moves_dex</in_stream_name>
+        <out_stream_name/>
+        <use_regex>yes</use_regex>
+        <replace_string>Moves.*generations</replace_string>
+        <replace_by_string/>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+      <field>
+        <in_stream_name>moves_dex</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string> </replace_string>
+        <replace_by_string>,</replace_by_string>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+      <field>
+        <in_stream_name>type_defenses</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>NorFirWatEleGraIceFigPoiGro</replace_string>
+        <replace_by_string/>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+      <field>
+        <in_stream_name>type_defenses</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>FlyPsyBugRocGhoDraDarSteFai</replace_string>
+        <replace_by_string/>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>786</xloc>
+      <yloc>432</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>String operations</name>
+    <type>StringOperations</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <in_stream_name>pokemon_number</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>pokemon_name</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>pokedex_url</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>thumb_url</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>tabs_list</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>pokemon_type</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>pokemon_species</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>pokemon_height</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>pokemon_weight</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>pokemon_abilities</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>pokemon_local_no</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>training_ev_yield</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>training_catch_rate</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>training_base_friendship</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>training_base_exp</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>training_growth_rate</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>breeding_egg_groups</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>breeding_gender</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>breeding_egg_cycles</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>base_stats_hp</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>base_stats_attack</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>base_stats_defense</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>base_stats_sp_atk</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>base_stats_sp_def</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>base_stats_speed</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>base_stats_total</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>type_defenses</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>evolution_chart</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>pokemon_changes</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>moves_dex</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>645</xloc>
+      <yloc>432</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Type Effectiveness</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>//Script here
+
+function fixType(myString) {
+	var newString = myString.replace("½",".5").replace("¼",".25");
+	//myString = myString.replace("¼",".25")
+	return newString;
+}
+
+var typeArray = type_defenses.split("");
+
+var normal_effectiveness   = fixType(typeArray[0]);
+var fire_effectiveness     = fixType(typeArray[1]);
+var water_effectiveness    = fixType(typeArray[2]);
+var electric_effectiveness = fixType(typeArray[3]);
+var grass_effectiveness    = fixType(typeArray[4]);
+var ice_effectiveness      = fixType(typeArray[5]);
+var fighting_effectiveness = fixType(typeArray[6]);
+var poison_effectiveness   = fixType(typeArray[7]);
+var ground_effectiveness   = fixType(typeArray[8]);
+var flying_effectiveness   = fixType(typeArray[9]);
+var psychic_effectiveness  = fixType(typeArray[10]);
+var bug_effectiveness      = fixType(typeArray[11]);
+var rock_effectiveness     = fixType(typeArray[12]);
+var ghost_effectiveness    = fixType(typeArray[13]);
+var dragon_effectiveness   = fixType(typeArray[14]);
+var dark_effectiveness     = fixType(typeArray[15]);
+var steel_effectiveness    = fixType(typeArray[16]);
+var fairy_effectiveness    = fixType(typeArray[17]);</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>normal_effectiveness</name>
+        <rename>normal_effectiveness</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>fire_effectiveness</name>
+        <rename>fire_effectiveness</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>water_effectiveness</name>
+        <rename>water_effectiveness</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>electric_effectiveness</name>
+        <rename>electric_effectiveness</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>grass_effectiveness</name>
+        <rename>grass_effectiveness</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>ice_effectiveness</name>
+        <rename>ice_effectiveness</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>fighting_effectiveness</name>
+        <rename>fighting_effectiveness</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>poison_effectiveness</name>
+        <rename>poison_effectiveness</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>ground_effectiveness</name>
+        <rename>ground_effectiveness</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>flying_effectiveness</name>
+        <rename>flying_effectiveness</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>psychic_effectiveness</name>
+        <rename>psychic_effectiveness</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>bug_effectiveness</name>
+        <rename>bug_effectiveness</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>rock_effectiveness</name>
+        <rename>rock_effectiveness</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>ghost_effectiveness</name>
+        <rename>ghost_effectiveness</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>dragon_effectiveness</name>
+        <rename>dragon_effectiveness</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>dark_effectiveness</name>
+        <rename>dark_effectiveness</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>steel_effectiveness</name>
+        <rename>steel_effectiveness</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>fairy_effectiveness</name>
+        <rename>fairy_effectiveness</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>927</xloc>
+      <yloc>432</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Stats</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>var hp    = base_stats_hp.split("·");
+var atk   = base_stats_attack.split("·");
+var def   = base_stats_defense.split("·");
+var spatk = base_stats_sp_atk.split("·");
+var spdef = base_stats_sp_def.split("·");
+var speed = base_stats_speed.split("·");
+
+var hpBase    = hp[0];
+var hpMin     = hp[1];
+var hpMax     = hp[2];
+var atkBase   = atk[0];
+var atkMin    = atk[1];
+var atkMax    = atk[2];
+var defBase   = def[0];
+var defMin    = def[1];
+var defMax    = def[2];
+var spatkBase = spatk[0];
+var spatkMin  = spatk[1];
+var spatkMax  = spatk[2];
+var spdefBase = spdef[0];
+var spdefMin  = spdef[1];
+var spdefMax  = spdef[2];
+var speedBase = speed[0];
+var speedMin  = speed[1];
+var speedMax  = speed[2];</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>hpBase</name>
+        <rename>stat_hp_base</rename>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>hpMin</name>
+        <rename>stat_hp_min</rename>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>hpMax</name>
+        <rename>stat_hp_max</rename>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>atkBase</name>
+        <rename>stat_attack_base</rename>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>atkMin</name>
+        <rename>stat_attack_min</rename>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>atkMax</name>
+        <rename>stat_attack_max</rename>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>defBase</name>
+        <rename>stat_defense_base</rename>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>defMin</name>
+        <rename>stat_defense_min</rename>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>defMax</name>
+        <rename>stat_defense_max</rename>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>spatkBase</name>
+        <rename>stat_sp_attack_base</rename>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>spatkMin</name>
+        <rename>stat_sp_attack_min</rename>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>spatkMax</name>
+        <rename>stat_sp_attack_max</rename>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>spdefBase</name>
+        <rename>stat_sp_defense_base</rename>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>spdefMin</name>
+        <rename>stat_sp_defense_min</rename>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>spdefMax</name>
+        <rename>stat_sp_defense_max</rename>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>speedBase</name>
+        <rename>stat_speed_base</rename>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>speedMin</name>
+        <rename>stat_speed_min</rename>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>speedMax</name>
+        <rename>stat_speed_max</rename>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>927</xloc>
+      <yloc>555</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Dex Moves</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>//Script here
+
+//1,2,3,4,5,6,7,8
+
+var generations = moves_dex.split(",");
+
+var moves_urls = "";
+var idx = 1;
+
+while(idx &lt; generations.length) {
+	moves_urls += pokedex_url + "/moves/" + generations[idx-1] + " - ";
+	idx ++;
+}
+
+moves_urls += pokedex_url + "/moves/" + generations[idx-1];</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>moves_urls</name>
+        <rename>moves_urls</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>786</xloc>
+      <yloc>555</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Final Select</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>pokemon_number</name>
+        <rename/>
+      </field>
+      <field>
+        <name>pokemon_name</name>
+        <rename/>
+      </field>
+      <field>
+        <name>pokemon_variant</name>
+        <rename/>
+      </field>
+      <field>
+        <name>variant_idx</name>
+        <rename/>
+      </field>
+      <field>
+        <name>pokedex_url</name>
+        <rename/>
+      </field>
+      <field>
+        <name>pokemon_type</name>
+        <rename/>
+      </field>
+      <field>
+        <name>pokemon_species</name>
+        <rename/>
+      </field>
+      <field>
+        <name>pokemon_height</name>
+        <rename/>
+      </field>
+      <field>
+        <name>pokemon_weight</name>
+        <rename/>
+      </field>
+      <field>
+        <name>pokemon_abilities</name>
+        <rename/>
+      </field>
+      <field>
+        <name>pokemon_local_no</name>
+        <rename/>
+      </field>
+      <field>
+        <name>training_ev_yield</name>
+        <rename/>
+      </field>
+      <field>
+        <name>training_catch_rate</name>
+        <rename/>
+      </field>
+      <field>
+        <name>training_base_friendship</name>
+        <rename/>
+      </field>
+      <field>
+        <name>training_base_exp</name>
+        <rename/>
+      </field>
+      <field>
+        <name>training_growth_rate</name>
+        <rename/>
+      </field>
+      <field>
+        <name>breeding_egg_groups</name>
+        <rename/>
+      </field>
+      <field>
+        <name>breeding_gender</name>
+        <rename/>
+      </field>
+      <field>
+        <name>breeding_egg_cycles</name>
+        <rename/>
+      </field>
+      <field>
+        <name>evolution_chart</name>
+        <rename/>
+      </field>
+      <field>
+        <name>pokemon_changes</name>
+        <rename/>
+      </field>
+      <field>
+        <name>normal_effectiveness</name>
+        <rename/>
+      </field>
+      <field>
+        <name>fire_effectiveness</name>
+        <rename/>
+      </field>
+      <field>
+        <name>water_effectiveness</name>
+        <rename/>
+      </field>
+      <field>
+        <name>electric_effectiveness</name>
+        <rename/>
+      </field>
+      <field>
+        <name>grass_effectiveness</name>
+        <rename/>
+      </field>
+      <field>
+        <name>ice_effectiveness</name>
+        <rename/>
+      </field>
+      <field>
+        <name>fighting_effectiveness</name>
+        <rename/>
+      </field>
+      <field>
+        <name>poison_effectiveness</name>
+        <rename/>
+      </field>
+      <field>
+        <name>ground_effectiveness</name>
+        <rename/>
+      </field>
+      <field>
+        <name>flying_effectiveness</name>
+        <rename/>
+      </field>
+      <field>
+        <name>psychic_effectiveness</name>
+        <rename/>
+      </field>
+      <field>
+        <name>bug_effectiveness</name>
+        <rename/>
+      </field>
+      <field>
+        <name>rock_effectiveness</name>
+        <rename/>
+      </field>
+      <field>
+        <name>ghost_effectiveness</name>
+        <rename/>
+      </field>
+      <field>
+        <name>dragon_effectiveness</name>
+        <rename/>
+      </field>
+      <field>
+        <name>dark_effectiveness</name>
+        <rename/>
+      </field>
+      <field>
+        <name>steel_effectiveness</name>
+        <rename/>
+      </field>
+      <field>
+        <name>fairy_effectiveness</name>
+        <rename/>
+      </field>
+      <field>
+        <name>stat_hp_base</name>
+        <rename/>
+      </field>
+      <field>
+        <name>stat_hp_min</name>
+        <rename/>
+      </field>
+      <field>
+        <name>stat_hp_max</name>
+        <rename/>
+      </field>
+      <field>
+        <name>stat_attack_base</name>
+        <rename/>
+      </field>
+      <field>
+        <name>stat_attack_min</name>
+        <rename/>
+      </field>
+      <field>
+        <name>stat_attack_max</name>
+        <rename/>
+      </field>
+      <field>
+        <name>stat_defense_base</name>
+        <rename/>
+      </field>
+      <field>
+        <name>stat_defense_min</name>
+        <rename/>
+      </field>
+      <field>
+        <name>stat_defense_max</name>
+        <rename/>
+      </field>
+      <field>
+        <name>stat_sp_attack_base</name>
+        <rename/>
+      </field>
+      <field>
+        <name>stat_sp_attack_min</name>
+        <rename/>
+      </field>
+      <field>
+        <name>stat_sp_attack_max</name>
+        <rename/>
+      </field>
+      <field>
+        <name>stat_sp_defense_base</name>
+        <rename/>
+      </field>
+      <field>
+        <name>stat_sp_defense_min</name>
+        <rename/>
+      </field>
+      <field>
+        <name>stat_sp_defense_max</name>
+        <rename/>
+      </field>
+      <field>
+        <name>stat_speed_base</name>
+        <rename/>
+      </field>
+      <field>
+        <name>stat_speed_min</name>
+        <rename/>
+      </field>
+      <field>
+        <name>stat_speed_max</name>
+        <rename/>
+      </field>
+      <field>
+        <name>base_stats_total</name>
+        <rename>stat_total_base</rename>
+      </field>
+      <field>
+        <name>moves_urls</name>
+        <rename/>
+      </field>
+      <select_unspecified>N</select_unspecified>
+      <meta>
+        <name>normal_effectiveness</name>
+        <rename>normal_effectiveness</rename>
+        <type>Number</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>fire_effectiveness</name>
+        <rename>fire_effectiveness</rename>
+        <type>Number</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>water_effectiveness</name>
+        <rename>water_effectiveness</rename>
+        <type>Number</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>electric_effectiveness</name>
+        <rename>electric_effectiveness</rename>
+        <type>Number</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>grass_effectiveness</name>
+        <rename>grass_effectiveness</rename>
+        <type>Number</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>ice_effectiveness</name>
+        <rename>ice_effectiveness</rename>
+        <type>Number</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>fighting_effectiveness</name>
+        <rename>fighting_effectiveness</rename>
+        <type>Number</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>poison_effectiveness</name>
+        <rename>poison_effectiveness</rename>
+        <type>Number</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>ground_effectiveness</name>
+        <rename>ground_effectiveness</rename>
+        <type>Number</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>flying_effectiveness</name>
+        <rename>flying_effectiveness</rename>
+        <type>Number</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>psychic_effectiveness</name>
+        <rename>psychic_effectiveness</rename>
+        <type>Number</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>bug_effectiveness</name>
+        <rename>bug_effectiveness</rename>
+        <type>Number</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>rock_effectiveness</name>
+        <rename>rock_effectiveness</rename>
+        <type>Number</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>ghost_effectiveness</name>
+        <rename>ghost_effectiveness</rename>
+        <type>Number</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>dragon_effectiveness</name>
+        <rename>dragon_effectiveness</rename>
+        <type>Number</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>dark_effectiveness</name>
+        <rename>dark_effectiveness</rename>
+        <type>Number</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>steel_effectiveness</name>
+        <rename>steel_effectiveness</rename>
+        <type>Number</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>fairy_effectiveness</name>
+        <rename>fairy_effectiveness</rename>
+        <type>Number</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>645</xloc>
+      <yloc>555</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>JSON output</name>
+    <type>JsonOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <outputValue>outputValue</outputValue>
+    <jsonBloc>detail</jsonBloc>
+    <nrRowsInBloc>10000</nrRowsInBloc>
+    <operation_type>writetofile</operation_type>
+    <compatibility_mode>N</compatibility_mode>
+    <encoding>UTF-8</encoding>
+    <addtoresult>N</addtoresult>
+    <file>
+      <name>${Internal.Entry.Current.Directory}/detail</name>
+      <extention>json</extention>
+      <append>N</append>
+      <split>N</split>
+      <haspartno>N</haspartno>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <create_parent_folder>Y</create_parent_folder>
+      <DoNotOpenNewFileInit>N</DoNotOpenNewFileInit>
+      <servlet_output>N</servlet_output>
+    </file>
+    <fields>
+      <field>
+        <name>pokemon_number</name>
+        <element>pokemon_number</element>
+      </field>
+      <field>
+        <name>pokemon_name</name>
+        <element>pokemon_name</element>
+      </field>
+      <field>
+        <name>pokemon_variant</name>
+        <element>pokemon_variant</element>
+      </field>
+      <field>
+        <name>variant_idx</name>
+        <element>variant_idx</element>
+      </field>
+      <field>
+        <name>pokedex_url</name>
+        <element>pokedex_url</element>
+      </field>
+      <field>
+        <name>pokemon_type</name>
+        <element>pokemon_type</element>
+      </field>
+      <field>
+        <name>pokemon_species</name>
+        <element>pokemon_species</element>
+      </field>
+      <field>
+        <name>pokemon_height</name>
+        <element>pokemon_height</element>
+      </field>
+      <field>
+        <name>pokemon_weight</name>
+        <element>pokemon_weight</element>
+      </field>
+      <field>
+        <name>pokemon_abilities</name>
+        <element>pokemon_abilities</element>
+      </field>
+      <field>
+        <name>pokemon_local_no</name>
+        <element>pokemon_local_no</element>
+      </field>
+      <field>
+        <name>training_ev_yield</name>
+        <element>training_ev_yield</element>
+      </field>
+      <field>
+        <name>training_catch_rate</name>
+        <element>training_catch_rate</element>
+      </field>
+      <field>
+        <name>training_base_friendship</name>
+        <element>training_base_friendship</element>
+      </field>
+      <field>
+        <name>training_base_exp</name>
+        <element>training_base_exp</element>
+      </field>
+      <field>
+        <name>training_growth_rate</name>
+        <element>training_growth_rate</element>
+      </field>
+      <field>
+        <name>breeding_egg_groups</name>
+        <element>breeding_egg_groups</element>
+      </field>
+      <field>
+        <name>breeding_gender</name>
+        <element>breeding_gender</element>
+      </field>
+      <field>
+        <name>breeding_egg_cycles</name>
+        <element>breeding_egg_cycles</element>
+      </field>
+      <field>
+        <name>evolution_chart</name>
+        <element>evolution_chart</element>
+      </field>
+      <field>
+        <name>pokemon_changes</name>
+        <element>pokemon_changes</element>
+      </field>
+      <field>
+        <name>normal_effectiveness</name>
+        <element>normal_effectiveness</element>
+      </field>
+      <field>
+        <name>fire_effectiveness</name>
+        <element>fire_effectiveness</element>
+      </field>
+      <field>
+        <name>water_effectiveness</name>
+        <element>water_effectiveness</element>
+      </field>
+      <field>
+        <name>electric_effectiveness</name>
+        <element>electric_effectiveness</element>
+      </field>
+      <field>
+        <name>grass_effectiveness</name>
+        <element>grass_effectiveness</element>
+      </field>
+      <field>
+        <name>ice_effectiveness</name>
+        <element>ice_effectiveness</element>
+      </field>
+      <field>
+        <name>fighting_effectiveness</name>
+        <element>fighting_effectiveness</element>
+      </field>
+      <field>
+        <name>poison_effectiveness</name>
+        <element>poison_effectiveness</element>
+      </field>
+      <field>
+        <name>ground_effectiveness</name>
+        <element>ground_effectiveness</element>
+      </field>
+      <field>
+        <name>flying_effectiveness</name>
+        <element>flying_effectiveness</element>
+      </field>
+      <field>
+        <name>psychic_effectiveness</name>
+        <element>psychic_effectiveness</element>
+      </field>
+      <field>
+        <name>bug_effectiveness</name>
+        <element>bug_effectiveness</element>
+      </field>
+      <field>
+        <name>rock_effectiveness</name>
+        <element>rock_effectiveness</element>
+      </field>
+      <field>
+        <name>ghost_effectiveness</name>
+        <element>ghost_effectiveness</element>
+      </field>
+      <field>
+        <name>dragon_effectiveness</name>
+        <element>dragon_effectiveness</element>
+      </field>
+      <field>
+        <name>dark_effectiveness</name>
+        <element>dark_effectiveness</element>
+      </field>
+      <field>
+        <name>steel_effectiveness</name>
+        <element>steel_effectiveness</element>
+      </field>
+      <field>
+        <name>fairy_effectiveness</name>
+        <element>fairy_effectiveness</element>
+      </field>
+      <field>
+        <name>stat_hp_base</name>
+        <element>stat_hp_base</element>
+      </field>
+      <field>
+        <name>stat_hp_min</name>
+        <element>stat_hp_min</element>
+      </field>
+      <field>
+        <name>stat_hp_max</name>
+        <element>stat_hp_max</element>
+      </field>
+      <field>
+        <name>stat_attack_base</name>
+        <element>stat_attack_base</element>
+      </field>
+      <field>
+        <name>stat_attack_min</name>
+        <element>stat_attack_min</element>
+      </field>
+      <field>
+        <name>stat_attack_max</name>
+        <element>stat_attack_max</element>
+      </field>
+      <field>
+        <name>stat_defense_base</name>
+        <element>stat_defense_base</element>
+      </field>
+      <field>
+        <name>stat_defense_min</name>
+        <element>stat_defense_min</element>
+      </field>
+      <field>
+        <name>stat_defense_max</name>
+        <element>stat_defense_max</element>
+      </field>
+      <field>
+        <name>stat_sp_attack_base</name>
+        <element>stat_sp_attack_base</element>
+      </field>
+      <field>
+        <name>stat_sp_attack_min</name>
+        <element>stat_sp_attack_min</element>
+      </field>
+      <field>
+        <name>stat_sp_attack_max</name>
+        <element>stat_sp_attack_max</element>
+      </field>
+      <field>
+        <name>stat_sp_defense_base</name>
+        <element>stat_sp_defense_base</element>
+      </field>
+      <field>
+        <name>stat_sp_defense_min</name>
+        <element>stat_sp_defense_min</element>
+      </field>
+      <field>
+        <name>stat_sp_defense_max</name>
+        <element>stat_sp_defense_max</element>
+      </field>
+      <field>
+        <name>stat_speed_base</name>
+        <element>stat_speed_base</element>
+      </field>
+      <field>
+        <name>stat_speed_min</name>
+        <element>stat_speed_min</element>
+      </field>
+      <field>
+        <name>stat_speed_max</name>
+        <element>stat_speed_max</element>
+      </field>
+      <field>
+        <name>stat_total_base</name>
+        <element>stat_total_base</element>
+      </field>
+      <field>
+        <name>moves_urls</name>
+        <element>moves_urls</element>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>504</xloc>
+      <yloc>553</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
