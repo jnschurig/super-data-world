@@ -586,7 +586,7 @@
     <hop>
       <from>Final Select</from>
       <to>JSON output</to>
-      <enabled>N</enabled>
+      <enabled>Y</enabled>
     </hop>
     <hop>
       <from>JSON input</from>
@@ -594,18 +594,28 @@
       <enabled>N</enabled>
     </hop>
     <hop>
+      <from>Select values</from>
+      <to>Fix Defense Type</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Fix Defense Type</from>
+      <to>Calculator</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
       <from>Stats</from>
+      <to>Null if 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Null if 2</from>
       <to>Final Select</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Select values</from>
-      <to>Modified JavaScript value</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Modified JavaScript value</from>
-      <to>Calculator</to>
+      <from>Captured</from>
+      <to>Bad Lines</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -679,7 +689,7 @@ var captureName = "";
         <jsScript_name>Item_0</jsScript_name>
         <jsScript_script>//Script here
 
-var captureText = text;
+var captureText = text.trim();
 
 
 //-- Rules Section Start --//
@@ -923,7 +933,7 @@ if(capture==0) {
       <schema_name/>
     </partitioning>
     <send_true_to>Select values</send_true_to>
-    <send_false_to/>
+    <send_false_to>Bad Lines</send_false_to>
     <compare>
       <condition>
         <negated>N</negated>
@@ -1084,22 +1094,6 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
               <name>constant</name>
               <type>String</type>
               <text>155</text>
-              <length>-1</length>
-              <precision>-1</precision>
-              <isnull>N</isnull>
-              <mask/>
-            </value>
-          </condition>
-          <condition>
-            <negated>N</negated>
-            <operator>AND</operator>
-            <leftvalue>pokemon_number</leftvalue>
-            <function>&gt;</function>
-            <rightvalue/>
-            <value>
-              <name>constant</name>
-              <type>String</type>
-              <text>153</text>
               <length>-1</length>
               <precision>-1</precision>
               <isnull>N</isnull>
@@ -1369,7 +1363,7 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
       </field>
       <field>
         <name>moves_dex</name>
-        <rename/>
+        <rename>moves_dex_ids</rename>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
@@ -1970,6 +1964,10 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
         <element>evolution_chart</element>
       </field>
       <field>
+        <name>moves_dex_ids</name>
+        <element>moves_dex_ids</element>
+      </field>
+      <field>
         <name>pokemon_changes</name>
         <element>pokemon_changes</element>
       </field>
@@ -2121,10 +2119,6 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
         <name>stat_total_base</name>
         <element>stat_total_base</element>
       </field>
-      <field>
-        <name>moves_urls</name>
-        <element>moves_urls</element>
-      </field>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -2189,6 +2183,53 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
     <GUI>
       <xloc>396</xloc>
       <yloc>69</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Fix Defense Type</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>//Script here
+
+var fixType = captureText.replace(/&lt;div.*href=\"\/type\/normal/g,'&lt;div class="r">&lt;table class="t">&lt;tr>&lt;th>&lt;a class="t" href="/type/normal');
+</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>fixType</name>
+        <rename>captureText</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>927</xloc>
+      <yloc>190</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -3513,24 +3554,24 @@ var spatk = base_stats_sp_atk.split("·");
 var spdef = base_stats_sp_def.split("·");
 var speed = base_stats_speed.split("·");
 
-var hpBase    = hp[0];
-var hpMin     = hp[1];
-var hpMax     = hp[2];
-var atkBase   = atk[0];
-var atkMin    = atk[1];
-var atkMax    = atk[2];
-var defBase   = def[0];
-var defMin    = def[1];
-var defMax    = def[2];
-var spatkBase = spatk[0];
-var spatkMin  = spatk[1];
-var spatkMax  = spatk[2];
-var spdefBase = spdef[0];
-var spdefMin  = spdef[1];
-var spdefMax  = spdef[2];
-var speedBase = speed[0];
-var speedMin  = speed[1];
-var speedMax  = speed[2];</jsScript_script>
+var hpBase    = hp[0].trim();
+var hpMin     = hp[1].trim();
+var hpMax     = hp[2].trim();
+var atkBase   = atk[0].trim();
+var atkMin    = atk[1].trim();
+var atkMax    = atk[2].trim();
+var defBase   = def[0].trim();
+var defMin    = def[1].trim();
+var defMax    = def[2].trim();
+var spatkBase = spatk[0].trim();
+var spatkMin  = spatk[1].trim();
+var spatkMax  = spatk[2].trim();
+var spdefBase = spdef[0].trim();
+var spdefMin  = spdef[1].trim();
+var spdefMax  = spdef[2].trim();
+var speedBase = speed[0].trim();
+var speedMin  = speed[1].trim();
+var speedMax  = speed[2].trim();</jsScript_script>
       </jsScript>
     </jsScripts>
     <fields>
@@ -4597,8 +4638,8 @@ function fixType(myString) {
     </GUI>
   </step>
   <step>
-    <name>Modified JavaScript value</name>
-    <type>ScriptValueMod</type>
+    <name>Null if 2</name>
+    <type>NullIf</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -4607,26 +4648,282 @@ function fixType(myString) {
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <compatible>N</compatible>
-    <optimizationLevel>9</optimizationLevel>
-    <jsScripts>
-      <jsScript>
-        <jsScript_type>0</jsScript_type>
-        <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>//Script here
-
-var fixType = captureText.replace(/&lt;div.*href=\"\/type\/normal/g,'&lt;div class="r">&lt;table class="t">&lt;tr>&lt;th>&lt;a class="t" href="/type/normal');
-</jsScript_script>
-      </jsScript>
-    </jsScripts>
     <fields>
       <field>
-        <name>fixType</name>
-        <rename>captureText</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>Y</replace>
+        <name>pokemon_number</name>
+        <value/>
+      </field>
+      <field>
+        <name>pokemon_name</name>
+        <value/>
+      </field>
+      <field>
+        <name>pokedex_url</name>
+        <value/>
+      </field>
+      <field>
+        <name>thumb_url</name>
+        <value/>
+      </field>
+      <field>
+        <name>toss</name>
+        <value/>
+      </field>
+      <field>
+        <name>tabs_list</name>
+        <value/>
+      </field>
+      <field>
+        <name>pokemon_type</name>
+        <value/>
+      </field>
+      <field>
+        <name>pokemon_species</name>
+        <value/>
+      </field>
+      <field>
+        <name>pokemon_height</name>
+        <value/>
+      </field>
+      <field>
+        <name>pokemon_weight</name>
+        <value/>
+      </field>
+      <field>
+        <name>pokemon_abilities</name>
+        <value/>
+      </field>
+      <field>
+        <name>pokemon_local_no</name>
+        <value/>
+      </field>
+      <field>
+        <name>training_ev_yield</name>
+        <value/>
+      </field>
+      <field>
+        <name>training_catch_rate</name>
+        <value/>
+      </field>
+      <field>
+        <name>training_base_friendship</name>
+        <value/>
+      </field>
+      <field>
+        <name>training_base_exp</name>
+        <value/>
+      </field>
+      <field>
+        <name>training_growth_rate</name>
+        <value/>
+      </field>
+      <field>
+        <name>breeding_egg_groups</name>
+        <value/>
+      </field>
+      <field>
+        <name>breeding_gender</name>
+        <value/>
+      </field>
+      <field>
+        <name>breeding_egg_cycles</name>
+        <value/>
+      </field>
+      <field>
+        <name>base_stats_hp</name>
+        <value/>
+      </field>
+      <field>
+        <name>base_stats_attack</name>
+        <value/>
+      </field>
+      <field>
+        <name>base_stats_defense</name>
+        <value/>
+      </field>
+      <field>
+        <name>base_stats_sp_atk</name>
+        <value/>
+      </field>
+      <field>
+        <name>base_stats_sp_def</name>
+        <value/>
+      </field>
+      <field>
+        <name>base_stats_speed</name>
+        <value/>
+      </field>
+      <field>
+        <name>base_stats_total</name>
+        <value/>
+      </field>
+      <field>
+        <name>type_defenses</name>
+        <value/>
+      </field>
+      <field>
+        <name>evolution_chart</name>
+        <value/>
+      </field>
+      <field>
+        <name>pokemon_changes</name>
+        <value/>
+      </field>
+      <field>
+        <name>moves_dex</name>
+        <value/>
+      </field>
+      <field>
+        <name>pokemon_variant</name>
+        <value/>
+      </field>
+      <field>
+        <name>variant_idx</name>
+        <value/>
+      </field>
+      <field>
+        <name>normal_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>fire_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>water_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>electric_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>grass_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>ice_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>fighting_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>poison_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>ground_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>flying_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>psychic_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>bug_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>rock_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>ghost_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>dragon_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>dark_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>steel_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>fairy_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_hp_base</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_hp_min</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_hp_max</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_attack_base</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_attack_min</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_attack_max</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_defense_base</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_defense_min</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_defense_max</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_sp_attack_base</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_sp_attack_min</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_sp_attack_max</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_sp_defense_base</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_sp_defense_min</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_sp_defense_max</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_speed_base</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_speed_min</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_speed_max</name>
+        <value/>
       </field>
     </fields>
     <attributes/>
@@ -4638,7 +4935,32 @@ var fixType = captureText.replace(/&lt;div.*href=\"\/type\/normal/g,'&lt;div cla
       </output>
     </remotesteps>
     <GUI>
-      <xloc>927</xloc>
+      <xloc>786</xloc>
+      <yloc>555</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Bad Lines</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>816</xloc>
       <yloc>190</yloc>
       <draw>Y</draw>
     </GUI>
