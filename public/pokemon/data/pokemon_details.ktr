@@ -441,12 +441,11 @@
   </info>
   <notepads>
     <notepad>
-      <note>Solve the issue with the 14th row. Bug is in tabs_list column. Extra stuff getting in that needs to not get in.
-Preview row denormalizer to see.</note>
-      <xloc>457</xloc>
-      <yloc>169</yloc>
-      <width>577</width>
-      <heigth>42</heigth>
+      <note>Next do a bunch of pokes and do some checking.</note>
+      <xloc>448</xloc>
+      <yloc>178</yloc>
+      <width>276</width>
+      <heigth>26</heigth>
       <fontname>Segoe UI</fontname>
       <fontsize>9</fontsize>
       <fontbold>N</fontbold>
@@ -482,11 +481,6 @@ Preview row denormalizer to see.</note>
     <hop>
       <from>Captured</from>
       <to>Select values</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Select values</from>
-      <to>Calculator</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -587,17 +581,7 @@ Preview row denormalizer to see.</note>
     <hop>
       <from>Type Effectiveness</from>
       <to>Stats</to>
-      <enabled>N</enabled>
-    </hop>
-    <hop>
-      <from>Stats</from>
-      <to>Dex Moves</to>
-      <enabled>N</enabled>
-    </hop>
-    <hop>
-      <from>Dex Moves</from>
-      <to>Final Select</to>
-      <enabled>N</enabled>
+      <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Final Select</from>
@@ -608,6 +592,21 @@ Preview row denormalizer to see.</note>
       <from>JSON input</from>
       <to>Receive</to>
       <enabled>N</enabled>
+    </hop>
+    <hop>
+      <from>Stats</from>
+      <to>Final Select</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values</from>
+      <to>Modified JavaScript value</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Modified JavaScript value</from>
+      <to>Calculator</to>
+      <enabled>Y</enabled>
     </hop>
   </order>
   <step>
@@ -976,6 +975,8 @@ if(capture==0) {
         <jsScript_script>//Script here
 var cap = captureName;
 
+//var fixTypeReg = /&lt;div.*href=\"\/type\/normal/g;
+
 var tags = /&lt;.*?>/g;
 
 var def = />&lt;\/td>/g;
@@ -1058,64 +1059,6 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
     </GUI>
   </step>
   <step>
-    <name>Dex Moves</name>
-    <type>ScriptValueMod</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <compatible>N</compatible>
-    <optimizationLevel>9</optimizationLevel>
-    <jsScripts>
-      <jsScript>
-        <jsScript_type>0</jsScript_type>
-        <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>//Script here
-
-//1,2,3,4,5,6,7,8
-
-var generations = moves_dex.split(",");
-
-var moves_urls = "";
-var idx = 1;
-
-while(idx &lt; generations.length) {
-	moves_urls += pokedex_url + "/moves/" + generations[idx-1] + " - ";
-	idx ++;
-}
-
-moves_urls += pokedex_url + "/moves/" + generations[idx-1];</jsScript_script>
-      </jsScript>
-    </jsScripts>
-    <fields>
-      <field>
-        <name>moves_urls</name>
-        <rename>moves_urls</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>786</xloc>
-      <yloc>555</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
     <name>Filter mons</name>
     <type>FilterRows</type>
     <description/>
@@ -1131,18 +1074,39 @@ moves_urls += pokedex_url + "/moves/" + generations[idx-1];</jsScript_script>
     <compare>
       <condition>
         <negated>N</negated>
-        <leftvalue>pokemon_number</leftvalue>
-        <function>&lt;=</function>
-        <rightvalue/>
-        <value>
-          <name>constant</name>
-          <type>String</type>
-          <text>014</text>
-          <length>-1</length>
-          <precision>-1</precision>
-          <isnull>N</isnull>
-          <mask/>
-        </value>
+        <conditions>
+          <condition>
+            <negated>N</negated>
+            <leftvalue>pokemon_number</leftvalue>
+            <function>&lt;=</function>
+            <rightvalue/>
+            <value>
+              <name>constant</name>
+              <type>String</type>
+              <text>155</text>
+              <length>-1</length>
+              <precision>-1</precision>
+              <isnull>N</isnull>
+              <mask/>
+            </value>
+          </condition>
+          <condition>
+            <negated>N</negated>
+            <operator>AND</operator>
+            <leftvalue>pokemon_number</leftvalue>
+            <function>&gt;</function>
+            <rightvalue/>
+            <value>
+              <name>constant</name>
+              <type>String</type>
+              <text>153</text>
+              <length>-1</length>
+              <precision>-1</precision>
+              <isnull>N</isnull>
+              <mask/>
+            </value>
+          </condition>
+        </conditions>
       </condition>
     </compare>
     <attributes/>
@@ -1173,181 +1137,239 @@ moves_urls += pokedex_url + "/moves/" + generations[idx-1];</jsScript_script>
     <fields>
       <field>
         <name>pokemon_number</name>
+        <rename/>
       </field>
       <field>
         <name>pokemon_name</name>
+        <rename/>
       </field>
       <field>
         <name>pokemon_variant</name>
+        <rename/>
       </field>
       <field>
         <name>variant_idx</name>
+        <rename/>
       </field>
       <field>
         <name>pokedex_url</name>
+        <rename/>
       </field>
       <field>
         <name>pokemon_type</name>
+        <rename/>
       </field>
       <field>
         <name>pokemon_species</name>
+        <rename/>
       </field>
       <field>
         <name>pokemon_height</name>
+        <rename/>
       </field>
       <field>
         <name>pokemon_weight</name>
+        <rename/>
       </field>
       <field>
         <name>pokemon_abilities</name>
+        <rename/>
       </field>
       <field>
         <name>pokemon_local_no</name>
+        <rename/>
       </field>
       <field>
         <name>training_ev_yield</name>
+        <rename/>
       </field>
       <field>
         <name>training_catch_rate</name>
+        <rename/>
       </field>
       <field>
         <name>training_base_friendship</name>
+        <rename/>
       </field>
       <field>
         <name>training_base_exp</name>
+        <rename/>
       </field>
       <field>
         <name>training_growth_rate</name>
+        <rename/>
       </field>
       <field>
         <name>breeding_egg_groups</name>
+        <rename/>
       </field>
       <field>
         <name>breeding_gender</name>
+        <rename/>
       </field>
       <field>
         <name>breeding_egg_cycles</name>
+        <rename/>
       </field>
       <field>
         <name>evolution_chart</name>
+        <rename/>
       </field>
       <field>
         <name>pokemon_changes</name>
+        <rename/>
       </field>
       <field>
         <name>normal_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>fire_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>water_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>electric_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>grass_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>ice_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>fighting_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>poison_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>ground_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>flying_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>psychic_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>bug_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>rock_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>ghost_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>dragon_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>dark_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>steel_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>fairy_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>stat_hp_base</name>
+        <rename/>
       </field>
       <field>
         <name>stat_hp_min</name>
+        <rename/>
       </field>
       <field>
         <name>stat_hp_max</name>
+        <rename/>
       </field>
       <field>
         <name>stat_attack_base</name>
+        <rename/>
       </field>
       <field>
         <name>stat_attack_min</name>
+        <rename/>
       </field>
       <field>
         <name>stat_attack_max</name>
+        <rename/>
       </field>
       <field>
         <name>stat_defense_base</name>
+        <rename/>
       </field>
       <field>
         <name>stat_defense_min</name>
+        <rename/>
       </field>
       <field>
         <name>stat_defense_max</name>
+        <rename/>
       </field>
       <field>
         <name>stat_sp_attack_base</name>
+        <rename/>
       </field>
       <field>
         <name>stat_sp_attack_min</name>
+        <rename/>
       </field>
       <field>
         <name>stat_sp_attack_max</name>
+        <rename/>
       </field>
       <field>
         <name>stat_sp_defense_base</name>
+        <rename/>
       </field>
       <field>
         <name>stat_sp_defense_min</name>
+        <rename/>
       </field>
       <field>
         <name>stat_sp_defense_max</name>
+        <rename/>
       </field>
       <field>
         <name>stat_speed_base</name>
+        <rename/>
       </field>
       <field>
         <name>stat_speed_min</name>
+        <rename/>
       </field>
       <field>
         <name>stat_speed_max</name>
+        <rename/>
       </field>
       <field>
         <name>base_stats_total</name>
         <rename>stat_total_base</rename>
       </field>
       <field>
-        <name>moves_urls</name>
+        <name>moves_dex</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
@@ -2536,7 +2558,9 @@ var total = statSplit(base_stats_total,3);
 
 
 var typeDef = type_defenses.replace(/The.*?\.,/g,"");
-var pokeChng = pokemon_changes.replace(/&lt;.*?>/g,"");</jsScript_script>
+var pokeChng = "";
+
+if(pokemon_changes) pokeChng=pokemon_changes.replace(/&lt;.*?>/g,"");</jsScript_script>
       </jsScript>
     </jsScripts>
     <fields>
@@ -4302,6 +4326,14 @@ var speedMax  = speed[2];</jsScript_script>
         <item>1</item>
       </line>
       <line>
+        <item>Ultra Sun/Ultra Moon</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>Sun/Moon</item>
+        <item>1</item>
+      </line>
+      <line>
         <item>Generation 1</item>
         <item>1</item>
       </line>
@@ -4367,15 +4399,9 @@ var speedMax  = speed[2];</jsScript_script>
         <jsScript_name>Script 1</jsScript_name>
         <jsScript_script>//Script here
 
-function fixType(myString) {
-	// Adding string null evaluation
-	if(!myString) myString = "";
-	var newString = myString.replace("½",".5").replace("¼",".25");
-	//myString = myString.replace("¼",".25")
-	return newString;
-}
+var trimStr = type_defenses.substr(type_defenses-12,type_defenses.length);
 
-var typeArray = type_defenses.split("");
+var typeArray = trimStr.split("");
 
 var normal_effectiveness   = fixType(typeArray[0]);
 var fire_effectiveness     = fixType(typeArray[1]);
@@ -4395,6 +4421,19 @@ var dragon_effectiveness   = fixType(typeArray[14]);
 var dark_effectiveness     = fixType(typeArray[15]);
 var steel_effectiveness    = fixType(typeArray[16]);
 var fairy_effectiveness    = fixType(typeArray[17]);</jsScript_script>
+      </jsScript>
+      <jsScript>
+        <jsScript_type>1</jsScript_type>
+        <jsScript_name>Item_0</jsScript_name>
+        <jsScript_script>//Script here
+
+function fixType(myString) {
+	// Adding string null evaluation
+	if(!myString) myString = "";
+	var newString = myString.replace("½",".5").replace("¼",".25");
+	//myString = myString.replace("¼",".25")
+	return newString;
+}</jsScript_script>
       </jsScript>
     </jsScripts>
     <fields>
@@ -4554,6 +4593,53 @@ var fairy_effectiveness    = fixType(typeArray[17]);</jsScript_script>
     <GUI>
       <xloc>927</xloc>
       <yloc>432</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Modified JavaScript value</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>//Script here
+
+var fixType = captureText.replace(/&lt;div.*href=\"\/type\/normal/g,'&lt;div class="r">&lt;table class="t">&lt;tr>&lt;th>&lt;a class="t" href="/type/normal');
+</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>fixType</name>
+        <rename>captureText</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>927</xloc>
+      <yloc>190</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
