@@ -441,11 +441,13 @@
   </info>
   <notepads>
     <notepad>
-      <note>Next do a bunch of pokes and do some checking.</note>
-      <xloc>448</xloc>
-      <yloc>178</yloc>
-      <width>276</width>
-      <heigth>26</heigth>
+      <note>Next time, completely redo type defenses. Jynx has a lousy natural 2.5 on water defenses 
+which completely destroys the existing process. Need to add a separator before we remove 
+html tags.</note>
+      <xloc>286</xloc>
+      <yloc>129</yloc>
+      <width>501</width>
+      <heigth>58</heigth>
       <fontname>Segoe UI</fontname>
       <fontsize>9</fontsize>
       <fontbold>N</fontbold>
@@ -499,11 +501,6 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Stream lookup</from>
-      <to>Null if</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>Null if</from>
       <to>Is good</to>
       <enabled>Y</enabled>
@@ -544,11 +541,6 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>More cleaning</from>
-      <to>Stream lookup</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>Row denormaliser</from>
       <to>Post Denorm Cleaning</to>
       <enabled>Y</enabled>
@@ -586,7 +578,7 @@
     <hop>
       <from>Final Select</from>
       <to>JSON output</to>
-      <enabled>Y</enabled>
+      <enabled>N</enabled>
     </hop>
     <hop>
       <from>JSON input</from>
@@ -611,14 +603,49 @@
     <hop>
       <from>Null if 2</from>
       <to>Final Select</to>
-      <enabled>Y</enabled>
+      <enabled>N</enabled>
     </hop>
     <hop>
       <from>Captured</from>
       <to>Bad Lines</to>
       <enabled>Y</enabled>
     </hop>
+    <hop>
+      <from>Stream lookup</from>
+      <to>Null if</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>More cleaning</from>
+      <to>Stream lookup</to>
+      <enabled>Y</enabled>
+    </hop>
   </order>
+  <step>
+    <name>Bad Lines</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>816</xloc>
+      <yloc>190</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
   <step>
     <name>Calculator</name>
     <type>Calculator</type>
@@ -1094,6 +1121,22 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
               <name>constant</name>
               <type>String</type>
               <text>155</text>
+              <length>-1</length>
+              <precision>-1</precision>
+              <isnull>N</isnull>
+              <mask/>
+            </value>
+          </condition>
+          <condition>
+            <negated>N</negated>
+            <operator>AND</operator>
+            <leftvalue>pokemon_number</leftvalue>
+            <function>=</function>
+            <rightvalue/>
+            <value>
+              <name>constant</name>
+              <type>String</type>
+              <text>124</text>
               <length>-1</length>
               <precision>-1</precision>
               <isnull>N</isnull>
@@ -1672,6 +1715,329 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
         <currency_symbol/>
         <storage_type/>
       </meta>
+      <meta>
+        <name>stat_total_base</name>
+        <rename>stat_total_base</rename>
+        <type>Integer</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>stat_hp_base</name>
+        <rename>stat_hp_base</rename>
+        <type>Integer</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>stat_hp_min</name>
+        <rename>stat_hp_min</rename>
+        <type>Integer</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>stat_hp_max</name>
+        <rename>stat_hp_max</rename>
+        <type>Integer</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>stat_attack_base</name>
+        <rename>stat_attack_base</rename>
+        <type>Integer</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>stat_attack_min</name>
+        <rename>stat_attack_min</rename>
+        <type>Integer</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>stat_attack_max</name>
+        <rename>stat_attack_max</rename>
+        <type>Integer</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>stat_defense_base</name>
+        <rename>stat_defense_base</rename>
+        <type>Integer</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>stat_defense_min</name>
+        <rename>stat_defense_min</rename>
+        <type>Integer</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>stat_defense_max</name>
+        <rename>stat_defense_max</rename>
+        <type>Integer</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>stat_sp_attack_base</name>
+        <rename>stat_sp_attack_base</rename>
+        <type>Integer</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>stat_sp_attack_min</name>
+        <rename>stat_sp_attack_min</rename>
+        <type>Integer</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>stat_sp_attack_max</name>
+        <rename>stat_sp_attack_max</rename>
+        <type>Integer</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>stat_sp_defense_base</name>
+        <rename>stat_sp_defense_base</rename>
+        <type>Integer</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>stat_sp_defense_min</name>
+        <rename>stat_sp_defense_min</rename>
+        <type>Integer</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>stat_sp_defense_max</name>
+        <rename>stat_sp_defense_max</rename>
+        <type>Integer</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>stat_speed_base</name>
+        <rename>stat_speed_base</rename>
+        <type>Integer</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>stat_speed_min</name>
+        <rename>stat_speed_min</rename>
+        <type>Integer</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>stat_speed_max</name>
+        <rename>stat_speed_max</rename>
+        <type>Integer</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -1684,6 +2050,53 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
     <GUI>
       <xloc>645</xloc>
       <yloc>555</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Fix Defense Type</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>//Script here
+
+var fixType = captureText.replace(/&lt;div.*href=\"\/type\/normal/g,'&lt;div class="r">&lt;table class="t">&lt;tr>&lt;th>&lt;a class="t" href="/type/normal');
+</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>fixType</name>
+        <rename>captureText</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>927</xloc>
+      <yloc>190</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2187,53 +2600,6 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
     </GUI>
   </step>
   <step>
-    <name>Fix Defense Type</name>
-    <type>ScriptValueMod</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <compatible>N</compatible>
-    <optimizationLevel>9</optimizationLevel>
-    <jsScripts>
-      <jsScript>
-        <jsScript_type>0</jsScript_type>
-        <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>//Script here
-
-var fixType = captureText.replace(/&lt;div.*href=\"\/type\/normal/g,'&lt;div class="r">&lt;table class="t">&lt;tr>&lt;th>&lt;a class="t" href="/type/normal');
-</jsScript_script>
-      </jsScript>
-    </jsScripts>
-    <fields>
-      <field>
-        <name>fixType</name>
-        <rename>captureText</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>Y</replace>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>927</xloc>
-      <yloc>190</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
     <name>More cleaning</name>
     <type>ScriptValueMod</type>
     <description/>
@@ -2252,7 +2618,7 @@ var fixType = captureText.replace(/&lt;div.*href=\"\/type\/normal/g,'&lt;div cla
         <jsScript_name>Script 1</jsScript_name>
         <jsScript_script>//Script here
 
-var cleaned = tagless.replace(/,/g,"·");</jsScript_script>
+var cleaned = tagless.replace(/,/g,"·").trim();</jsScript_script>
       </jsScript>
     </jsScripts>
     <fields>
@@ -2311,6 +2677,309 @@ var cleaned = tagless.replace(/,/g,"·");</jsScript_script>
     </GUI>
   </step>
   <step>
+    <name>Null if 2</name>
+    <type>NullIf</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>pokemon_number</name>
+        <value/>
+      </field>
+      <field>
+        <name>pokemon_name</name>
+        <value/>
+      </field>
+      <field>
+        <name>pokedex_url</name>
+        <value/>
+      </field>
+      <field>
+        <name>thumb_url</name>
+        <value/>
+      </field>
+      <field>
+        <name>toss</name>
+        <value/>
+      </field>
+      <field>
+        <name>tabs_list</name>
+        <value/>
+      </field>
+      <field>
+        <name>pokemon_type</name>
+        <value/>
+      </field>
+      <field>
+        <name>pokemon_species</name>
+        <value/>
+      </field>
+      <field>
+        <name>pokemon_height</name>
+        <value/>
+      </field>
+      <field>
+        <name>pokemon_weight</name>
+        <value/>
+      </field>
+      <field>
+        <name>pokemon_abilities</name>
+        <value/>
+      </field>
+      <field>
+        <name>pokemon_local_no</name>
+        <value/>
+      </field>
+      <field>
+        <name>training_ev_yield</name>
+        <value/>
+      </field>
+      <field>
+        <name>training_catch_rate</name>
+        <value/>
+      </field>
+      <field>
+        <name>training_base_friendship</name>
+        <value/>
+      </field>
+      <field>
+        <name>training_base_exp</name>
+        <value/>
+      </field>
+      <field>
+        <name>training_growth_rate</name>
+        <value/>
+      </field>
+      <field>
+        <name>breeding_egg_groups</name>
+        <value/>
+      </field>
+      <field>
+        <name>breeding_gender</name>
+        <value/>
+      </field>
+      <field>
+        <name>breeding_egg_cycles</name>
+        <value/>
+      </field>
+      <field>
+        <name>base_stats_hp</name>
+        <value/>
+      </field>
+      <field>
+        <name>base_stats_attack</name>
+        <value/>
+      </field>
+      <field>
+        <name>base_stats_defense</name>
+        <value/>
+      </field>
+      <field>
+        <name>base_stats_sp_atk</name>
+        <value/>
+      </field>
+      <field>
+        <name>base_stats_sp_def</name>
+        <value/>
+      </field>
+      <field>
+        <name>base_stats_speed</name>
+        <value/>
+      </field>
+      <field>
+        <name>base_stats_total</name>
+        <value/>
+      </field>
+      <field>
+        <name>type_defenses</name>
+        <value/>
+      </field>
+      <field>
+        <name>evolution_chart</name>
+        <value/>
+      </field>
+      <field>
+        <name>pokemon_changes</name>
+        <value/>
+      </field>
+      <field>
+        <name>moves_dex</name>
+        <value/>
+      </field>
+      <field>
+        <name>pokemon_variant</name>
+        <value/>
+      </field>
+      <field>
+        <name>variant_idx</name>
+        <value/>
+      </field>
+      <field>
+        <name>normal_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>fire_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>water_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>electric_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>grass_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>ice_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>fighting_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>poison_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>ground_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>flying_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>psychic_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>bug_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>rock_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>ghost_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>dragon_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>dark_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>steel_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>fairy_effectiveness</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_hp_base</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_hp_min</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_hp_max</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_attack_base</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_attack_min</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_attack_max</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_defense_base</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_defense_min</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_defense_max</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_sp_attack_base</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_sp_attack_min</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_sp_attack_max</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_sp_defense_base</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_sp_defense_min</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_sp_defense_max</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_speed_base</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_speed_min</name>
+        <value/>
+      </field>
+      <field>
+        <name>stat_speed_max</name>
+        <value/>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>786</xloc>
+      <yloc>555</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>Obtain Variant Values</name>
     <type>ScriptValueMod</type>
     <description/>
@@ -2329,13 +2998,8 @@ var cleaned = tagless.replace(/,/g,"·");</jsScript_script>
         <jsScript_name>Script 1</jsScript_name>
         <jsScript_script>//Script here
 
-function getNth(myString,nthOccurrance) {
-	// Added line for evaluating null.
-	if(!myString) myString = "";
-	var splitStr = myString.split(",");
-	var newStr = splitStr[nthOccurrance-1];
-	return newStr;
-}
+// custom function on other tab.
+
 
 var a = getNth(pokemon_type            ,variant_idx);
 var b = getNth(pokemon_species         ,variant_idx);
@@ -2359,6 +3023,18 @@ var s = getNth(base_stats_speed        ,variant_idx);
 var t = getNth(base_stats_total.replace(/·/g,","),variant_idx);
 var u = getNth(type_defenses           ,variant_idx);
 var v = getNth(pokemon_local_no        ,variant_idx);</jsScript_script>
+      </jsScript>
+      <jsScript>
+        <jsScript_type>1</jsScript_type>
+        <jsScript_name>Item_0</jsScript_name>
+        <jsScript_script>function getNth(myString,nthOccurrance) {
+	// Added line for evaluating null.
+	if(!myString) myString = "";
+	var splitStr = myString.split(",");;
+	var newStr = splitStr[nthOccurrance-1];
+	if(!newStr) newStr = "";
+	return newStr;
+}</jsScript_script>
       </jsScript>
     </jsScripts>
     <fields>
@@ -3554,15 +4230,22 @@ var spatk = base_stats_sp_atk.split("·");
 var spdef = base_stats_sp_def.split("·");
 var speed = base_stats_speed.split("·");
 
-var hpBase    = hp[0].trim();
-var hpMin     = hp[1].trim();
-var hpMax     = hp[2].trim();
-var atkBase   = atk[0].trim();
-var atkMin    = atk[1].trim();
-var atkMax    = atk[2].trim();
-var defBase   = def[0].trim();
-var defMin    = def[1].trim();
-var defMax    = def[2].trim();
+if(base_stats_hp.equals(""))      hp    = "··".split("·");
+if(base_stats_attack.equals(""))  atk   = "··".split("·");
+if(base_stats_defense.equals("")) def   = "··".split("·");
+if(base_stats_sp_atk.equals(""))  spatk = "··".split("·");
+if(base_stats_sp_def.equals(""))  spdef = "··".split("·");
+if(base_stats_speed.equals(""))   speed = "··".split("·");
+
+var hpBase    = hp[0].trim()   ;
+var hpMin     = hp[1].trim()   ;
+var hpMax     = hp[2].trim()   ;
+var atkBase   = atk[0].trim()  ;
+var atkMin    = atk[1].trim()  ;
+var atkMax    = atk[2].trim()  ;
+var defBase   = def[0].trim()  ;
+var defMin    = def[1].trim()  ;
+var defMax    = def[2].trim()  ;
 var spatkBase = spatk[0].trim();
 var spatkMin  = spatk[1].trim();
 var spatkMax  = spatk[2].trim();
@@ -3578,7 +4261,7 @@ var speedMax  = speed[2].trim();</jsScript_script>
       <field>
         <name>hpBase</name>
         <rename>stat_hp_base</rename>
-        <type>Integer</type>
+        <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
@@ -3586,7 +4269,7 @@ var speedMax  = speed[2].trim();</jsScript_script>
       <field>
         <name>hpMin</name>
         <rename>stat_hp_min</rename>
-        <type>Integer</type>
+        <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
@@ -3594,7 +4277,7 @@ var speedMax  = speed[2].trim();</jsScript_script>
       <field>
         <name>hpMax</name>
         <rename>stat_hp_max</rename>
-        <type>Integer</type>
+        <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
@@ -3602,7 +4285,7 @@ var speedMax  = speed[2].trim();</jsScript_script>
       <field>
         <name>atkBase</name>
         <rename>stat_attack_base</rename>
-        <type>Integer</type>
+        <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
@@ -3610,7 +4293,7 @@ var speedMax  = speed[2].trim();</jsScript_script>
       <field>
         <name>atkMin</name>
         <rename>stat_attack_min</rename>
-        <type>Integer</type>
+        <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
@@ -3618,7 +4301,7 @@ var speedMax  = speed[2].trim();</jsScript_script>
       <field>
         <name>atkMax</name>
         <rename>stat_attack_max</rename>
-        <type>Integer</type>
+        <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
@@ -3626,7 +4309,7 @@ var speedMax  = speed[2].trim();</jsScript_script>
       <field>
         <name>defBase</name>
         <rename>stat_defense_base</rename>
-        <type>Integer</type>
+        <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
@@ -3634,7 +4317,7 @@ var speedMax  = speed[2].trim();</jsScript_script>
       <field>
         <name>defMin</name>
         <rename>stat_defense_min</rename>
-        <type>Integer</type>
+        <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
@@ -3642,7 +4325,7 @@ var speedMax  = speed[2].trim();</jsScript_script>
       <field>
         <name>defMax</name>
         <rename>stat_defense_max</rename>
-        <type>Integer</type>
+        <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
@@ -3650,7 +4333,7 @@ var speedMax  = speed[2].trim();</jsScript_script>
       <field>
         <name>spatkBase</name>
         <rename>stat_sp_attack_base</rename>
-        <type>Integer</type>
+        <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
@@ -3658,7 +4341,7 @@ var speedMax  = speed[2].trim();</jsScript_script>
       <field>
         <name>spatkMin</name>
         <rename>stat_sp_attack_min</rename>
-        <type>Integer</type>
+        <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
@@ -3666,7 +4349,7 @@ var speedMax  = speed[2].trim();</jsScript_script>
       <field>
         <name>spatkMax</name>
         <rename>stat_sp_attack_max</rename>
-        <type>Integer</type>
+        <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
@@ -3674,7 +4357,7 @@ var speedMax  = speed[2].trim();</jsScript_script>
       <field>
         <name>spdefBase</name>
         <rename>stat_sp_defense_base</rename>
-        <type>Integer</type>
+        <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
@@ -3682,7 +4365,7 @@ var speedMax  = speed[2].trim();</jsScript_script>
       <field>
         <name>spdefMin</name>
         <rename>stat_sp_defense_min</rename>
-        <type>Integer</type>
+        <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
@@ -3690,7 +4373,7 @@ var speedMax  = speed[2].trim();</jsScript_script>
       <field>
         <name>spdefMax</name>
         <rename>stat_sp_defense_max</rename>
-        <type>Integer</type>
+        <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
@@ -3698,7 +4381,7 @@ var speedMax  = speed[2].trim();</jsScript_script>
       <field>
         <name>speedBase</name>
         <rename>stat_speed_base</rename>
-        <type>Integer</type>
+        <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
@@ -3706,7 +4389,7 @@ var speedMax  = speed[2].trim();</jsScript_script>
       <field>
         <name>speedMin</name>
         <rename>stat_speed_min</rename>
-        <type>Integer</type>
+        <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
@@ -3714,7 +4397,7 @@ var speedMax  = speed[2].trim();</jsScript_script>
       <field>
         <name>speedMax</name>
         <rename>stat_speed_max</rename>
-        <type>Integer</type>
+        <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
@@ -3729,7 +4412,7 @@ var speedMax  = speed[2].trim();</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>927</xloc>
+      <xloc>926</xloc>
       <yloc>555</yloc>
       <draw>Y</draw>
     </GUI>
@@ -4406,6 +5089,14 @@ var speedMax  = speed[2].trim();</jsScript_script>
         <item>Generation 8</item>
         <item>1</item>
       </line>
+      <line>
+        <item>—</item>
+        <item>1</item>
+      </line>
+      <line>
+        <item>— </item>
+        <item>1</item>
+      </line>
     </data>
     <attributes/>
     <cluster_schema/>
@@ -4440,9 +5131,11 @@ var speedMax  = speed[2].trim();</jsScript_script>
         <jsScript_name>Script 1</jsScript_name>
         <jsScript_script>//Script here
 
-var trimStr = type_defenses.substr(type_defenses-12,type_defenses.length);
+// removed this line because it was breaking things. 
+// Need to check a few things again now though because this was a fix we put in place previously.
+//var trimStr = type_defenses.substr(type_defenses-12,type_defenses.length);
 
-var typeArray = trimStr.split("");
+var typeArray = type_defenses.split("");
 
 var normal_effectiveness   = fixType(typeArray[0]);
 var fire_effectiveness     = fixType(typeArray[1]);
@@ -4638,8 +5331,8 @@ function fixType(myString) {
     </GUI>
   </step>
   <step>
-    <name>Null if 2</name>
-    <type>NullIf</type>
+    <name>Trim Tagless</name>
+    <type>StringOperations</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -4650,280 +5343,17 @@ function fixType(myString) {
     </partitioning>
     <fields>
       <field>
-        <name>pokemon_number</name>
-        <value/>
-      </field>
-      <field>
-        <name>pokemon_name</name>
-        <value/>
-      </field>
-      <field>
-        <name>pokedex_url</name>
-        <value/>
-      </field>
-      <field>
-        <name>thumb_url</name>
-        <value/>
-      </field>
-      <field>
-        <name>toss</name>
-        <value/>
-      </field>
-      <field>
-        <name>tabs_list</name>
-        <value/>
-      </field>
-      <field>
-        <name>pokemon_type</name>
-        <value/>
-      </field>
-      <field>
-        <name>pokemon_species</name>
-        <value/>
-      </field>
-      <field>
-        <name>pokemon_height</name>
-        <value/>
-      </field>
-      <field>
-        <name>pokemon_weight</name>
-        <value/>
-      </field>
-      <field>
-        <name>pokemon_abilities</name>
-        <value/>
-      </field>
-      <field>
-        <name>pokemon_local_no</name>
-        <value/>
-      </field>
-      <field>
-        <name>training_ev_yield</name>
-        <value/>
-      </field>
-      <field>
-        <name>training_catch_rate</name>
-        <value/>
-      </field>
-      <field>
-        <name>training_base_friendship</name>
-        <value/>
-      </field>
-      <field>
-        <name>training_base_exp</name>
-        <value/>
-      </field>
-      <field>
-        <name>training_growth_rate</name>
-        <value/>
-      </field>
-      <field>
-        <name>breeding_egg_groups</name>
-        <value/>
-      </field>
-      <field>
-        <name>breeding_gender</name>
-        <value/>
-      </field>
-      <field>
-        <name>breeding_egg_cycles</name>
-        <value/>
-      </field>
-      <field>
-        <name>base_stats_hp</name>
-        <value/>
-      </field>
-      <field>
-        <name>base_stats_attack</name>
-        <value/>
-      </field>
-      <field>
-        <name>base_stats_defense</name>
-        <value/>
-      </field>
-      <field>
-        <name>base_stats_sp_atk</name>
-        <value/>
-      </field>
-      <field>
-        <name>base_stats_sp_def</name>
-        <value/>
-      </field>
-      <field>
-        <name>base_stats_speed</name>
-        <value/>
-      </field>
-      <field>
-        <name>base_stats_total</name>
-        <value/>
-      </field>
-      <field>
-        <name>type_defenses</name>
-        <value/>
-      </field>
-      <field>
-        <name>evolution_chart</name>
-        <value/>
-      </field>
-      <field>
-        <name>pokemon_changes</name>
-        <value/>
-      </field>
-      <field>
-        <name>moves_dex</name>
-        <value/>
-      </field>
-      <field>
-        <name>pokemon_variant</name>
-        <value/>
-      </field>
-      <field>
-        <name>variant_idx</name>
-        <value/>
-      </field>
-      <field>
-        <name>normal_effectiveness</name>
-        <value/>
-      </field>
-      <field>
-        <name>fire_effectiveness</name>
-        <value/>
-      </field>
-      <field>
-        <name>water_effectiveness</name>
-        <value/>
-      </field>
-      <field>
-        <name>electric_effectiveness</name>
-        <value/>
-      </field>
-      <field>
-        <name>grass_effectiveness</name>
-        <value/>
-      </field>
-      <field>
-        <name>ice_effectiveness</name>
-        <value/>
-      </field>
-      <field>
-        <name>fighting_effectiveness</name>
-        <value/>
-      </field>
-      <field>
-        <name>poison_effectiveness</name>
-        <value/>
-      </field>
-      <field>
-        <name>ground_effectiveness</name>
-        <value/>
-      </field>
-      <field>
-        <name>flying_effectiveness</name>
-        <value/>
-      </field>
-      <field>
-        <name>psychic_effectiveness</name>
-        <value/>
-      </field>
-      <field>
-        <name>bug_effectiveness</name>
-        <value/>
-      </field>
-      <field>
-        <name>rock_effectiveness</name>
-        <value/>
-      </field>
-      <field>
-        <name>ghost_effectiveness</name>
-        <value/>
-      </field>
-      <field>
-        <name>dragon_effectiveness</name>
-        <value/>
-      </field>
-      <field>
-        <name>dark_effectiveness</name>
-        <value/>
-      </field>
-      <field>
-        <name>steel_effectiveness</name>
-        <value/>
-      </field>
-      <field>
-        <name>fairy_effectiveness</name>
-        <value/>
-      </field>
-      <field>
-        <name>stat_hp_base</name>
-        <value/>
-      </field>
-      <field>
-        <name>stat_hp_min</name>
-        <value/>
-      </field>
-      <field>
-        <name>stat_hp_max</name>
-        <value/>
-      </field>
-      <field>
-        <name>stat_attack_base</name>
-        <value/>
-      </field>
-      <field>
-        <name>stat_attack_min</name>
-        <value/>
-      </field>
-      <field>
-        <name>stat_attack_max</name>
-        <value/>
-      </field>
-      <field>
-        <name>stat_defense_base</name>
-        <value/>
-      </field>
-      <field>
-        <name>stat_defense_min</name>
-        <value/>
-      </field>
-      <field>
-        <name>stat_defense_max</name>
-        <value/>
-      </field>
-      <field>
-        <name>stat_sp_attack_base</name>
-        <value/>
-      </field>
-      <field>
-        <name>stat_sp_attack_min</name>
-        <value/>
-      </field>
-      <field>
-        <name>stat_sp_attack_max</name>
-        <value/>
-      </field>
-      <field>
-        <name>stat_sp_defense_base</name>
-        <value/>
-      </field>
-      <field>
-        <name>stat_sp_defense_min</name>
-        <value/>
-      </field>
-      <field>
-        <name>stat_sp_defense_max</name>
-        <value/>
-      </field>
-      <field>
-        <name>stat_speed_base</name>
-        <value/>
-      </field>
-      <field>
-        <name>stat_speed_min</name>
-        <value/>
-      </field>
-      <field>
-        <name>stat_speed_max</name>
-        <value/>
+        <in_stream_name>tagless</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
       </field>
     </fields>
     <attributes/>
@@ -4935,33 +5365,8 @@ function fixType(myString) {
       </output>
     </remotesteps>
     <GUI>
-      <xloc>786</xloc>
-      <yloc>555</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Bad Lines</name>
-    <type>Dummy</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>816</xloc>
-      <yloc>190</yloc>
+      <xloc>429</xloc>
+      <yloc>377</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
