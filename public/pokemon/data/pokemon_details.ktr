@@ -441,12 +441,12 @@
   </info>
   <notepads>
     <notepad>
-      <note>Next time, completely redo type defenses. Jynx has a lousy natural 2.5 on water defenses 
-which completely destroys the existing process. Need to add a separator before we remove 
-html tags.</note>
-      <xloc>286</xloc>
-      <yloc>129</yloc>
-      <width>501</width>
+      <note>Next time, decide what to do about the type defenses. There are now multiple types, one for each ability, including hidden ability.
+Possibly just encode them all into a json string? Might be wise to abandon them and then go out to the abilities page and manually 
+code all the different affects on defenses, based on ability.</note>
+      <xloc>232</xloc>
+      <yloc>123</yloc>
+      <width>718</width>
       <heigth>58</heigth>
       <fontname>Segoe UI</fontname>
       <fontsize>9</fontsize>
@@ -1020,7 +1020,7 @@ var def = />&lt;\/td>/g;
 
 var newDecode = decoded.replace(/&lt;a href=\"\/ability/g,'·&lt;a href="/ability');
 
-if(cap=="Type defenses") newDecode = decoded.replace(def,">1&lt;/td>");
+if(cap=="Type defenses") newDecode = decoded.replace(def,">1&lt;/td>").replace(/&lt;\/td>&lt;td/g,"&lt;/td>-&lt;td");
 
 var tagless = newDecode.replace(tags,"");</jsScript_script>
       </jsScript>
@@ -1174,231 +1174,174 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
     <fields>
       <field>
         <name>pokemon_number</name>
-        <rename/>
       </field>
       <field>
         <name>pokemon_name</name>
-        <rename/>
       </field>
       <field>
         <name>pokemon_variant</name>
-        <rename/>
       </field>
       <field>
         <name>variant_idx</name>
-        <rename/>
       </field>
       <field>
         <name>pokedex_url</name>
-        <rename/>
       </field>
       <field>
         <name>pokemon_type</name>
-        <rename/>
       </field>
       <field>
         <name>pokemon_species</name>
-        <rename/>
       </field>
       <field>
         <name>pokemon_height</name>
-        <rename/>
       </field>
       <field>
         <name>pokemon_weight</name>
-        <rename/>
       </field>
       <field>
         <name>pokemon_abilities</name>
-        <rename/>
       </field>
       <field>
         <name>pokemon_local_no</name>
-        <rename/>
       </field>
       <field>
         <name>training_ev_yield</name>
-        <rename/>
       </field>
       <field>
         <name>training_catch_rate</name>
-        <rename/>
       </field>
       <field>
         <name>training_base_friendship</name>
-        <rename/>
       </field>
       <field>
         <name>training_base_exp</name>
-        <rename/>
       </field>
       <field>
         <name>training_growth_rate</name>
-        <rename/>
       </field>
       <field>
         <name>breeding_egg_groups</name>
-        <rename/>
       </field>
       <field>
         <name>breeding_gender</name>
-        <rename/>
       </field>
       <field>
         <name>breeding_egg_cycles</name>
-        <rename/>
       </field>
       <field>
         <name>evolution_chart</name>
-        <rename/>
       </field>
       <field>
         <name>pokemon_changes</name>
-        <rename/>
       </field>
       <field>
         <name>normal_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>fire_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>water_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>electric_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>grass_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>ice_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>fighting_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>poison_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>ground_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>flying_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>psychic_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>bug_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>rock_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>ghost_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>dragon_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>dark_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>steel_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>fairy_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>stat_hp_base</name>
-        <rename/>
       </field>
       <field>
         <name>stat_hp_min</name>
-        <rename/>
       </field>
       <field>
         <name>stat_hp_max</name>
-        <rename/>
       </field>
       <field>
         <name>stat_attack_base</name>
-        <rename/>
       </field>
       <field>
         <name>stat_attack_min</name>
-        <rename/>
       </field>
       <field>
         <name>stat_attack_max</name>
-        <rename/>
       </field>
       <field>
         <name>stat_defense_base</name>
-        <rename/>
       </field>
       <field>
         <name>stat_defense_min</name>
-        <rename/>
       </field>
       <field>
         <name>stat_defense_max</name>
-        <rename/>
       </field>
       <field>
         <name>stat_sp_attack_base</name>
-        <rename/>
       </field>
       <field>
         <name>stat_sp_attack_min</name>
-        <rename/>
       </field>
       <field>
         <name>stat_sp_attack_max</name>
-        <rename/>
       </field>
       <field>
         <name>stat_sp_defense_base</name>
-        <rename/>
       </field>
       <field>
         <name>stat_sp_defense_min</name>
-        <rename/>
       </field>
       <field>
         <name>stat_sp_defense_max</name>
-        <rename/>
       </field>
       <field>
         <name>stat_speed_base</name>
-        <rename/>
       </field>
       <field>
         <name>stat_speed_min</name>
-        <rename/>
       </field>
       <field>
         <name>stat_speed_max</name>
-        <rename/>
       </field>
       <field>
         <name>base_stats_total</name>
@@ -2072,8 +2015,9 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
         <jsScript_name>Script 1</jsScript_name>
         <jsScript_script>//Script here
 
-var fixType = captureText.replace(/&lt;div.*href=\"\/type\/normal/g,'&lt;div class="r">&lt;table class="t">&lt;tr>&lt;th>&lt;a class="t" href="/type/normal');
-</jsScript_script>
+//var fixType = captureText.replace(/&lt;div.*href=\"\/type\/normal/g,'&lt;div class="r">&lt;table class="t">&lt;tr>&lt;th>&lt;a class="t" href="/type/normal');
+
+var fixType = captureText;</jsScript_script>
       </jsScript>
     </jsScripts>
     <fields>
@@ -3273,8 +3217,12 @@ var spdef = statSplit(base_stats_sp_def,3);
 var spd   = statSplit(base_stats_speed,3);
 var total = statSplit(base_stats_total,3);
 
-
+// Get rid of arbitrary fluff at the beginning
 var typeDef = type_defenses.replace(/The.*?\.,/g,"");
+// Grab the ability names that come before the defenses, if any.
+var typeDefAbilities = typeDef.replace(/Nor.*/g,"").trim().replace(/ability$/g,"").replace(/ ability /g,",");
+// Strip the ability names, add a dot between lists, and clean preceding dots.
+typeDef = typeDef.replace(/^.*ability/g,"").trim().replace(/Nor/g,"·Nor").replace(/^·/g,"");
 var pokeChng = "";
 
 if(pokemon_changes) pokeChng=pokemon_changes.replace(/&lt;.*?>/g,"");</jsScript_script>
@@ -3352,6 +3300,14 @@ if(pokemon_changes) pokeChng=pokemon_changes.replace(/&lt;.*?>/g,"");</jsScript_
         <length>-1</length>
         <precision>-1</precision>
         <replace>Y</replace>
+      </field>
+      <field>
+        <name>typeDefAbilities</name>
+        <rename>type_defense_abilities</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
       </field>
     </fields>
     <attributes/>
@@ -3626,7 +3582,7 @@ if(pokemon_changes) pokeChng=pokemon_changes.replace(/&lt;.*?>/g,"");</jsScript_
         <out_stream_name/>
         <use_regex>no</use_regex>
         <replace_string>FlyPsyBugRocGhoDraDarSteFai</replace_string>
-        <replace_by_string/>
+        <replace_by_string>-</replace_by_string>
         <set_empty_string>N</set_empty_string>
         <replace_field_by_string/>
         <whole_word>no</whole_word>
@@ -5113,6 +5069,46 @@ var speedMax  = speed[2].trim();</jsScript_script>
     </GUI>
   </step>
   <step>
+    <name>Trim Tagless</name>
+    <type>StringOperations</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <in_stream_name>tagless</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>429</xloc>
+      <yloc>377</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>Type Effectiveness</name>
     <type>ScriptValueMod</type>
     <description/>
@@ -5135,7 +5131,11 @@ var speedMax  = speed[2].trim();</jsScript_script>
 // Need to check a few things again now though because this was a fix we put in place previously.
 //var trimStr = type_defenses.substr(type_defenses-12,type_defenses.length);
 
-var typeArray = type_defenses.split("");
+var fixTypes = type_defenses.replace(/-/g,",");
+
+var typeList = fixTypes.split("·");
+
+var typeArray = typeList[0].split(",");
 
 var normal_effectiveness   = fixType(typeArray[0]);
 var fire_effectiveness     = fixType(typeArray[1]);
@@ -5154,7 +5154,14 @@ var ghost_effectiveness    = fixType(typeArray[13]);
 var dragon_effectiveness   = fixType(typeArray[14]);
 var dark_effectiveness     = fixType(typeArray[15]);
 var steel_effectiveness    = fixType(typeArray[16]);
-var fairy_effectiveness    = fixType(typeArray[17]);</jsScript_script>
+var fairy_effectiveness    = fixType(typeArray[17]);
+
+var abilityDefs = type_defense_abilities.trim().split(",");
+
+var typeList0 = abilityDefs[0] + " " + typeList[0];
+var typeList1 = abilityDefs[1] + " " + typeList[1];
+var typeList2 = abilityDefs[2] + " " + typeList[2];
+</jsScript_script>
       </jsScript>
       <jsScript>
         <jsScript_type>1</jsScript_type>
@@ -5315,6 +5322,30 @@ function fixType(myString) {
         <precision>-1</precision>
         <replace>N</replace>
       </field>
+      <field>
+        <name>typeList0</name>
+        <rename>typeList0</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>typeList1</name>
+        <rename>typeList1</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>typeList2</name>
+        <rename>typeList2</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -5327,46 +5358,6 @@ function fixType(myString) {
     <GUI>
       <xloc>927</xloc>
       <yloc>432</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Trim Tagless</name>
-    <type>StringOperations</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <in_stream_name>tagless</in_stream_name>
-        <out_stream_name/>
-        <trim_type>both</trim_type>
-        <lower_upper>none</lower_upper>
-        <padding_type>none</padding_type>
-        <pad_char/>
-        <pad_len/>
-        <init_cap>no</init_cap>
-        <mask_xml>none</mask_xml>
-        <digits>none</digits>
-        <remove_special_characters>none</remove_special_characters>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>429</xloc>
-      <yloc>377</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
