@@ -441,13 +441,12 @@
   </info>
   <notepads>
     <notepad>
-      <note>Next time, decide what to do about the type defenses. There are now multiple types, one for each ability, including hidden ability.
-Possibly just encode them all into a json string? Might be wise to abandon them and then go out to the abilities page and manually 
-code all the different affects on defenses, based on ability.</note>
-      <xloc>232</xloc>
-      <yloc>123</yloc>
-      <width>718</width>
-      <heigth>58</heigth>
+      <note>It's working for Jynx # 124. However, it seems to have broken on #001. 
+I assume it is broken for pokes with only one set of stats. "Undefined".</note>
+      <xloc>338</xloc>
+      <yloc>126</yloc>
+      <width>391</width>
+      <heigth>42</heigth>
       <fontname>Segoe UI</fontname>
       <fontsize>9</fontsize>
       <fontbold>N</fontbold>
@@ -468,7 +467,7 @@ code all the different affects on defenses, based on ability.</note>
     <hop>
       <from>JSON input</from>
       <to>Filter mons</to>
-      <enabled>Y</enabled>
+      <enabled>N</enabled>
     </hop>
     <hop>
       <from>Capture Lines</from>
@@ -528,7 +527,7 @@ code all the different affects on defenses, based on ability.</note>
     <hop>
       <from>Filter mons</from>
       <to>Receive</to>
-      <enabled>Y</enabled>
+      <enabled>N</enabled>
     </hop>
     <hop>
       <from>Lookup pokemon</from>
@@ -571,19 +570,14 @@ code all the different affects on defenses, based on ability.</note>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Type Effectiveness</from>
-      <to>Stats</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>Final Select</from>
       <to>JSON output</to>
-      <enabled>N</enabled>
+      <enabled>Y</enabled>
     </hop>
     <hop>
       <from>JSON input</from>
       <to>Receive</to>
-      <enabled>N</enabled>
+      <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Select values</from>
@@ -603,7 +597,7 @@ code all the different affects on defenses, based on ability.</note>
     <hop>
       <from>Null if 2</from>
       <to>Final Select</to>
-      <enabled>N</enabled>
+      <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Captured</from>
@@ -618,6 +612,11 @@ code all the different affects on defenses, based on ability.</note>
     <hop>
       <from>More cleaning</from>
       <to>Stream lookup</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Type Effectiveness</from>
+      <to>Stats</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -1174,174 +1173,231 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
     <fields>
       <field>
         <name>pokemon_number</name>
+        <rename/>
       </field>
       <field>
         <name>pokemon_name</name>
+        <rename/>
       </field>
       <field>
         <name>pokemon_variant</name>
+        <rename/>
       </field>
       <field>
         <name>variant_idx</name>
+        <rename/>
       </field>
       <field>
         <name>pokedex_url</name>
+        <rename/>
       </field>
       <field>
         <name>pokemon_type</name>
+        <rename/>
       </field>
       <field>
         <name>pokemon_species</name>
+        <rename/>
       </field>
       <field>
         <name>pokemon_height</name>
+        <rename/>
       </field>
       <field>
         <name>pokemon_weight</name>
+        <rename/>
       </field>
       <field>
         <name>pokemon_abilities</name>
+        <rename/>
       </field>
       <field>
         <name>pokemon_local_no</name>
+        <rename/>
       </field>
       <field>
         <name>training_ev_yield</name>
+        <rename/>
       </field>
       <field>
         <name>training_catch_rate</name>
+        <rename/>
       </field>
       <field>
         <name>training_base_friendship</name>
+        <rename/>
       </field>
       <field>
         <name>training_base_exp</name>
+        <rename/>
       </field>
       <field>
         <name>training_growth_rate</name>
+        <rename/>
       </field>
       <field>
         <name>breeding_egg_groups</name>
+        <rename/>
       </field>
       <field>
         <name>breeding_gender</name>
+        <rename/>
       </field>
       <field>
         <name>breeding_egg_cycles</name>
+        <rename/>
       </field>
       <field>
         <name>evolution_chart</name>
+        <rename/>
       </field>
       <field>
         <name>pokemon_changes</name>
+        <rename/>
       </field>
       <field>
         <name>normal_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>fire_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>water_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>electric_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>grass_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>ice_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>fighting_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>poison_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>ground_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>flying_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>psychic_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>bug_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>rock_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>ghost_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>dragon_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>dark_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>steel_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>fairy_effectiveness</name>
+        <rename/>
       </field>
       <field>
         <name>stat_hp_base</name>
+        <rename/>
       </field>
       <field>
         <name>stat_hp_min</name>
+        <rename/>
       </field>
       <field>
         <name>stat_hp_max</name>
+        <rename/>
       </field>
       <field>
         <name>stat_attack_base</name>
+        <rename/>
       </field>
       <field>
         <name>stat_attack_min</name>
+        <rename/>
       </field>
       <field>
         <name>stat_attack_max</name>
+        <rename/>
       </field>
       <field>
         <name>stat_defense_base</name>
+        <rename/>
       </field>
       <field>
         <name>stat_defense_min</name>
+        <rename/>
       </field>
       <field>
         <name>stat_defense_max</name>
+        <rename/>
       </field>
       <field>
         <name>stat_sp_attack_base</name>
+        <rename/>
       </field>
       <field>
         <name>stat_sp_attack_min</name>
+        <rename/>
       </field>
       <field>
         <name>stat_sp_attack_max</name>
+        <rename/>
       </field>
       <field>
         <name>stat_sp_defense_base</name>
+        <rename/>
       </field>
       <field>
         <name>stat_sp_defense_min</name>
+        <rename/>
       </field>
       <field>
         <name>stat_sp_defense_max</name>
+        <rename/>
       </field>
       <field>
         <name>stat_speed_base</name>
+        <rename/>
       </field>
       <field>
         <name>stat_speed_min</name>
+        <rename/>
       </field>
       <field>
         <name>stat_speed_max</name>
+        <rename/>
       </field>
       <field>
         <name>base_stats_total</name>
@@ -1350,6 +1406,14 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
       <field>
         <name>moves_dex</name>
         <rename>moves_dex_ids</rename>
+      </field>
+      <field>
+        <name>type_defenses</name>
+        <rename/>
+      </field>
+      <field>
+        <name>has_defense_differences</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
@@ -1992,7 +2056,7 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
     </remotesteps>
     <GUI>
       <xloc>645</xloc>
-      <yloc>555</yloc>
+      <yloc>553</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2321,10 +2385,6 @@ var fixType = captureText;</jsScript_script>
         <element>evolution_chart</element>
       </field>
       <field>
-        <name>moves_dex_ids</name>
-        <element>moves_dex_ids</element>
-      </field>
-      <field>
         <name>pokemon_changes</name>
         <element>pokemon_changes</element>
       </field>
@@ -2475,6 +2535,18 @@ var fixType = captureText;</jsScript_script>
       <field>
         <name>stat_total_base</name>
         <element>stat_total_base</element>
+      </field>
+      <field>
+        <name>moves_dex_ids</name>
+        <element>moves_dex_ids</element>
+      </field>
+      <field>
+        <name>type_defenses</name>
+        <element>type_defenses</element>
+      </field>
+      <field>
+        <name>has_defense_differences</name>
+        <element>has_defense_differences</element>
       </field>
     </fields>
     <attributes/>
@@ -2919,7 +2991,7 @@ var cleaned = tagless.replace(/,/g,"·").trim();</jsScript_script>
     </remotesteps>
     <GUI>
       <xloc>786</xloc>
-      <yloc>555</yloc>
+      <yloc>553</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -4368,8 +4440,8 @@ var speedMax  = speed[2].trim();</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>926</xloc>
-      <yloc>555</yloc>
+      <xloc>927</xloc>
+      <yloc>553</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -5158,10 +5230,30 @@ var fairy_effectiveness    = fixType(typeArray[17]);
 
 var abilityDefs = type_defense_abilities.trim().split(",");
 
-var typeList0 = abilityDefs[0] + " " + typeList[0];
-var typeList1 = abilityDefs[1] + " " + typeList[1];
-var typeList2 = abilityDefs[2] + " " + typeList[2];
-</jsScript_script>
+var typeList0 = typeList[0];
+var typeList1 = typeList[1];
+var typeList2 = typeList[2];
+
+//abilityDefs = abilityDefs[0] + "," + abilityDefs[1] + "," + abilityDefs[2];
+
+var iterations = typeList0.length;
+
+var idx = 0;
+var differences = 0;
+var typeListArray0 = typeList0.split(",");
+var typeListArray1 = typeList1.split(",");
+var typeListArray2 = typeList2.split(",");
+
+while (idx &lt; iterations) {
+	//if((typeListArray0[idx] - typeListArray1[idx]) != 0) differences ++;
+	if((fixType(typeListArray0[idx]) - fixType(typeListArray1[idx])) != 0) differences ++;
+	if((fixType(typeListArray0[idx]) - fixType(typeListArray2[idx])) != 0) differences ++;
+	idx ++;
+}
+
+if(differences > 0) differences = 1;
+
+fixTypes = fixType(fixTypes).replace(/·/g,"-");</jsScript_script>
       </jsScript>
       <jsScript>
         <jsScript_type>1</jsScript_type>
@@ -5171,7 +5263,7 @@ var typeList2 = abilityDefs[2] + " " + typeList[2];
 function fixType(myString) {
 	// Adding string null evaluation
 	if(!myString) myString = "";
-	var newString = myString.replace("½",".5").replace("¼",".25");
+	var newString = myString.replace(/½/g,".5").replace(/¼/g,".25");
 	//myString = myString.replace("¼",".25")
 	return newString;
 }</jsScript_script>
@@ -5323,25 +5415,17 @@ function fixType(myString) {
         <replace>N</replace>
       </field>
       <field>
-        <name>typeList0</name>
-        <rename>typeList0</rename>
+        <name>fixTypes</name>
+        <rename>type_defenses</rename>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
-        <replace>N</replace>
+        <replace>Y</replace>
       </field>
       <field>
-        <name>typeList1</name>
-        <rename>typeList1</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>typeList2</name>
-        <rename>typeList2</rename>
-        <type>String</type>
+        <name>differences</name>
+        <rename>has_defense_differences</rename>
+        <type>Integer</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
