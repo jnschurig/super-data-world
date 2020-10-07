@@ -440,28 +440,6 @@
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
-    <notepad>
-      <note>It's working for Jynx # 124. However, it seems to have broken on #001. 
-I assume it is broken for pokes with only one set of stats. "Undefined".</note>
-      <xloc>338</xloc>
-      <yloc>126</yloc>
-      <width>391</width>
-      <heigth>42</heigth>
-      <fontname>Segoe UI</fontname>
-      <fontsize>9</fontsize>
-      <fontbold>N</fontbold>
-      <fontitalic>N</fontitalic>
-      <fontcolorred>0</fontcolorred>
-      <fontcolorgreen>0</fontcolorgreen>
-      <fontcolorblue>0</fontcolorblue>
-      <backgroundcolorred>255</backgroundcolorred>
-      <backgroundcolorgreen>205</backgroundcolorgreen>
-      <backgroundcolorblue>112</backgroundcolorblue>
-      <bordercolorred>100</bordercolorred>
-      <bordercolorgreen>100</bordercolorgreen>
-      <bordercolorblue>100</bordercolorblue>
-      <drawshadow>Y</drawshadow>
-    </notepad>
   </notepads>
   <order>
     <hop>
@@ -1126,22 +1104,6 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
               <mask/>
             </value>
           </condition>
-          <condition>
-            <negated>N</negated>
-            <operator>AND</operator>
-            <leftvalue>pokemon_number</leftvalue>
-            <function>=</function>
-            <rightvalue/>
-            <value>
-              <name>constant</name>
-              <type>String</type>
-              <text>124</text>
-              <length>-1</length>
-              <precision>-1</precision>
-              <isnull>N</isnull>
-              <mask/>
-            </value>
-          </condition>
         </conditions>
       </condition>
     </compare>
@@ -1173,231 +1135,174 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
     <fields>
       <field>
         <name>pokemon_number</name>
-        <rename/>
       </field>
       <field>
         <name>pokemon_name</name>
-        <rename/>
       </field>
       <field>
         <name>pokemon_variant</name>
-        <rename/>
       </field>
       <field>
         <name>variant_idx</name>
-        <rename/>
       </field>
       <field>
         <name>pokedex_url</name>
-        <rename/>
       </field>
       <field>
         <name>pokemon_type</name>
-        <rename/>
       </field>
       <field>
         <name>pokemon_species</name>
-        <rename/>
       </field>
       <field>
         <name>pokemon_height</name>
-        <rename/>
       </field>
       <field>
         <name>pokemon_weight</name>
-        <rename/>
       </field>
       <field>
         <name>pokemon_abilities</name>
-        <rename/>
       </field>
       <field>
         <name>pokemon_local_no</name>
-        <rename/>
       </field>
       <field>
         <name>training_ev_yield</name>
-        <rename/>
       </field>
       <field>
         <name>training_catch_rate</name>
-        <rename/>
       </field>
       <field>
         <name>training_base_friendship</name>
-        <rename/>
       </field>
       <field>
         <name>training_base_exp</name>
-        <rename/>
       </field>
       <field>
         <name>training_growth_rate</name>
-        <rename/>
       </field>
       <field>
         <name>breeding_egg_groups</name>
-        <rename/>
       </field>
       <field>
         <name>breeding_gender</name>
-        <rename/>
       </field>
       <field>
         <name>breeding_egg_cycles</name>
-        <rename/>
       </field>
       <field>
         <name>evolution_chart</name>
-        <rename/>
       </field>
       <field>
         <name>pokemon_changes</name>
-        <rename/>
       </field>
       <field>
         <name>normal_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>fire_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>water_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>electric_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>grass_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>ice_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>fighting_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>poison_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>ground_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>flying_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>psychic_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>bug_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>rock_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>ghost_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>dragon_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>dark_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>steel_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>fairy_effectiveness</name>
-        <rename/>
       </field>
       <field>
         <name>stat_hp_base</name>
-        <rename/>
       </field>
       <field>
         <name>stat_hp_min</name>
-        <rename/>
       </field>
       <field>
         <name>stat_hp_max</name>
-        <rename/>
       </field>
       <field>
         <name>stat_attack_base</name>
-        <rename/>
       </field>
       <field>
         <name>stat_attack_min</name>
-        <rename/>
       </field>
       <field>
         <name>stat_attack_max</name>
-        <rename/>
       </field>
       <field>
         <name>stat_defense_base</name>
-        <rename/>
       </field>
       <field>
         <name>stat_defense_min</name>
-        <rename/>
       </field>
       <field>
         <name>stat_defense_max</name>
-        <rename/>
       </field>
       <field>
         <name>stat_sp_attack_base</name>
-        <rename/>
       </field>
       <field>
         <name>stat_sp_attack_min</name>
-        <rename/>
       </field>
       <field>
         <name>stat_sp_attack_max</name>
-        <rename/>
       </field>
       <field>
         <name>stat_sp_defense_base</name>
-        <rename/>
       </field>
       <field>
         <name>stat_sp_defense_min</name>
-        <rename/>
       </field>
       <field>
         <name>stat_sp_defense_max</name>
-        <rename/>
       </field>
       <field>
         <name>stat_speed_base</name>
-        <rename/>
       </field>
       <field>
         <name>stat_speed_min</name>
-        <rename/>
       </field>
       <field>
         <name>stat_speed_max</name>
-        <rename/>
       </field>
       <field>
         <name>base_stats_total</name>
@@ -1409,11 +1314,9 @@ var tagless = newDecode.replace(tags,"");</jsScript_script>
       </field>
       <field>
         <name>type_defenses</name>
-        <rename/>
       </field>
       <field>
         <name>has_defense_differences</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
@@ -2980,6 +2883,10 @@ var cleaned = tagless.replace(/,/g,"·").trim();</jsScript_script>
         <name>stat_speed_max</name>
         <value/>
       </field>
+      <field>
+        <name>type_defense_abilities</name>
+        <value/>
+      </field>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -3297,7 +3204,9 @@ var typeDefAbilities = typeDef.replace(/Nor.*/g,"").trim().replace(/ability$/g,"
 typeDef = typeDef.replace(/^.*ability/g,"").trim().replace(/Nor/g,"·Nor").replace(/^·/g,"");
 var pokeChng = "";
 
-if(pokemon_changes) pokeChng=pokemon_changes.replace(/&lt;.*?>/g,"");</jsScript_script>
+if(pokemon_changes) pokeChng=pokemon_changes.replace(/&lt;.*?>/g,"");
+
+var evoChart = evolution_chart.replace(/does not evolve.*/g,"does not evolve.");</jsScript_script>
       </jsScript>
     </jsScripts>
     <fields>
@@ -3380,6 +3289,14 @@ if(pokemon_changes) pokeChng=pokemon_changes.replace(/&lt;.*?>/g,"");</jsScript_
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
+      </field>
+      <field>
+        <name>evoChart</name>
+        <rename>evolution_chart</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
       </field>
     </fields>
     <attributes/>
@@ -5141,46 +5058,6 @@ var speedMax  = speed[2].trim();</jsScript_script>
     </GUI>
   </step>
   <step>
-    <name>Trim Tagless</name>
-    <type>StringOperations</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <in_stream_name>tagless</in_stream_name>
-        <out_stream_name/>
-        <trim_type>both</trim_type>
-        <lower_upper>none</lower_upper>
-        <padding_type>none</padding_type>
-        <pad_char/>
-        <pad_len/>
-        <init_cap>no</init_cap>
-        <mask_xml>none</mask_xml>
-        <digits>none</digits>
-        <remove_special_characters>none</remove_special_characters>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>429</xloc>
-      <yloc>377</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
     <name>Type Effectiveness</name>
     <type>ScriptValueMod</type>
     <description/>
@@ -5205,6 +5082,8 @@ var speedMax  = speed[2].trim();</jsScript_script>
 
 var fixTypes = type_defenses.replace(/-/g,",");
 
+fixTypes += "··";
+
 var typeList = fixTypes.split("·");
 
 var typeArray = typeList[0].split(",");
@@ -5227,6 +5106,8 @@ var dragon_effectiveness   = fixType(typeArray[14]);
 var dark_effectiveness     = fixType(typeArray[15]);
 var steel_effectiveness    = fixType(typeArray[16]);
 var fairy_effectiveness    = fixType(typeArray[17]);
+
+if(type_defense_abilities.trim().equals("")) type_defense_abilities = ",,";
 
 var abilityDefs = type_defense_abilities.trim().split(",");
 
@@ -5253,7 +5134,7 @@ while (idx &lt; iterations) {
 
 if(differences > 0) differences = 1;
 
-fixTypes = fixType(fixTypes).replace(/·/g,"-");</jsScript_script>
+fixTypes = fixType(fixTypes).replace(/·/g,"-").replace("--","");</jsScript_script>
       </jsScript>
       <jsScript>
         <jsScript_type>1</jsScript_type>
@@ -5263,7 +5144,7 @@ fixTypes = fixType(fixTypes).replace(/·/g,"-");</jsScript_script>
 function fixType(myString) {
 	// Adding string null evaluation
 	if(!myString) myString = "";
-	var newString = myString.replace(/½/g,".5").replace(/¼/g,".25");
+	var newString = myString.replace(/½/g,".5").replace(/¼/g,".25").replace(/⅛/g,".125").replace(/\&amp;frac18\;/g,".125");
 	//myString = myString.replace("¼",".25")
 	return newString;
 }</jsScript_script>
