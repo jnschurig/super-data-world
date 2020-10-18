@@ -446,13 +446,11 @@
   </info>
   <notepads>
     <notepad>
-      <note>Tons of good progress. Up next, check the "temp" field to make sure it has the commas in the right places.
-
-Eventually, we'll need to do a stream lookup on the tab codes.</note>
-      <xloc>242</xloc>
-      <yloc>124</yloc>
-      <width>579</width>
-      <heigth>58</heigth>
+      <note>Clean up columns.</note>
+      <xloc>217</xloc>
+      <yloc>107</yloc>
+      <width>109</width>
+      <heigth>26</heigth>
       <fontname>Segoe UI</fontname>
       <fontsize>9</fontsize>
       <fontbold>N</fontbold>
@@ -526,11 +524,6 @@ Eventually, we'll need to do a stream lookup on the tab codes.</note>
       <enabled>N</enabled>
     </hop>
     <hop>
-      <from>Captured</from>
-      <to>Bad Lines</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>Capture Lines</from>
       <to>Captured</to>
       <enabled>Y</enabled>
@@ -563,11 +556,6 @@ Eventually, we'll need to do a stream lookup on the tab codes.</note>
     <hop>
       <from>TM</from>
       <to>Egg moves</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>HM</from>
-      <to>TM</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -607,11 +595,11 @@ Eventually, we'll need to do a stream lookup on the tab codes.</note>
     </hop>
     <hop>
       <from>Coalesce</from>
-      <to>Modified JavaScript value</to>
+      <to>Move Cat - Tab Code</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Modified JavaScript value</from>
+      <from>Move Cat - Tab Code</from>
       <to>Switch / case</to>
       <enabled>Y</enabled>
     </hop>
@@ -631,36 +619,36 @@ Eventually, we'll need to do a stream lookup on the tab codes.</note>
       <enabled>Y</enabled>
     </hop>
     <hop>
+      <from>HM</from>
+      <to>TM</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
       <from>Switch / case</from>
+      <to>Filter non-moves</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Filter non-moves</from>
       <to>Fix columns</to>
       <enabled>Y</enabled>
     </hop>
+    <hop>
+      <from>Fix columns</from>
+      <to>Regex evaluation</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Regex evaluation</from>
+      <to>Trim</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Trim</from>
+      <to>Null if</to>
+      <enabled>Y</enabled>
+    </hop>
   </order>
-  <step>
-    <name>Bad Lines</name>
-    <type>Dummy</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>136</xloc>
-      <yloc>121</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
   <step>
     <name>Calculator</name>
     <type>Calculator</type>
@@ -824,7 +812,7 @@ if(capture==0) {
       <schema_name/>
     </partitioning>
     <send_true_to>Select values</send_true_to>
-    <send_false_to>Bad Lines</send_false_to>
+    <send_false_to/>
     <compare>
       <condition>
         <negated>N</negated>
@@ -853,6 +841,122 @@ if(capture==0) {
     <GUI>
       <xloc>58</xloc>
       <yloc>192</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Coalesce</name>
+    <type>Calculator</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <failIfNoFile>Y</failIfNoFile>
+    <calculation>
+      <field_name>step1</field_name>
+      <calc_type>NVL</calc_type>
+      <field_a>is_egg_moves</field_a>
+      <field_b>is_hm</field_b>
+      <field_c/>
+      <value_type>String</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>Y</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>step2</field_name>
+      <calc_type>NVL</calc_type>
+      <field_a>step1</field_a>
+      <field_b>is_level_up</field_b>
+      <field_c/>
+      <value_type>String</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>Y</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>step3</field_name>
+      <calc_type>NVL</calc_type>
+      <field_a>step2</field_a>
+      <field_b>is_tm</field_b>
+      <field_c/>
+      <value_type>String</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>Y</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>step4</field_name>
+      <calc_type>NVL</calc_type>
+      <field_a>step3</field_a>
+      <field_b>is_tr</field_b>
+      <field_c/>
+      <value_type>String</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>Y</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>step5</field_name>
+      <calc_type>NVL</calc_type>
+      <field_a>step4</field_a>
+      <field_b>is_transfer_only_moves</field_b>
+      <field_c/>
+      <value_type>String</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>Y</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>move_flag</field_name>
+      <calc_type>NVL</calc_type>
+      <field_a>step5</field_a>
+      <field_b>is_tutor_moves</field_b>
+      <field_c/>
+      <value_type>String</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>213</xloc>
+      <yloc>562</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1033,6 +1137,245 @@ if(capture==0) {
     </GUI>
   </step>
   <step>
+    <name>Filter tab names</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <send_true_to/>
+    <send_false_to/>
+    <compare>
+      <condition>
+        <negated>N</negated>
+        <leftvalue>result</leftvalue>
+        <function>=</function>
+        <rightvalue/>
+        <value>
+          <name>constant</name>
+          <type>Boolean</type>
+          <text>Y</text>
+          <length>-1</length>
+          <precision>-1</precision>
+          <isnull>N</isnull>
+          <mask/>
+        </value>
+      </condition>
+    </compare>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>838</xloc>
+      <yloc>638</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Fix columns</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>// Replacement purposes
+// 1. Add commas for split
+// 2, Remove all html code
+// 3. Remove trailing commas
+// 4. Remove the weird hyphen
+
+
+var temp = decoded.replace(/&lt;\/td>/g,",&lt;/td>").replace(/&lt;.*?>/g,"").replace(/,$/g,"").replace(/—*/g,"");
+
+if(!temp) temp = ",,,,,";
+
+var colList = temp.split(",");
+
+var col1 = "";
+var col2 = "";
+var col3 = "";
+var col4 = "";
+var col5 = "";
+var col6 = "";
+
+if(colList.length == 6) {
+col1 = colList[0];
+col2 = colList[1];
+col3 = colList[2];
+col4 = colList[3];
+col5 = colList[4];
+col6 = colList[5];
+}
+else {
+col2 = colList[0];
+col3 = colList[1];
+col4 = colList[2];
+col5 = colList[3];
+col6 = colList[4];
+}
+
+
+col1 = col1.replace(/Generation.*/g,"").replace(/Level up.*/g,"");</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>col1</name>
+        <rename>move_level_hm_tm</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>col2</name>
+        <rename>move_name</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>col3</name>
+        <rename>move_type</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>col5</name>
+        <rename>move_power</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>col6</name>
+        <rename>move_acc</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>386</xloc>
+      <yloc>662</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Fix index 0 moves</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>//Script here
+
+var txt = decoded.replace(/.*?&lt;tbody>/g,"&lt;/tr>");
+
+var isHm = is_hm;
+
+//if(is_not_hm) isHm = null;
+
+var isEgg = is_egg_moves;
+
+if(is_not_egg_moves) isEgg = null;
+
+var isTr = is_tr;
+
+if(is_not_tr) isTr = null;</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>txt</name>
+        <rename>decoded</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>isHm</name>
+        <rename>is_hm</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>isEgg</name>
+        <rename>is_egg_moves</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+      <field>
+        <name>isTr</name>
+        <rename>is_tr</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>Y</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>79</xloc>
+      <yloc>442</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>Get variables</name>
     <type>GetVariable</type>
     <description/>
@@ -1128,7 +1471,7 @@ if(capture==0) {
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <script>.*Moves learnt by (HM).*does not learn any (HM).*</script>
+    <script>.*/item/(hm[0-9]*).*</script>
     <matcher>decoded</matcher>
     <resultfieldname/>
     <usevar>N</usevar>
@@ -1155,19 +1498,6 @@ if(capture==0) {
         <trimtype>both</trimtype>
         <currency/>
       </field>
-      <field>
-        <name>is_not_hm</name>
-        <type>String</type>
-        <format/>
-        <group/>
-        <decimal/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <nullif/>
-        <ifnull/>
-        <trimtype>both</trimtype>
-        <currency/>
-      </field>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -1178,8 +1508,8 @@ if(capture==0) {
       </output>
     </remotesteps>
     <GUI>
-      <xloc>681</xloc>
-      <yloc>311</yloc>
+      <xloc>651</xloc>
+      <yloc>315</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1418,6 +1748,189 @@ var movesUrl = moves_url_prefix + pokemon_number + "/moves/" + moves_dex_id;</js
     </GUI>
   </step>
   <step>
+    <name>Move Cat - Tab Code</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>1</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>//Script here
+
+var moveFlag = "";
+var tabName = "";</jsScript_script>
+      </jsScript>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Item_0</jsScript_name>
+        <jsScript_script>//Script here
+
+if(move_flag) moveFlag = move_flag.replace(/tm.*/g,"tm").replace(/hm.*/g,"hm");
+
+if(is_tab) tabName = is_tab;</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>moveFlag</name>
+        <rename>category</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>tabName</name>
+        <rename>tab_code</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>377</xloc>
+      <yloc>561</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Moves suffix</name>
+    <type>RegexEval</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <script>.*(\/move\/.*?)\".*class=\"img-fixed\".*data-alt=\"(.*?)\".*</script>
+    <matcher>decoded</matcher>
+    <resultfieldname/>
+    <usevar>N</usevar>
+    <allowcapturegroups>Y</allowcapturegroups>
+    <replacefields>Y</replacefields>
+    <canoneq>N</canoneq>
+    <caseinsensitive>N</caseinsensitive>
+    <comment>N</comment>
+    <dotall>N</dotall>
+    <multiline>N</multiline>
+    <unicode>N</unicode>
+    <unix>N</unix>
+    <fields>
+      <field>
+        <name>moves_url_suffix</name>
+        <type>String</type>
+        <format/>
+        <group/>
+        <decimal/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <nullif/>
+        <ifnull/>
+        <trimtype>both</trimtype>
+        <currency/>
+      </field>
+      <field>
+        <name>move_cat</name>
+        <type>String</type>
+        <format/>
+        <group/>
+        <decimal/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <nullif/>
+        <ifnull/>
+        <trimtype>both</trimtype>
+        <currency/>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>77</xloc>
+      <yloc>557</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Not egg moves</name>
+    <type>RegexEval</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <script>.*does not learn any moves by (breeding).*</script>
+    <matcher>decoded</matcher>
+    <resultfieldname/>
+    <usevar>N</usevar>
+    <allowcapturegroups>Y</allowcapturegroups>
+    <replacefields>Y</replacefields>
+    <canoneq>N</canoneq>
+    <caseinsensitive>N</caseinsensitive>
+    <comment>N</comment>
+    <dotall>N</dotall>
+    <multiline>N</multiline>
+    <unicode>N</unicode>
+    <unix>N</unix>
+    <fields>
+      <field>
+        <name>is_not_egg_moves</name>
+        <type>String</type>
+        <format/>
+        <group/>
+        <decimal/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <nullif/>
+        <ifnull/>
+        <trimtype>both</trimtype>
+        <currency/>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>686</xloc>
+      <yloc>432</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>Receive</name>
     <type>Dummy</type>
     <description/>
@@ -1595,6 +2108,44 @@ var movesUrl = moves_url_prefix + pokemon_number + "/moves/" + moves_dex_id;</js
     </GUI>
   </step>
   <step>
+    <name>Switch / case</name>
+    <type>SwitchCase</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fieldname>captureName</fieldname>
+    <use_contains>N</use_contains>
+    <case_value_type>None</case_value_type>
+    <case_value_format/>
+    <case_value_decimal/>
+    <case_value_group/>
+    <default_target_step>Filter non-moves</default_target_step>
+    <cases>
+      <case>
+        <value>Moves Tabs</value>
+        <target_step>Tab Code</target_step>
+      </case>
+    </cases>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>528</xloc>
+      <yloc>559</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>TM</name>
     <type>RegexEval</type>
     <description/>
@@ -1710,6 +2261,105 @@ var movesUrl = moves_url_prefix + pokemon_number + "/moves/" + moves_dex_id;</js
     <GUI>
       <xloc>367</xloc>
       <yloc>439</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Tab Code</name>
+    <type>RegexEval</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <script>.*href="#(.*?)".*</script>
+    <matcher>decoded</matcher>
+    <resultfieldname>result</resultfieldname>
+    <usevar>N</usevar>
+    <allowcapturegroups>Y</allowcapturegroups>
+    <replacefields>Y</replacefields>
+    <canoneq>N</canoneq>
+    <caseinsensitive>N</caseinsensitive>
+    <comment>N</comment>
+    <dotall>N</dotall>
+    <multiline>N</multiline>
+    <unicode>N</unicode>
+    <unix>N</unix>
+    <fields>
+      <field>
+        <name>tab_code</name>
+        <type>String</type>
+        <format/>
+        <group/>
+        <decimal/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <nullif/>
+        <ifnull/>
+        <trimtype>both</trimtype>
+        <currency/>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>716</xloc>
+      <yloc>536</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Tab Name</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>//Script here
+
+var tab_name = decoded.replace(/&lt;.*?>/g,"");</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>tab_name</name>
+        <rename>tab_name</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>834</xloc>
+      <yloc>535</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1873,512 +2523,7 @@ var movesUrl = moves_url_prefix + pokemon_number + "/moves/" + moves_dex_id;</js
     </GUI>
   </step>
   <step>
-    <name>Fix index 0 moves</name>
-    <type>ScriptValueMod</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <compatible>N</compatible>
-    <optimizationLevel>9</optimizationLevel>
-    <jsScripts>
-      <jsScript>
-        <jsScript_type>0</jsScript_type>
-        <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>//Script here
-
-var txt = decoded.replace(/.*?&lt;tbody>/g,"&lt;/tr>");
-
-var isHm = is_hm;
-
-if(is_not_hm) isHm = null;
-
-var isEgg = is_egg_moves;
-
-if(is_not_egg_moves) isEgg = null;
-
-var isTr = is_tr;
-
-if(is_not_tr) isTr = null;</jsScript_script>
-      </jsScript>
-    </jsScripts>
-    <fields>
-      <field>
-        <name>txt</name>
-        <rename>decoded</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>Y</replace>
-      </field>
-      <field>
-        <name>isHm</name>
-        <rename>is_hm</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>Y</replace>
-      </field>
-      <field>
-        <name>isEgg</name>
-        <rename>is_egg_moves</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>Y</replace>
-      </field>
-      <field>
-        <name>isTr</name>
-        <rename>is_tr</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>Y</replace>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>79</xloc>
-      <yloc>442</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Moves suffix</name>
-    <type>RegexEval</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <script>.*(\/move\/.*?)\".*</script>
-    <matcher>decoded</matcher>
-    <resultfieldname/>
-    <usevar>N</usevar>
-    <allowcapturegroups>Y</allowcapturegroups>
-    <replacefields>Y</replacefields>
-    <canoneq>N</canoneq>
-    <caseinsensitive>N</caseinsensitive>
-    <comment>N</comment>
-    <dotall>N</dotall>
-    <multiline>N</multiline>
-    <unicode>N</unicode>
-    <unix>N</unix>
-    <fields>
-      <field>
-        <name>moves_url_suffix</name>
-        <type>String</type>
-        <format/>
-        <group/>
-        <decimal/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <nullif/>
-        <ifnull/>
-        <trimtype>both</trimtype>
-        <currency/>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>77</xloc>
-      <yloc>557</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Not egg moves</name>
-    <type>RegexEval</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <script>.*does not learn any moves by (breeding).*</script>
-    <matcher>decoded</matcher>
-    <resultfieldname/>
-    <usevar>N</usevar>
-    <allowcapturegroups>Y</allowcapturegroups>
-    <replacefields>Y</replacefields>
-    <canoneq>N</canoneq>
-    <caseinsensitive>N</caseinsensitive>
-    <comment>N</comment>
-    <dotall>N</dotall>
-    <multiline>N</multiline>
-    <unicode>N</unicode>
-    <unix>N</unix>
-    <fields>
-      <field>
-        <name>is_not_egg_moves</name>
-        <type>String</type>
-        <format/>
-        <group/>
-        <decimal/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <nullif/>
-        <ifnull/>
-        <trimtype>both</trimtype>
-        <currency/>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>686</xloc>
-      <yloc>432</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Modified JavaScript value</name>
-    <type>ScriptValueMod</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <compatible>N</compatible>
-    <optimizationLevel>9</optimizationLevel>
-    <jsScripts>
-      <jsScript>
-        <jsScript_type>1</jsScript_type>
-        <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>//Script here
-
-var moveType = "";
-var tabName = "";</jsScript_script>
-      </jsScript>
-      <jsScript>
-        <jsScript_type>0</jsScript_type>
-        <jsScript_name>Item_0</jsScript_name>
-        <jsScript_script>//Script here
-
-if(move_type) moveType = move_type.replace(/tm.*/g,"tm");
-
-if(is_tab) tabName = is_tab;</jsScript_script>
-      </jsScript>
-    </jsScripts>
-    <fields>
-      <field>
-        <name>moveType</name>
-        <rename>move_category</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>tabName</name>
-        <rename>tab_code</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>377</xloc>
-      <yloc>561</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Coalesce</name>
-    <type>Calculator</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <failIfNoFile>Y</failIfNoFile>
-    <calculation>
-      <field_name>step1</field_name>
-      <calc_type>NVL</calc_type>
-      <field_a>is_egg_moves</field_a>
-      <field_b>is_hm</field_b>
-      <field_c/>
-      <value_type>String</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <remove>Y</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
-    <calculation>
-      <field_name>step2</field_name>
-      <calc_type>NVL</calc_type>
-      <field_a>step1</field_a>
-      <field_b>is_level_up</field_b>
-      <field_c/>
-      <value_type>String</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <remove>Y</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
-    <calculation>
-      <field_name>step3</field_name>
-      <calc_type>NVL</calc_type>
-      <field_a>step2</field_a>
-      <field_b>is_tm</field_b>
-      <field_c/>
-      <value_type>String</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <remove>Y</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
-    <calculation>
-      <field_name>step4</field_name>
-      <calc_type>NVL</calc_type>
-      <field_a>step3</field_a>
-      <field_b>is_tr</field_b>
-      <field_c/>
-      <value_type>String</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <remove>Y</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
-    <calculation>
-      <field_name>step5</field_name>
-      <calc_type>NVL</calc_type>
-      <field_a>step4</field_a>
-      <field_b>is_transfer_only_moves</field_b>
-      <field_c/>
-      <value_type>String</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <remove>Y</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
-    <calculation>
-      <field_name>move_type</field_name>
-      <calc_type>NVL</calc_type>
-      <field_a>step5</field_a>
-      <field_b>is_tutor_moves</field_b>
-      <field_c/>
-      <value_type>String</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <remove>N</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>213</xloc>
-      <yloc>562</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Switch / case</name>
-    <type>SwitchCase</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fieldname>captureName</fieldname>
-    <use_contains>N</use_contains>
-    <case_value_type>None</case_value_type>
-    <case_value_format/>
-    <case_value_decimal/>
-    <case_value_group/>
-    <default_target_step>Fix columns</default_target_step>
-    <cases>
-      <case>
-        <value>Moves Tabs</value>
-        <target_step>Tab Code</target_step>
-      </case>
-    </cases>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>528</xloc>
-      <yloc>559</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Tab Code</name>
-    <type>RegexEval</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <script>.*href="#(.*?)".*</script>
-    <matcher>decoded</matcher>
-    <resultfieldname>result</resultfieldname>
-    <usevar>N</usevar>
-    <allowcapturegroups>Y</allowcapturegroups>
-    <replacefields>Y</replacefields>
-    <canoneq>N</canoneq>
-    <caseinsensitive>N</caseinsensitive>
-    <comment>N</comment>
-    <dotall>N</dotall>
-    <multiline>N</multiline>
-    <unicode>N</unicode>
-    <unix>N</unix>
-    <fields>
-      <field>
-        <name>tab_code</name>
-        <type>String</type>
-        <format/>
-        <group/>
-        <decimal/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <nullif/>
-        <ifnull/>
-        <trimtype>both</trimtype>
-        <currency/>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>716</xloc>
-      <yloc>536</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Tab Name</name>
-    <type>ScriptValueMod</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <compatible>N</compatible>
-    <optimizationLevel>9</optimizationLevel>
-    <jsScripts>
-      <jsScript>
-        <jsScript_type>0</jsScript_type>
-        <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>//Script here
-
-var tab_name = decoded.replace(/&lt;.*?>/g,"");</jsScript_script>
-      </jsScript>
-    </jsScripts>
-    <fields>
-      <field>
-        <name>tab_name</name>
-        <rename>tab_name</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>834</xloc>
-      <yloc>535</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Filter tab names</name>
+    <name>Filter non-moves</name>
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -2388,23 +2533,14 @@ var tab_name = decoded.replace(/&lt;.*?>/g,"");</jsScript_script>
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <send_true_to/>
+    <send_true_to>Fix columns</send_true_to>
     <send_false_to/>
     <compare>
       <condition>
         <negated>N</negated>
-        <leftvalue>result</leftvalue>
-        <function>=</function>
+        <leftvalue>moves_url_suffix</leftvalue>
+        <function>IS NOT NULL</function>
         <rightvalue/>
-        <value>
-          <name>constant</name>
-          <type>Boolean</type>
-          <text>Y</text>
-          <length>-1</length>
-          <precision>-1</precision>
-          <isnull>N</isnull>
-          <mask/>
-        </value>
       </condition>
     </compare>
     <attributes/>
@@ -2416,14 +2552,14 @@ var tab_name = decoded.replace(/&lt;.*?>/g,"");</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>939</xloc>
-      <yloc>539</yloc>
+      <xloc>532</xloc>
+      <yloc>658</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Fix columns</name>
-    <type>ScriptValueMod</type>
+    <name>Regex evaluation</name>
+    <type>RegexEval</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -2432,26 +2568,32 @@ var tab_name = decoded.replace(/&lt;.*?>/g,"");</jsScript_script>
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <compatible>N</compatible>
-    <optimizationLevel>9</optimizationLevel>
-    <jsScripts>
-      <jsScript>
-        <jsScript_type>0</jsScript_type>
-        <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>//Script here
-
-var temp = decoded.replace(/>&lt;\/td>/g,">,&lt;/td>").replace(/&lt;.*?>/g,"");
-</jsScript_script>
-      </jsScript>
-    </jsScripts>
+    <script>.*(/item/.*?)".*</script>
+    <matcher>decoded</matcher>
+    <resultfieldname/>
+    <usevar>N</usevar>
+    <allowcapturegroups>Y</allowcapturegroups>
+    <replacefields>Y</replacefields>
+    <canoneq>N</canoneq>
+    <caseinsensitive>N</caseinsensitive>
+    <comment>N</comment>
+    <dotall>N</dotall>
+    <multiline>N</multiline>
+    <unicode>N</unicode>
+    <unix>N</unix>
     <fields>
       <field>
-        <name>temp</name>
-        <rename>temp</rename>
+        <name>item_url</name>
         <type>String</type>
+        <format/>
+        <group/>
+        <decimal/>
         <length>-1</length>
         <precision>-1</precision>
-        <replace>N</replace>
+        <nullif/>
+        <ifnull/>
+        <trimtype>both</trimtype>
+        <currency/>
       </field>
     </fields>
     <attributes/>
@@ -2463,8 +2605,214 @@ var temp = decoded.replace(/>&lt;\/td>/g,">,&lt;/td>").replace(/&lt;.*?>/g,"");
       </output>
     </remotesteps>
     <GUI>
-      <xloc>712</xloc>
-      <yloc>636</yloc>
+      <xloc>238</xloc>
+      <yloc>668</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Null if</name>
+    <type>NullIf</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>move_cat</name>
+        <value/>
+      </field>
+      <field>
+        <name>move_level_hm_tm</name>
+        <value/>
+      </field>
+      <field>
+        <name>move_name</name>
+        <value/>
+      </field>
+      <field>
+        <name>move_type</name>
+        <value/>
+      </field>
+      <field>
+        <name>move_power</name>
+        <value/>
+      </field>
+      <field>
+        <name>move_acc</name>
+        <value/>
+      </field>
+      <field>
+        <name>move_cat</name>
+        <value>undefined</value>
+      </field>
+      <field>
+        <name>move_level_hm_tm</name>
+        <value>undefined</value>
+      </field>
+      <field>
+        <name>move_name</name>
+        <value>undefined</value>
+      </field>
+      <field>
+        <name>move_type</name>
+        <value>undefined</value>
+      </field>
+      <field>
+        <name>move_power</name>
+        <value>undefined</value>
+      </field>
+      <field>
+        <name>move_acc</name>
+        <value>undefined</value>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>90</xloc>
+      <yloc>771</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Trim</name>
+    <type>StringOperations</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <in_stream_name>moves_url_suffix</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>move_cat</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>move_flag</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>move_level_hm_tm</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>move_name</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>move_type</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>move_power</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+      <field>
+        <in_stream_name>move_acc</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>88</xloc>
+      <yloc>662</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
