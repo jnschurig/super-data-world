@@ -1,19 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <job>
-  <name>pokemon_database_scraper</name>
+  <name>move_process</name>
   <description/>
   <extended_description/>
   <job_version/>
   <job_status>0</job_status>
   <directory>/</directory>
   <created_user>-</created_user>
-  <created_date>2020/08/16 22:31:33.280</created_date>
+  <created_date>2020/10/21 20:32:09.818</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2020/08/16 22:31:33.280</modified_date>
+  <modified_date>2020/10/21 20:32:09.818</modified_date>
   <parameters>
     <parameter>
       <name>POKE_DB_URL</name>
       <default_value>https://pokemondb.net</default_value>
+      <description/>
+    </parameter>
+    <parameter>
+      <name>base_url</name>
+      <default_value>https://pokemondb.net</default_value>
+      <description/>
+    </parameter>
+    <parameter>
+      <name>moves_dex_id</name>
+      <default_value>7</default_value>
+      <description/>
+    </parameter>
+    <parameter>
+      <name>moves_url</name>
+      <default_value>https://pokemondb.net/pokedex/001/moves/7</default_value>
+      <description/>
+    </parameter>
+    <parameter>
+      <name>pokemon_number</name>
+      <default_value>001</default_value>
       <description/>
     </parameter>
   </parameters>
@@ -310,18 +330,18 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>73</xloc>
-      <yloc>62</yloc>
+      <xloc>57</xloc>
+      <yloc>63</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>national_pokedex.ktr</name>
+      <name>single_set.ktr</name>
       <description/>
       <type>TRANS</type>
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/national_pokedex.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/single_set.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -345,48 +365,25 @@
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
         <parameter>
-          <name>POKE_DB_URL</name>
+          <name>pokemon_number</name>
           <stream_name/>
-          <value>${POKE_DB_URL}</value>
+          <value>${pokemon_number}</value>
         </parameter>
-      </parameters>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>211</xloc>
-      <yloc>62</yloc>
-      <attributes_kjc/>
-    </entry>
-    <entry>
-      <name>pokemon_details.ktr</name>
-      <description/>
-      <type>TRANS</type>
-      <attributes/>
-      <specification_method>filename</specification_method>
-      <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/pokemon_details.ktr</filename>
-      <transname/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <clear_rows>N</clear_rows>
-      <clear_files>N</clear_files>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Basic</loglevel>
-      <cluster>N</cluster>
-      <slave_server_name/>
-      <set_append_logfile>N</set_append_logfile>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
-      <run_configuration>Pentaho local</run_configuration>
-      <parameters>
-        <pass_all_parameters>Y</pass_all_parameters>
+        <parameter>
+          <name>base_url</name>
+          <stream_name/>
+          <value>${base_url}</value>
+        </parameter>
+        <parameter>
+          <name>moves_dex_id</name>
+          <stream_name/>
+          <value>${moves_dex_id}</value>
+        </parameter>
+        <parameter>
+          <name>moves_url</name>
+          <stream_name/>
+          <value>${moves_url}</value>
+        </parameter>
         <parameter>
           <name>POKE_DB_URL</name>
           <stream_name/>
@@ -396,58 +393,27 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>349</xloc>
-      <yloc>62</yloc>
+      <xloc>257</xloc>
+      <yloc>63</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>pokemon_moves.ktr</name>
+      <name>Success</name>
       <description/>
-      <type>TRANS</type>
+      <type>SUCCESS</type>
       <attributes/>
-      <specification_method>filename</specification_method>
-      <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/pokemon_moves.ktr</filename>
-      <transname/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <clear_rows>N</clear_rows>
-      <clear_files>N</clear_files>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Basic</loglevel>
-      <cluster>N</cluster>
-      <slave_server_name/>
-      <set_append_logfile>N</set_append_logfile>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
-      <run_configuration>Pentaho local</run_configuration>
-      <parameters>
-        <pass_all_parameters>Y</pass_all_parameters>
-        <parameter>
-          <name>POKE_DB_URL</name>
-          <stream_name/>
-          <value>${POKE_DB_URL}</value>
-        </parameter>
-      </parameters>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>487</xloc>
-      <yloc>62</yloc>
+      <xloc>457</xloc>
+      <yloc>63</yloc>
       <attributes_kjc/>
     </entry>
   </entries>
   <hops>
     <hop>
       <from>Start</from>
-      <to>national_pokedex.ktr</to>
+      <to>single_set.ktr</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -455,17 +421,8 @@
       <unconditional>Y</unconditional>
     </hop>
     <hop>
-      <from>national_pokedex.ktr</from>
-      <to>pokemon_details.ktr</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>pokemon_details.ktr</from>
-      <to>pokemon_moves.ktr</to>
+      <from>single_set.ktr</from>
+      <to>Success</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
