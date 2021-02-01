@@ -1,4 +1,6 @@
-import os, re, json
+import os, re, json, hashlib
+import sys
+from datetime import datetime
 from pathlib import Path
 
 dataDirName = 'data'
@@ -9,57 +11,78 @@ if os.name == 'nt': # Windows
 if os.name == 'posix':
     osSlash = '/'
 
-print(os.path.realpath(__file__))
+# print(os.path.realpath(__file__))
 
 scriptDir = os.path.dirname(os.path.realpath(__file__))
-dataDir = scriptDir + '/' + dataDirName
-
-print(dataDir)
 
 def create_append(event_name, event_data):
-    print('hello world')
+    # Date related variables
+    now = datetime.now()
+    dirDate = now.strftime('%Y%m%d')
+    hashSalt = now.strftime('%Y%m%d_%H%M%S_%f')
+    eventDate = now.strftime('%Y-%m-%d %H:%M:%S.%f %z').strip()
+    
+    # Create event ID
+    preHash = event_name + ' ' + hashSalt
+    eventid = hashlib.md5(preHash.encode()).hexdigest()
+    
+    # Get the data and figure out what to do with it.
+    dataPart = {}
+    dataPart['id'] = eventid
+    dataPart['event'] = event_name
+    dataPart['eventdate'] = eventDate
+    iterator = event_data.split(',')
+    
+    for i in iterator:
+        j = i.split('=')
+        # print('Pair: ' + j[0] + ': ' + j[1])
+        dataPart[j[0]] = j[1]
+    
+    # print('dataPart: ' + str(dataPart))
+
+
+    # Get file name and make path.
     fileName = event_name
-    print(fileName)
     fileName = re.sub('\\s','_',fileName) # Replace whitespace with underscores.
     fileName = re.sub('\\W','',fileName) # Remove non-word characters.
     fileName = re.sub('_*$','',fileName) # Remove trailing underscores.
     fileName = re.sub('^_*','',fileName) # Remove preceeding underscores.
-    print(fileName)
-
-    longFile = dataDir + '/' + fileName+'.json'
-
+    
+    dataDir = scriptDir + osSlash + dataDirName + osSlash + dirDate
+    longFile = dataDir + osSlash + fileName+'.json'
     Path(dataDir).mkdir(parents=True, exist_ok=True)
     
-    if os.path.exists(longFile):
-        writeMode = 'a'
-    else:
-        writeMode = 'w'
-
-    data = {}
-    data["event"] = []
-
-    # Need to approach this a little differently...
-    # 1. Check if file exists.
-    # 2. If not exists, dump to file.
-    # 3. If it does exist, read the file into a data object
-    #   a. "update" the data object with new data.
-    #   b. overwrite the existing file with all data.
     # Use this for reference: https://www.geeksforgeeks.org/append-to-json-file-using-python/
+    # There might be a better way using this ^
 
-    iterator = event_data.split(',')
+    #------------ Better IDEA -------------------
+    # Just write parts to their own files. Don't bother appending. It's ok!... maybe?
+    # -------------------------------------------
+    # We have the data, now worry about writing it out.
+    if os.path.exists(longFile):
+        with open(longFile) as infile:
+            data = json.load(infile)
+        # Janky solution converting json to a string and appending the data. 
+        # Could definitely do with a better way.
+        strjson = str(data)
+        strjson = re.sub('^{','[{',strjson)
+        strjson = re.sub(']$','',strjson)
+        strjson += ',\n' + str(dataPart) + ']'
+        strjson = re.sub("'",'"',strjson)
+        data = json.loads(strjson)
+        
+        with open(longFile, 'w') as outfile:
+            json.dump(data, outfile)
 
-    for i in iterator:
-        j = i.split('=')
-        data["event"].append({j[0]:j[1]})
+    else: # New file, just output data.
+        with open(longFile, 'w') as outfile:
+            json.dump(dataPart, outfile)
 
-    print(data)
-    with open(longFile, writeMode) as outfile:
-        if writeMode == 'a':
-            # Add a comma to the end...
-            print('Cycle...')
-        json.dump(data, outfile)
+    return dataPart
+    
     
 
 if __name__ == "__main__":
 #    main(sys.argv[1:])
-    create_append('my Event is a good event. 123 %$^%', 'user=my_user,type=my type')
+    myEventData = create_append('my Event is a good event. 123 %$^%', 'user=my_user,type=my type')
+    print(myEventData)
