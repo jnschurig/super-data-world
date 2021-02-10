@@ -18,7 +18,7 @@ deck = [
 
 def deal(deck_count):
     #
-    random_number = random.randrange(51)
+    random_number = random.randrange(len(deck)-1)
     random_card = deck[random_number]
     return random_card
 
