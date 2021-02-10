@@ -83,8 +83,8 @@ def play(board_state, player_action):
 
     # Beginning state. Always happens if the player hand or dealer hand have no cards.
     if board_state["player_hand"] == '' or board_state["dealer_hand"] == '':
-        board_state["player_hand"] = deal_card.deal(0)
-        board_state["dealer_hand"] = deal_card.deal(0)
+        board_state["player_hand"] = deal_card.simple()
+        board_state["dealer_hand"] = deal_card.simple()
         board_state["player_hand_val"] = hand_value(board_state["player_hand"])
         board_state["dealer_hand_val"] = hand_value(board_state["dealer_hand"])
         board_state["player_last_action"] = 'hit'
@@ -94,7 +94,7 @@ def play(board_state, player_action):
     elif player_action in valid_actions:
         # Do something good
         if player_action in ['hit', 'doubledown', 'split'] and board_state["player_hand_val"] < 21:
-            board_state["player_hand"] += ',' + deal_card.deal(0)
+            board_state["player_hand"] += ',' + deal_card.simple()
             board_state["player_hand_val"] = hand_value(board_state["player_hand"])
             if board_state["player_hand_val"] >= 21:
                 player_action = 'stand'
@@ -103,23 +103,26 @@ def play(board_state, player_action):
         
         board_state["player_last_action"] = player_action
         
-        # Dealer logic. Need to add one that lets the dealer "check" for blackjack
+        # Dealer logic. 
         # Need to allow the dealer to loop through draws if the player is set to "stand"
-        do_loop = True
-        while do_loop:
-            do_loop = False # By default, run through loop once.
-            if board_state["dealer_hand_val"] < dealer_max:
-                board_state["dealer_hand"] += ',' + deal_card.deal(0)
-                board_state["dealer_hand_val"] = hand_value(board_state["dealer_hand"])
-                board_state["dealer_last_action"] = 'hit'
-                # dealer_action = 'stand'
-            else:
-                board_state["dealer_last_action"] = 'stand'
-                dealer_action = 'stand'
-            if player_action == 'stand' and not dealer_action == 'stand':
-                # Player is done, but dealer is not. Let's loop
-                do_loop = True
-            
+        # 1. Dealer and player both already have a card. We need to only do this section after the player has switched to "stand"
+        if player_action == 'stand':
+            do_loop = True
+            while do_loop:
+                do_loop = False # By default, run through loop once.
+                if board_state["dealer_hand_val"] < dealer_max:
+                    board_state["dealer_hand"] += ',' + deal_card.simple()
+                    board_state["dealer_hand_val"] = hand_value(board_state["dealer_hand"])
+                    board_state["dealer_last_action"] = 'hit'
+                    # dealer_action = 'stand'
+                else:
+                    board_state["dealer_last_action"] = 'stand'
+                    dealer_action = 'stand'
+                # if player_action == 'stand' and not dealer_action == 'stand':
+                if not dealer_action == 'stand':
+                    # Player is done, but dealer is not. Let's loop
+                    do_loop = True
+                
     else:
         print('Invalid action. Choose: ' + str(valid_actions))
         # sys.exit()
@@ -163,11 +166,8 @@ def play(board_state, player_action):
     return board_state
     # get first card
 
-
-
-
 if __name__ == '__main__':
-    myCard = deal_card.deal(0)
+    myCard = deal_card.simple()
     myVal = card_value(myCard, 12)
     # print('hand value: ', hand_value(test_hand))
     # sys.exit('temp breaking point')
