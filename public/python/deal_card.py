@@ -1,5 +1,6 @@
 import random, os, json, re
 from pathlib import Path
+import world_events
 
 deck = [
      'A-h'  ,'A-c'  ,'A-d'  ,'A-s' 
@@ -19,10 +20,21 @@ deck = [
 
 pad_length = 2
 
-def simple():
+default_count = 1
+
+def simple(deck_count):
     # Assumes an infinite number of decks so never need to shuffle or reload.
-    random_number = random.randrange(len(deck)-1)
-    random_card = deck[random_number]
+    stack = []
+    idx = 0
+    if deck_count < 1:
+        deck_count = 1
+    while idx < deck_count:
+        for i in deck:
+            stack.append(i)
+        idx += 1
+    random_number = random.randrange(len(stack)-1)
+    random.shuffle(stack)
+    random_card = stack[random_number]
     return random_card
 
 def from_deck(deck_count, instance_name):
@@ -58,7 +70,9 @@ def from_deck(deck_count, instance_name):
     return random_card
 
 if __name__ == '__main__':
-    my_card = deal(0)
+    my_card = simple(10)
     print(my_card)
-    my_card = from_deck(4, 'blackjack')
+    my_card = simple(10)
     print(my_card)
+    # my_card = from_deck(4, 'blackjack')
+    # print(my_card)

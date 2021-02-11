@@ -77,6 +77,26 @@ def save_state(state_name, user_name, state_data):
     create('savestate-' + state_name, state_data)
     return output_file
 
+def reset_state(state_name, user_name):
+    default_state = {
+        "state": state_name,
+        "user": user_name,
+        "status": "reset",
+        "result": ""
+    }
+
+    reset_file = data_dir + os.sep + state_dir_name + os.sep + state_name + os.sep + state_name + '_' + user_name + '.json'
+    if os.path.exists(reset_file):
+        with open(reset_file, 'r', encoding='utf-8') as f:
+            current_state = json.load(f)
+        current_state['file_name'] = reset_file
+        print('removing state file...', reset_file)
+        os.remove(reset_file)
+    else:
+        current_state = default_state
+    create('reset-' + state_name, current_state)
+    return reset_file
+
 def wallet_transaction(user_name, transaction_amount, transaction_comment):
     # returns the balance on deposits and inqueries (0 transactions).
     # returns the amount withdrawn on withdrawls.
@@ -122,7 +142,7 @@ def wallet_transaction(user_name, transaction_amount, transaction_comment):
     
     event_data = {
         'user':user_name, 
-        'wallet_transaction':transaction_type, 
+        'wallet_transaction': transaction_type, 
         'transaction_amount': int(transaction_amount), 
         'balance': balance, 
         'transaction_comment': transaction_comment
@@ -137,11 +157,21 @@ if __name__ == "__main__":
     # myEventData = create('wallet', {"user": "james", "status": "winnings", "amount": 20})
     # print(myEventData)
     # myState = {
-    #     'player_hand_val': 19, 'dealer_hand_val': 17, 'player_hand': '9-c,2-s,8-d', 'dealer_hand': '9-s,8-d', 'player_last_action': 'stand', 'dealer_last_action': 'stand', 'result': 'win', 'bet_return': 1
+    #     'player_hand_val': 19, 
+    #     'dealer_hand_val': 17, 
+    #     'player_hand': '9-c,2-s,8-d', 
+    #     'dealer_hand': '9-s,8-d', 
+    #     'player_last_action': 'stand', 
+    #     'dealer_last_action': 'stand', 
+    #     'result': 'win', 
+    #     'bet_return': 1,
+    #     'status': ''
     # }
     # result = save_state('blackjack', 'james', myState)
     # print(result)
     # result_two = get_state('wallet','james')
     # print(result_two)
-    result_three = wallet_transaction('james', 0, 'blackjack wager')
+    result_three = wallet_transaction('james', 100 * -1, 'blackjack wager')
     print('wallet:', str(result_three))
+    # result_four = reset_state('blackjack','james')
+    # print(result_four)

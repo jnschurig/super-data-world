@@ -5,7 +5,8 @@ valid_actions = [
     'hit',
     'stand',
     'doubledown',
-    'split'
+    'split',
+    'reset'
 ]
 
 default_board_state = {
@@ -17,12 +18,15 @@ default_board_state = {
     "dealer_last_action": "",
     "result": "",
     "bet_return": 1,
-    "status": ""
+    "status": "",
+    "wager": 0
 }
 
 default_return = 1
 
 dealer_max = 17
+
+deck_count
 
 test_hand = '2-h,7-s,A-d,A-s' # should return 13
 
@@ -66,8 +70,11 @@ def hand_value(hand):
 def play(board_state, player_action):
     # To start, all that is needed is the bet
     # the user will be
+    wager = board_state['wager']
+
     if board_state['status'] == 'none':
         board_state = default_board_state
+        board_state['wager'] = wager
     dealer_action = 'hit'
 
     board_state["bet_return"] = 1
@@ -84,8 +91,8 @@ def play(board_state, player_action):
 
     # Beginning state. Always happens if the player hand or dealer hand have no cards.
     if board_state["player_hand"] == '' or board_state["dealer_hand"] == '':
-        board_state["player_hand"] = deal_card.simple()
-        board_state["dealer_hand"] = deal_card.simple()
+        board_state["player_hand"] = deal_card.simple(deck_count)
+        board_state["dealer_hand"] = deal_card.simple(deck_count)
         board_state["player_hand_val"] = hand_value(board_state["player_hand"])
         board_state["dealer_hand_val"] = hand_value(board_state["dealer_hand"])
         board_state["player_last_action"] = 'hit'
@@ -95,7 +102,7 @@ def play(board_state, player_action):
     elif player_action in valid_actions:
         # Do something good
         if player_action in ['hit', 'doubledown', 'split'] and board_state["player_hand_val"] < 21:
-            board_state["player_hand"] += ',' + deal_card.simple()
+            board_state["player_hand"] += ',' + deal_card.simple(deck_count)
             board_state["player_hand_val"] = hand_value(board_state["player_hand"])
             if board_state["player_hand_val"] >= 21:
                 player_action = 'stand'
@@ -112,7 +119,7 @@ def play(board_state, player_action):
             while do_loop:
                 do_loop = False # By default, run through loop once.
                 if board_state["dealer_hand_val"] < dealer_max:
-                    board_state["dealer_hand"] += ',' + deal_card.simple()
+                    board_state["dealer_hand"] += ',' + deal_card.simple(deck_count)
                     board_state["dealer_hand_val"] = hand_value(board_state["dealer_hand"])
                     board_state["dealer_last_action"] = 'hit'
                     # dealer_action = 'stand'
@@ -168,7 +175,7 @@ def play(board_state, player_action):
     # get first card
 
 if __name__ == '__main__':
-    myCard = deal_card.simple()
+    myCard = deal_card.simple(deck_count)
     myVal = card_value(myCard, 12)
     # print('hand value: ', hand_value(test_hand))
     # sys.exit('temp breaking point')
