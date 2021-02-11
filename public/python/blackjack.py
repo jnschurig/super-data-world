@@ -16,7 +16,8 @@ default_board_state = {
     "player_last_action": "",
     "dealer_last_action": "",
     "result": "",
-    "bet_return": 1
+    "bet_return": 1,
+    "status": ""
 }
 
 default_return = 1
@@ -65,7 +66,7 @@ def hand_value(hand):
 def play(board_state, player_action):
     # To start, all that is needed is the bet
     # the user will be
-    if board_state == "":
+    if board_state['status'] == 'none':
         board_state = default_board_state
     dealer_action = 'hit'
 
@@ -172,7 +173,7 @@ if __name__ == '__main__':
     # print('hand value: ', hand_value(test_hand))
     # sys.exit('temp breaking point')
     # print(myCard, '=', myVal)
-    current_state = play('', '')
+    current_state = play({'state': 'blackjack', 'user': 'moo', 'status': 'none', 'result': ''}, '')
     while current_state['result'] == '':
         print(current_state)
         player_action = input('Action: ')

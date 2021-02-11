@@ -6,6 +6,8 @@ from pathlib import Path
 data_dir_name = 'data'
 event_dir_name = 'events'
 state_dir_name = 'state'
+wallet_dir_name = 'wallet'
+
 
 # print(os.path.realpath(__file__))
 
@@ -52,7 +54,8 @@ def get_state(state_name, user_name):
     default_state = {
         "state": state_name,
         "user": user_name,
-        "status": "none"
+        "status": "none",
+        "result": ""
     }
     current_state = default_state
     if os.path.exists(input_file):
@@ -63,12 +66,70 @@ def get_state(state_name, user_name):
 def save_state(state_name, user_name, state_data):
     state_data['state'] = state_name
     state_data['user'] = user_name
+    if state_data['status'] == '':
+        state_data['status'] = 'saved'
     output_file = data_dir + os.sep + state_dir_name + os.sep + state_name + os.sep + state_name + '_' + user_name + '.json'
 
     Path(os.path.dirname(output_file)).mkdir(parents=True, exist_ok=True)
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(state_data, f, ensure_ascii=False, indent=4)
+
+    create('savestate-' + state_name, state_data)
     return output_file
+
+def wallet_transaction(user_name, transaction_amount, transaction_comment):
+    # returns the balance on deposits and inqueries (0 transactions).
+    # returns the amount withdrawn on withdrawls.
+    
+    result = 0
+    
+    transaction_type = ''
+    if transaction_amount > 0:
+        transaction_type = 'deposit'
+    elif transaction_amount < 0:
+        transaction_type = 'withdrawl'
+    else:
+        transaction_type = 'inquiry'
+
+    wallet_file = data_dir + os.sep + wallet_dir_name + os.sep + user_name + '-wallet.txt'
+
+    Path(os.path.dirname(wallet_file)).mkdir(parents=True, exist_ok=True)
+    file_mode = 'w+'
+    if os.path.isfile(wallet_file):
+        file_mode = 'r+'
+    with open(wallet_file, file_mode) as f:
+        file_data = f.read()
+        # print(file_data)
+        if file_data == '':
+            balance = float(0)
+        else:
+            balance = float(file_data.strip())
+        balance = int(balance)
+        if transaction_type == 'withdrawl':
+            if abs(transaction_amount) > balance:
+                transaction_amount = balance * -1
+                balance = 0
+            else:
+                balance += int(transaction_amount)
+            result = abs(int(transaction_amount))
+        else:
+            balance += int(transaction_amount)
+            result = balance
+
+        f.seek(0)
+        f.write(str(balance))
+        f.truncate()
+    
+    event_data = {
+        'user':user_name, 
+        'wallet_transaction':transaction_type, 
+        'transaction_amount': int(transaction_amount), 
+        'balance': balance, 
+        'transaction_comment': transaction_comment
+    }
+    create('wallet', event_data)
+    return result
+
     
 
 if __name__ == "__main__":
@@ -80,5 +141,7 @@ if __name__ == "__main__":
     # }
     # result = save_state('blackjack', 'james', myState)
     # print(result)
-    result_two = get_state('wallet','james')
-    print(result_two)
+    # result_two = get_state('wallet','james')
+    # print(result_two)
+    result_three = wallet_transaction('james', 0, 'blackjack wager')
+    print('wallet:', str(result_three))

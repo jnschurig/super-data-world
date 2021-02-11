@@ -64,12 +64,12 @@ def blackjack_wrapper(user, command):
         if command == 'status':
             result = str(current_state)
         else: # play the game
-            print('help me Im stuck', current_state['result'])
+            # print('help me Im stuck', current_state['result'])
             if current_state['result'] == '':
                 # continue existing game
                 new_state = blackjack.play(current_state, command)
             else:
-                new_state = blackjack.play('', command)
+                new_state = blackjack.play({'status':'none'}, command)
             world_events.save_state('blackjack', user, new_state)
             result = new_state
     else:
