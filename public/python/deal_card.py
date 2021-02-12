@@ -1,6 +1,6 @@
 import random, os, json, re
 from pathlib import Path
-import world_events
+# import world_events
 
 deck = [
      'A-h'  ,'A-c'  ,'A-d'  ,'A-s' 

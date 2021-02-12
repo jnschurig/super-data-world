@@ -1,12 +1,11 @@
 import sys
-import deal_card
+import deal_card, world_events
 
 valid_actions = [
     'hit',
     'stand',
     'doubledown',
-    'split',
-    'reset'
+    'split'
 ]
 
 default_board_state = {
@@ -26,7 +25,7 @@ default_return = 1
 
 dealer_max = 17
 
-deck_count
+deck_count = 8
 
 test_hand = '2-h,7-s,A-d,A-s' # should return 13
 
@@ -166,13 +165,49 @@ def play(board_state, player_action):
         else:
             board_state["result"] = 'lose'
 
-    # Bust conditions for dealer and player
-
-    # Compare dealer and player where not bust.
-
-
     return board_state
-    # get first card
+    
+def session(user, command, wager):
+    print('start session I guess')
+    if wager < 0:
+        wager = 0
+    # Get session
+    is_new = False
+    current_session = world_events.get_state('blackjack', user)
+    if not current_session['status'] == 'saved':
+        # session does not exist. Set deafult board state.
+        is_new = True
+        current_session = default_board_state
+    elif not current_session['result'] == '':
+        # last session is done.
+        is_new = True
+        current_session = default_board_state
+
+    if command == 'reset':
+        # Save "blank" board state as current state.
+        current_session = default_board_state
+        world_events.save_state('blackjack', user, current_session)
+    elif not command == 'status':
+        if is_new:
+            if wager > 0:
+                # Only withdraw from wallet if wager > 0
+                wager = world_events.wallet_transaction(user, wager * -1, 'blackjack-wager')
+            current_session['wager'] = wager
+        # Play the game
+        # play(board_state, player_action)
+        current_session = play(current_session, command)
+        # Evaluate result.
+        if not current_session['result'] == '':
+            # The match has ended. Check win, push, lose.
+
+
+    # else:
+    #     current_session['wager'] = wager
+
+
+    return current_session
+
+
 
 if __name__ == '__main__':
     myCard = deal_card.simple(deck_count)
@@ -180,6 +215,10 @@ if __name__ == '__main__':
     # print('hand value: ', hand_value(test_hand))
     # sys.exit('temp breaking point')
     # print(myCard, '=', myVal)
+    print('trying out the new loop')
+    current_state = session('noob','hit',10)
+    print(current_state)
+    sys.exit()
     current_state = play({'state': 'blackjack', 'user': 'moo', 'status': 'none', 'result': ''}, '')
     while current_state['result'] == '':
         print(current_state)
@@ -189,3 +228,4 @@ if __name__ == '__main__':
             player_action = input('Action: ')
         current_state = play(current_state, player_action)
     print(current_state)
+    
