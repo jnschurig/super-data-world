@@ -222,9 +222,64 @@ def session(user, command, wager):
 
 def render_result(board_state):
     render = ''
-    player_card_count = len(board_state['player_hand'].split(','))
-    dealer_card_count = len(board_state['dealer_hand'].split(','))
-    print(player_card_count, dealer_card_count)
+    char = {
+        'h': '♥',
+        'd': '♦',
+        'c': '♣',
+        's': '♠',
+        'br': '┘',
+        'bl': '└',
+        'tr': '┐',
+        'tl': '┌'
+    }
+
+    row_count = 11 # Max number of rows of text
+    idx = 0
+    row = []
+    while idx < row_count:
+        row.append('')
+        idx += 1
+    
+    # Assign values to each row.
+
+    row[1] = 'Dealer - ' + str(board_state['dealer_hand_val'])
+    for i in board_state['dealer_hand'].split(','):
+        card = i.split('-')
+        row[2] += char['tl'] + '---' + char['tr']
+        row[3] += '|' + card[0].ljust(2) + char[card[1]] + '|'
+        row[4] += char['bl'] + '---' + char['br']
+    
+    row[6] = board_state['user'] + ' - ' + str(board_state['player_hand_val'])
+    
+    for i in board_state['player_hand'].split(','):
+        card = i.split('-')
+        row[7] += char['tl'] + '---' + char['tr']
+        row[8] += '|' + card[0].ljust(2) + char[card[1]] + '|'
+        row[9] += char['bl'] + '---' + char['br']
+    
+    
+    result = board_state['result']
+    if result == 'win':
+        result = 'Win!'
+    elif result == 'push':
+        result = 'Push'
+    elif result == 'lose':
+        result = 'Lose'
+    row[10] = result 
+
+    # Center align every row of text.
+    longest_line = max(len(row[2]), len(row[7]))
+    row[0] = ''.rjust(longest_line, '-')
+    
+    idx = 0
+    for i in row:
+        row[idx] = i.rjust(int(longest_line/2) + int(len(i)/2))
+        idx += 1
+    
+    # Add new lines to each row and assign to the render.
+    for i in row:
+        render += i + '\n'
+        
     return render
 
 
@@ -254,7 +309,8 @@ if __name__ == '__main__':
             current_state = play(current_state, player_action)
         print(current_state)
     elif play_mode == 'render':
-        current_state = world_events.get_state('my user', 'blackjack')
+        current_state = world_events.get_state('blackjack', 'noob')
+        # print(current_state)
         print(render_result(current_state))
     else:
         wager = input('wager? ')
