@@ -82,79 +82,8 @@ def wallet_wrapper(user, command, value):
 
 # Need to debug this a bit more. Doesn't seem to update the state or do any playing at all. Just returns the old data.
 def blackjack_wrapper(user, command, wager):
-    app_name = 'blackjack'
     result = ''
-    valid_commands = ['hit', 'stand', 'doubledown', 'status', 'reset']
-    if command in valid_commands:
-        # Proceed
-        if command == 'reset':
-            # Do reset
-            world_events.reset_state(app_name, user)
-            command == 'status'
-
-        current_state = world_events.get_state(app_name, user)
-
-        if command == 'status':
-            result = str(current_state)
-        else: # play the game
-            # print('help me Im stuck', current_state['result'])
-            if current_state['result'] == '':
-                # continue existing game
-                # Check if command is doubledown
-                if command == 'doubledown':
-                    # Check if last action was not stand or doubledown
-                    # Also check if card count is exactly one.
-                    if not current_state['player_last_action'] in ['stand','doubledown'] and len(current_state['player_hand'].split(',')) == 1:
-                        # Now confirm that they actually have enough to wager...
-                        if wager > 0:
-                            player_balance = world_events.wallet_transaction(user, 0, app_name + '-confirming wager')
-                            if player_balance >= current_state['wager']:
-                                # Now withdraw current wager amount.
-                                confirm_wager = world_events.wallet_transaction(user, current_state['wager'] * -1, app_name + '-doubledown wager')
-                                current_state['wager'] += confirm_wager
-                            else:
-                                # Not enough balance to double down. Change command to hit
-                                command = 'hit'
-                new_state = blackjack.play(current_state, command)
-            else:
-                # print('wager:', str(wager))
-                if wager > 0:
-                    confirm_wager = world_events.wallet_transaction(user, wager * -1, app_name + '-starting wager')
-                else:
-                    confirm_wager = 0
-                # print('confirm_wager:', str(confirm_wager))
-                new_state = blackjack.play({'status':'none', 'wager': confirm_wager}, command)
-                # print('new_state[wager]:', str(new_state['wager']))
-                # Withdraw the wager
-
-            world_events.save_state(app_name, user, new_state)
-            result = new_state
-
-            match_result = new_state['result']
-            if not match_result == '':
-                # print('hi')
-                # push
-                if match_result == 'push':
-                    # Person gets the wager back.
-                    world_events.wallet_transaction(user, current_state['wager'], app_name + '-push return')
-                # win
-                elif match_result == 'win':
-                    # Person gets wager + wager * bet_return.
-                    winnings = current_state['wager'] + current_state['wager'] * current_state['bet_return']
-                    # print('wager:', str(current_state['wager']))
-                    # print('winnings:', str(winnings))
-                    test_value = world_events.wallet_transaction(user, winnings, app_name + '-winnings')
-                    # print('deposit result:', str(test_value))
-                # lose
-                else:
-                    # Deposit wager in house wallet.
-                    world_events.wallet_transaction(app_name + '-house', current_state['wager'], app_name + '-house gains from player ' + user)
-
-    else:
-        # Give a hint...
-        result = 'Valid blackjack commands:' + str(valid_commands) + '\n'
-        result += 'user: ' + user + ' command: ' + command
-    # {'player_hand_val': 18, 'dealer_hand_val': 26, 'player_hand': 'A-h,2-c,J-d,5-d', 'dealer_hand': '5-d,5-s,6-d,K-c', 'player_last_action': 'stand', 'dealer_last_action': 'stand', 'result': 'win', 'bet_return': 1, 'status': ''}
+    # Come back to this. I rebuilt this code as part of the blackjack script.
     
     return result
 

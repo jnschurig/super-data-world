@@ -4,8 +4,8 @@ import deal_card, world_events
 valid_actions = [
     'hit',
     'stand',
-    'doubledown',
-    'split'
+    'doubledown'
+    # 'split'
 ]
 
 default_board_state = {
@@ -17,7 +17,7 @@ default_board_state = {
     "dealer_last_action": "",
     "result": "",
     "bet_return": 1,
-    "status": "",
+    "status": "new",
     "wager": 0
 }
 
@@ -69,11 +69,11 @@ def hand_value(hand):
 def play(board_state, player_action):
     # To start, all that is needed is the bet
     # the user will be
-    wager = board_state['wager']
+    # wager = board_state['wager']
 
-    if board_state['status'] == 'none':
-        board_state = default_board_state
-        board_state['wager'] = wager
+    # if board_state['status'] == 'none':
+    #     board_state = default_board_state
+    #     board_state['wager'] = wager
     dealer_action = 'hit'
 
     board_state["bet_return"] = 1
@@ -152,8 +152,9 @@ def play(board_state, player_action):
         # Someone is going to win...
         elif player_bust:
             board_state["result"] = 'lose'
-        # Player is not bust. Check for blackjack
-        elif board_state["player_hand_val"] == 21:
+        # Player is not bust. Check for blackjack 
+        # For now, true blackjack is only two cards.
+        elif board_state["player_hand_val"] == 21 and len(board_state["player_hand"].split(',')) == 2:
             board_state["result"] = 'win'
             board_state["bet_return"] = 1.5
         # Player is still not bust. Check for dealer bust
@@ -168,12 +169,13 @@ def play(board_state, player_action):
     return board_state
     
 def session(user, command, wager):
-    print('start session I guess')
+    app_name = 'blackjack'
+    wager = int(wager)
     if wager < 0:
         wager = 0
     # Get session
     is_new = False
-    current_session = world_events.get_state('blackjack', user)
+    current_session = world_events.get_state(app_name, user)
     if not current_session['status'] == 'saved':
         # session does not exist. Set deafult board state.
         is_new = True
@@ -186,26 +188,44 @@ def session(user, command, wager):
     if command == 'reset':
         # Save "blank" board state as current state.
         current_session = default_board_state
-        world_events.save_state('blackjack', user, current_session)
+        world_events.save_state(app_name, user, current_session)
     elif not command == 'status':
         if is_new:
             if wager > 0:
                 # Only withdraw from wallet if wager > 0
-                wager = world_events.wallet_transaction(user, wager * -1, 'blackjack-wager')
+                wager = world_events.wallet_transaction(user, wager * -1, app_name + '-wager')
             current_session['wager'] = wager
+        if command == 'doubledown':
+            # Double the current wager
+            current_session['wager'] += world_events.wallet_transaction(user, current_session['wager'] * -1, app_name + '-doubledown')
         # Play the game
         # play(board_state, player_action)
         current_session = play(current_session, command)
         # Evaluate result.
         if not current_session['result'] == '':
             # The match has ended. Check win, push, lose.
-
-
-    # else:
-    #     current_session['wager'] = wager
-
-
+            # Also deposite winnings.
+            session_result = current_session['result']
+            winnings = 0
+            if session_result == 'win':
+                winnings = current_session['wager'] + current_session['wager'] * current_session['bet_return']
+            if session_result == 'push':
+                winnings = current_session['wager']
+            else:
+                winnings = 0
+            world_events.wallet_transaction(user, winnings, app_name + '-winnings')
+            current_session['winnings'] = winnings
+    # All done here
+    # save_state(state_name, user_name, state_data)
+    world_events.save_state(app_name, user, current_session)
     return current_session
+
+def render_result(board_state):
+    render = ''
+    player_card_count = len(board_state['player_hand'].split(','))
+    dealer_card_count = len(board_state['dealer_hand'].split(','))
+    print(player_card_count, dealer_card_count)
+    return render
 
 
 
@@ -215,17 +235,33 @@ if __name__ == '__main__':
     # print('hand value: ', hand_value(test_hand))
     # sys.exit('temp breaking point')
     # print(myCard, '=', myVal)
-    print('trying out the new loop')
-    current_state = session('noob','hit',10)
-    print(current_state)
-    sys.exit()
-    current_state = play({'state': 'blackjack', 'user': 'moo', 'status': 'none', 'result': ''}, '')
-    while current_state['result'] == '':
-        print(current_state)
-        player_action = input('Action: ')
-        while player_action not in valid_actions:
-            print('Valid actions:', valid_actions)
+    
+    
+    # print('trying out the new loop')
+    # current_state = session('noob','hit',10)
+    # print(current_state)
+    # sys.exit()
+    play_mode = input('session, play, or render: ').lower()
+    if play_mode == 'play':
+        current_state = default_board_state
+        current_state = play(default_board_state, 'hit')
+        while current_state['result'] == '':
+            print(current_state)
             player_action = input('Action: ')
-        current_state = play(current_state, player_action)
-    print(current_state)
+            while player_action not in valid_actions:
+                print('Valid actions:', valid_actions)
+                player_action = input('Action: ')
+            current_state = play(current_state, player_action)
+        print(current_state)
+    elif play_mode == 'render':
+        current_state = world_events.get_state('my user', 'blackjack')
+        print(render_result(current_state))
+    else:
+        wager = input('wager? ')
+        current_state = session('my user', 'reset', wager)
+        while current_state['result'] == '':
+            command = input('Command? ')
+            current_state = session('my user', command, wager)
+            print(current_state)
+    
     

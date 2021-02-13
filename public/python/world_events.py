@@ -66,13 +66,15 @@ def get_state(state_name, user_name):
 def save_state(state_name, user_name, state_data):
     state_data['state'] = state_name
     state_data['user'] = user_name
-    if state_data['status'] == '':
-        state_data['status'] = 'saved'
+    state_data['status'] = 'saved'
     output_file = data_dir + os.sep + state_dir_name + os.sep + state_name + os.sep + state_name + '_' + user_name + '.json'
 
     Path(os.path.dirname(output_file)).mkdir(parents=True, exist_ok=True)
-    with open(output_file, 'w', encoding='utf-8') as f:
-        json.dump(state_data, f, ensure_ascii=False, indent=4)
+    try:
+        with open(output_file, 'w', encoding='utf-8') as f:
+            json.dump(state_data, f, ensure_ascii=False, indent=4)
+    except:
+        state_data['status'] = 'error'
 
     create('savestate-' + state_name, state_data)
     return output_file
