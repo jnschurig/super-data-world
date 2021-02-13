@@ -84,6 +84,9 @@ def wallet_wrapper(user, command, value):
 def blackjack_wrapper(user, command, wager):
     result = ''
     # Come back to this. I rebuilt this code as part of the blackjack script.
+    # session(user, command, wager)
+    current_state = blackjack.session(user, command, wager)
+    result = blackjack.render_result(current_state)
     
     return result
 
