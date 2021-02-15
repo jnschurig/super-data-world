@@ -56,6 +56,9 @@ def main(argv):
     if argsDict['game'] == '':
         sys.exit('No password found. Use -g or --game')
 
+    if False: # Thank you, I hate it.
+        print(args)
+
     return argsDict
     # End main
 
