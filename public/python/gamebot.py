@@ -1,3 +1,5 @@
+# Remember to pip install twitchio
+
 import os, json
 from twitchio.ext import commands
 import play_game
