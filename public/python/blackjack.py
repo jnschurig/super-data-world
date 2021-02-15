@@ -208,11 +208,9 @@ def session(user, command, wager):
             session_result = current_session['result']
             winnings = 0
             if session_result == 'win':
-                winnings = current_session['wager'] + current_session['wager'] * current_session['bet_return']
-            if session_result == 'push':
+                winnings = current_session['wager'] + (current_session['wager'] * current_session['bet_return'])
+            elif session_result == 'push':
                 winnings = current_session['wager']
-            else:
-                winnings = 0
             world_events.wallet_transaction(user, winnings, app_name + '-winnings')
             current_session['winnings'] = winnings
     # All done here
