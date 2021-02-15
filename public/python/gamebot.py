@@ -20,7 +20,7 @@ async def event_ready():
     'Called once when the bot goes online.'
     print(f"{creds['user']} is online!")
     ws = bot._ws  # this is only needed to send messages within event_ready
-    await ws.send_privmsg(creds['channel'], f"/me has landed!")
+    await ws.send_privmsg(creds['channel'], f"/me is open for business!")
 
 @bot.event
 async def event_message(ctx):
@@ -41,12 +41,12 @@ async def test(ctx):
 async def twitch_bj(ctx):
     #blackjack_wrapper(user, command, wager)
     command_args = ctx.content.split(' ')
+    print(command_args)
     if len(command_args) > 2:
-        print(command_args)
-        result = play_game.blackjack_wrapper(ctx.author.name.lower(), command_args[1], command_args[2])
+        await ctx.send(play_game.blackjack_wrapper(ctx.author.name.lower(), command_args[1], command_args[2], True))
     else:
-        result = play_game.blackjack_wrapper(ctx.author.name.lower(), command_args[1], 0)
-    await ctx.send(result)
+        await ctx.send(play_game.blackjack_wrapper(ctx.author.name.lower(), command_args[1], 0, True))
+    # await ctx.send(result)
 
 
 # bot.py

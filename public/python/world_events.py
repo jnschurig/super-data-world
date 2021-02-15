@@ -76,7 +76,7 @@ def save_state(state_name, user_name, state_data):
     except:
         state_data['status'] = 'error'
 
-    create('savestate-' + state_name, state_data)
+    # create('savestate-' + state_name, state_data)
     return output_file
 
 def reset_state(state_name, user_name):

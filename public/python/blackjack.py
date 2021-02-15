@@ -4,8 +4,8 @@ import deal_card, world_events
 valid_actions = [
     'hit',
     'stand',
-    'doubledown'
-    # 'split'
+    'doubledown',
+    'reset'
 ]
 
 default_board_state = {
@@ -78,6 +78,8 @@ def play(board_state, player_action):
 
     board_state["bet_return"] = 1
     board_state["result"] = ''
+    # if not board_state['result'] == '':
+    #     board_state = default_board_state
 
     if player_action == 'doubledown':
         # Check to see if it's ok to do doubledown.
@@ -188,7 +190,8 @@ def session(user, command, wager):
     if command == 'reset':
         # Save "blank" board state as current state.
         current_session = default_board_state
-        world_events.save_state(app_name, user, current_session)
+        is_new = True 
+        # world_events.save_state(app_name, user, current_session)
     elif not command == 'status':
         if is_new:
             if wager > 0:
@@ -218,66 +221,115 @@ def session(user, command, wager):
     world_events.save_state(app_name, user, current_session)
     return current_session
 
-def render_result(board_state):
+def render_result(board_state, is_single_line):
+    is_single = False
+    if is_single_line:
+        is_single = True
     render = ''
-    char = {
-        'h': '♥',
-        'd': '♦',
-        'c': '♣',
-        's': '♠',
-        'br': '┘',
-        'bl': '└',
-        'tr': '┐',
-        'tl': '┌'
-    }
+    if board_state['player_hand'] == '':
+        render = 'Dealer: [] = 0 \n'
+        render += '@' + board_state['user'] + ' [] = 0'
+    elif is_single:
+        char = {
+            'h': '♥️',
+            'd': '♦️',
+            'c': '♣️',
+            's': '♠️'
+        }
 
-    row_count = 11 # Max number of rows of text
-    idx = 0
-    row = []
-    while idx < row_count:
-        row.append('')
-        idx += 1
-    
-    # Assign values to each row.
-
-    row[1] = 'Dealer - ' + str(board_state['dealer_hand_val'])
-    for i in board_state['dealer_hand'].split(','):
-        card = i.split('-')
-        row[2] += char['tl'] + '---' + char['tr']
-        row[3] += '|' + card[0].ljust(2) + char[card[1]] + '|'
-        row[4] += char['bl'] + '---' + char['br']
-    
-    row[6] = board_state['user'] + ' - ' + str(board_state['player_hand_val'])
-    
-    for i in board_state['player_hand'].split(','):
-        card = i.split('-')
-        row[7] += char['tl'] + '---' + char['tr']
-        row[8] += '|' + card[0].ljust(2) + char[card[1]] + '|'
-        row[9] += char['bl'] + '---' + char['br']
-    
-    
-    result = board_state['result']
-    if result == 'win':
-        result = 'Win!'
-    elif result == 'push':
-        result = 'Push'
-    elif result == 'lose':
-        result = 'Lose'
-    row[10] = result 
-
-    # Center align every row of text.
-    longest_line = max(len(row[2]), len(row[7]))
-    row[0] = ''.rjust(longest_line, '-')
-    
-    idx = 0
-    for i in row:
-        row[idx] = i.rjust(int(longest_line/2) + int(len(i)/2))
-        idx += 1
-    
-    # Add new lines to each row and assign to the render.
-    for i in row:
-        render += i + '\n'
+        render += 'Dealer: '
+        # Start assembling cards...
+        for i in board_state['dealer_hand'].split(','):
+            card = i.split('-')
+            use_card = '[' + card[0] + char[card[1]] + ']'
+            render += use_card
         
+        render += ' = ' + str(board_state['dealer_hand_val'])
+
+        render += ' | @' + board_state['user'] + ': '
+
+        for i in board_state['player_hand'].split(','):
+            card = i.split('-')
+            use_card = '[' + card[0] + char[card[1]] + ']'
+            render += use_card
+        
+        render += ' = ' + str(board_state['player_hand_val'])
+
+
+        if board_state['result'] == 'win':
+            render += ' | Win!'
+            if not board_state['winnings'] == 0:
+                render += ' wager + winnings = ' + str(board_state['winnings'])
+        elif board_state['result'] == 'lose':
+            render += ' | Lose...'
+            if not board_state['wager'] == 0:
+                render += ' lost wager = ' + str(board_state['wager'])
+        elif board_state['result'] == 'push':
+            render += ' | Push.'
+            if not board_state['wager'] == 0:
+                render += ' wager Returned = ' + str(board_state['wager'])
+
+
+
+    else:
+        char = {
+            'h': '♥',
+            'd': '♦',
+            'c': '♣',
+            's': '♠',
+            'br': '┘',
+            'bl': '└',
+            'tr': '┐',
+            'tl': '┌'
+        }
+        
+        row_count = 11 # Max number of rows of text
+        idx = 0
+        row = []
+        while idx < row_count:
+            row.append('')
+            idx += 1
+        
+        # Assign values to each row.
+
+        row[1] = 'Dealer - ' + str(board_state['dealer_hand_val'])
+        for i in board_state['dealer_hand'].split(','):
+            card = i.split('-')
+            row[2] += char['tl'] + '---' + char['tr']
+            row[3] += '|' + card[0].ljust(2) + char[card[1]] + '|'
+            row[4] += char['bl'] + '---' + char['br']
+        
+        row[6] = board_state['user'] + ' - ' + str(board_state['player_hand_val'])
+        
+        for i in board_state['player_hand'].split(','):
+            card = i.split('-')
+            row[7] += char['tl'] + '---' + char['tr']
+            row[8] += '|' + card[0].ljust(2) + char[card[1]] + '|'
+            row[9] += char['bl'] + '---' + char['br']
+        
+        
+        result = board_state['result']
+        if result == 'win':
+            result = 'Win!'
+        elif result == 'push':
+            result = 'Push'
+        elif result == 'lose':
+            result = 'Lose'
+        row[10] = result 
+
+        # Center align every row of text.
+        longest_line = max(len(row[2]), len(row[7]))
+        row[0] = ''.rjust(longest_line, '-')
+        
+        idx = 0
+        for i in row:
+            row[idx] = i.rjust(int(longest_line/2) + int(len(i)/2))
+            idx += 1
+        
+        # Add new lines to each row and assign to the render.
+        for i in row:
+            render += i + '\n'
+            
     return render
 
 
@@ -309,7 +361,7 @@ if __name__ == '__main__':
     elif play_mode == 'render':
         current_state = world_events.get_state('blackjack', 'noob')
         # print(current_state)
-        print(render_result(current_state))
+        print(render_result(current_state, True))
     else:
         wager = input('wager? ')
         current_state = session('my user', 'reset', wager)

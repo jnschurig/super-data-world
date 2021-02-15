@@ -84,12 +84,15 @@ def wallet_wrapper(user, command, value):
     return result
 
 # Need to debug this a bit more. Doesn't seem to update the state or do any playing at all. Just returns the old data.
-def blackjack_wrapper(user, command, wager):
+def blackjack_wrapper(user, command, wager, is_single_line):
     result = ''
+    is_single = False
+    if is_single_line:
+        is_single = True
     # Come back to this. I rebuilt this code as part of the blackjack script.
     # session(user, command, wager)
     current_state = blackjack.session(user, command, wager)
-    result = blackjack.render_result(current_state)
+    result = blackjack.render_result(current_state, is_single)
     
     return result
 
@@ -101,7 +104,7 @@ if __name__ == '__main__':
     if settingsDict['game'] == 'blackjack':
         if settingsDict['value'] < 0:
             settingsDict['value'] = 0
-        result = blackjack_wrapper(settingsDict['user'], settingsDict['command'], settingsDict['value'])
+        result = blackjack_wrapper(settingsDict['user'], settingsDict['command'], settingsDict['value'], True)
         print(result)
 
     elif settingsDict['game'] == 'wallet':
