@@ -99,6 +99,12 @@ def reset_state(state_name, user_name):
     create('reset-' + state_name, current_state)
     return reset_file
 
+def delete_state(state_name, user_name):
+    delete_file = data_dir + os.sep + state_dir_name + os.sep + state_name + os.sep + state_name + '_' + user_name + '.json'
+    if os.path.exists(delete_file):
+        os.remove(delete_file)
+    return delete_file
+    
 def wallet_transaction(user_name, transaction_amount, transaction_comment):
     # returns the balance on deposits and inqueries (0 transactions).
     # returns the amount withdrawn on withdrawls.

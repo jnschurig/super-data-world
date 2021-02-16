@@ -38,15 +38,26 @@ async def test(ctx):
     await ctx.send('test passed!')
 
 @bot.command(name='blackjack')
-async def twitch_bj(ctx):
+def twitch_bj(ctx):
     #blackjack_wrapper(user, command, wager)
     command_args = ctx.content.split(' ')
     print(command_args)
     if len(command_args) > 2:
-        await ctx.send(play_game.blackjack_wrapper(ctx.author.name.lower(), command_args[1], command_args[2], True))
+        ctx.send(play_game.blackjack_wrapper(ctx.author.name.lower(), command_args[1], command_args[2], True))
     else:
-        await ctx.send(play_game.blackjack_wrapper(ctx.author.name.lower(), command_args[1], 0, True))
+        ctx.send(play_game.blackjack_wrapper(ctx.author.name.lower(), command_args[1], 0, True))
     # await ctx.send(result)
+
+# @bot.command(name='blackjack')
+# async def twitch_bj(ctx):
+#     #blackjack_wrapper(user, command, wager)
+#     command_args = ctx.content.split(' ')
+#     print(command_args)
+#     if len(command_args) > 2:
+#         await ctx.send(play_game.blackjack_wrapper(ctx.author.name.lower(), command_args[1], command_args[2], True))
+#     else:
+#         await ctx.send(play_game.blackjack_wrapper(ctx.author.name.lower(), command_args[1], 0, True))
+#     # await ctx.send(result)
 
 
 # bot.py

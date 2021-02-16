@@ -4,8 +4,9 @@ import deal_card, world_events
 valid_actions = [
     'hit',
     'stand',
-    'doubledown',
-    'reset'
+    'doubledown'
+    # 'reset',
+    # 'status'
 ]
 
 default_board_state = {
@@ -176,6 +177,7 @@ def session(user, command, wager):
     if wager < 0:
         wager = 0
     # Get session
+    current_session = []
     current_session = world_events.get_state(app_name, user)
     # 'none' status indicates no save data.
     # result != '' indicates a previously finished game.
@@ -196,7 +198,11 @@ def session(user, command, wager):
 
     if command == 'reset':
         # Reset to default. Don't play the game.
-        current_session = default_board_state
+        # current_session = default_board_state
+        # This one v shouldn't work. It should be fine with this one ^
+        # current_session = world_events.save_state(app_name, user, default_board_state)
+        # Even that one ^ didn't work. So we are going to delete the state...
+        world_events.delete_state(app_name, user)
     elif command == 'status':
         print('status')
     else:
@@ -220,7 +226,7 @@ def session(user, command, wager):
         current_session['winnings'] = winnings
     # All done here
     # save_state(state_name, user_name, state_data)
-    current_session = world_events.save_state(app_name, user, current_session)
+    world_events.save_state(app_name, user, current_session)
     return current_session
 
 def render_result(board_state, is_single_line):
