@@ -85,16 +85,17 @@ def wallet_wrapper(user, command, value):
 
 # Need to debug this a bit more. Doesn't seem to update the state or do any playing at all. Just returns the old data.
 def blackjack_wrapper(user, command, wager, is_single_line):
-    result = ''
+    # result = ''
     is_single = False
     if is_single_line:
         is_single = True
     # Come back to this. I rebuilt this code as part of the blackjack script.
     # session(user, command, wager)
-    current_state = blackjack.session(user, command, wager)
-    result = blackjack.render_result(current_state, is_single)
+    # current_state = blackjack.session(user, command, wager)
+    # result = blackjack.render_result(current_state, is_single)
     
-    return result
+    # return result
+    return blackjack.render_result(blackjack.session(user, command, wager), is_single)
 
 
 

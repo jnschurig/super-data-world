@@ -17,7 +17,7 @@ default_board_state = {
     "dealer_last_action": "",
     "result": "",
     "bet_return": 1,
-    "status": "new",
+    "status": "",
     "wager": 0
 }
 
@@ -197,6 +197,8 @@ def session(user, command, wager):
     if command == 'reset':
         # Reset to default. Don't play the game.
         current_session = default_board_state
+    elif command == 'status':
+        print('status')
     else:
         # Check if command is double down and if the card count == 1. Then double the wager if so.
         if command == 'doubledown' and len(current_session['player_hand'].split(',')) == 1:
