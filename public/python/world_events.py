@@ -17,7 +17,7 @@ data_dir = scriptDir + os.sep + data_dir_name
 def create(event_name, event_data):
     # Date related variables
     now = datetime.now()
-    dirDate = now.strftime('%Y%m%d')
+    dirDate = now.strftime('%Y%m%d_%H00')
     hashSalt = now.strftime('%Y%m%d_%H%M%S_%f')
     eventDate = now.strftime('%Y-%m-%d %H:%M:%S.%f %z').strip()
 
@@ -76,8 +76,8 @@ def save_state(state_name, user_name, state_data):
     except:
         state_data['status'] = 'error'
 
-    # create('savestate-' + state_name, state_data)
-    return output_file
+    create('savestate-' + state_name, state_data)
+    return state_data
 
 def reset_state(state_name, user_name):
     default_state = {

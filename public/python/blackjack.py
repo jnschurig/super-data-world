@@ -176,49 +176,49 @@ def session(user, command, wager):
     if wager < 0:
         wager = 0
     # Get session
-    is_new = False
     current_session = world_events.get_state(app_name, user)
-    if not current_session['status'] == 'saved':
-        # session does not exist. Set deafult board state.
-        is_new = True
+    # 'none' status indicates no save data.
+    # result != '' indicates a previously finished game.
+    if current_session['status'] == 'none' or not current_session['result'] == '':
+        # Reset board state
         current_session = default_board_state
-    elif not current_session['result'] == '':
-        # last session is done.
-        is_new = True
-        current_session = default_board_state
+        current_session['user'] = user 
+        current_session['status'] = ''
+
+    if current_session['player_hand'] == '':
+        if wager > 0:
+            # wallet_transaction(user_name, transaction_amount, transaction_comment)
+            wager = world_events.wallet_transaction(user, wager * -1, app_name + '-initial wager')
+        current_session['wager'] = wager
+
+        # This is the only time we reset the wager.
+        # Otherwise we only carry it through from the loaded state.
 
     if command == 'reset':
-        # Save "blank" board state as current state.
+        # Reset to default. Don't play the game.
         current_session = default_board_state
-        is_new = True 
-        # world_events.save_state(app_name, user, current_session)
-    elif not command == 'status':
-        if is_new:
-            if wager > 0:
-                # Only withdraw from wallet if wager > 0
-                wager = world_events.wallet_transaction(user, wager * -1, app_name + '-wager')
-            current_session['wager'] = wager
-        if command == 'doubledown':
-            # Double the current wager
-            current_session['wager'] += world_events.wallet_transaction(user, current_session['wager'] * -1, app_name + '-doubledown')
+    else:
+        # Check if command is double down and if the card count == 1. Then double the wager if so.
+        if command == 'doubledown' and len(current_session['player_hand'].split(',')) == 1:
+            current_session['wager'] += world_events.wallet_transaction(user, current_session['wager'] * -1, app_name + '-doubledown wager')
         # Play the game
-        # play(board_state, player_action)
         current_session = play(current_session, command)
-        # Evaluate result.
-        if not current_session['result'] == '':
-            # The match has ended. Check win, push, lose.
-            # Also deposite winnings.
-            session_result = current_session['result']
-            winnings = 0
-            if session_result == 'win':
-                winnings = current_session['wager'] + (current_session['wager'] * current_session['bet_return'])
-            elif session_result == 'push':
-                winnings = current_session['wager']
-            world_events.wallet_transaction(user, winnings, app_name + '-winnings')
-            current_session['winnings'] = winnings
+
+    # Finished playing. Set 
+    if not current_session['result'] == '':
+        # The match has ended. Check win, push, lose.
+        # Also deposite winnings.
+        session_result = current_session['result']
+        winnings = 0
+        if session_result == 'win':
+            winnings = current_session['wager'] + (current_session['wager'] * current_session['bet_return'])
+        elif session_result == 'push':
+            winnings = current_session['wager']
+        world_events.wallet_transaction(user, winnings, app_name + '-winnings')
+        current_session['winnings'] = winnings
     # All done here
     # save_state(state_name, user_name, state_data)
-    world_events.save_state(app_name, user, current_session)
+    current_session = world_events.save_state(app_name, user, current_session)
     return current_session
 
 def render_result(board_state, is_single_line):
@@ -227,7 +227,7 @@ def render_result(board_state, is_single_line):
         is_single = True
     render = ''
     if board_state['player_hand'] == '':
-        render = 'Dealer: [] = 0 \n'
+        render = 'Dealer: [] = 0 | '
         render += '@' + board_state['user'] + ' [] = 0'
     elif is_single:
         char = {
