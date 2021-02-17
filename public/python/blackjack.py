@@ -9,26 +9,7 @@ valid_actions = [
     # 'status'
 ]
 
-default_board_state = {
-    "player_hand_val": 0,
-    "dealer_hand_val": 0,
-    "player_hand": "",
-    "dealer_hand": "",
-    "player_last_action": "",
-    "dealer_last_action": "",
-    "result": "",
-    "bet_return": 1,
-    "status": "",
-    "wager": 0
-}
-
-default_return = 1
-
-dealer_max = 17
-
 deck_count = 8
-
-test_hand = '2-h,7-s,A-d,A-s' # should return 13
 
 # Dealer max hand is 17
 def card_value(card, hand_total):
@@ -75,9 +56,12 @@ def play(board_state, player_action):
     # if board_state['status'] == 'none':
     #     board_state = default_board_state
     #     board_state['wager'] = wager
+    dealer_max = 17
+    default_return = 1
+    
     dealer_action = 'hit'
 
-    board_state["bet_return"] = 1
+    board_state["bet_return"] = default_return
     board_state["result"] = ''
     # if not board_state['result'] == '':
     #     board_state = default_board_state
@@ -173,6 +157,20 @@ def play(board_state, player_action):
     
 def session(user, command, wager):
     app_name = 'blackjack'
+
+    default_board_state = {
+        "player_hand_val": 0,
+        "dealer_hand_val": 0,
+        "player_hand": "",
+        "dealer_hand": "",
+        "player_last_action": "",
+        "dealer_last_action": "",
+        "result": "",
+        "bet_return": 1,
+        "status": "",
+        "wager": 0
+    }
+
     wager = int(wager)
     if wager < 0:
         wager = 0
@@ -198,9 +196,9 @@ def session(user, command, wager):
 
     if command == 'reset':
         # Reset to default. Don't play the game.
-        current_session = default_board_state
+        # current_session = default_board_state
         # This one v shouldn't work. It should be fine with this one ^
-        # current_session = world_events.save_state(app_name, user, default_board_state)
+        current_session = world_events.save_state(app_name, user, default_board_state)
         # Even that one ^ didn't work. So we are going to delete the state...
         # world_events.delete_state(app_name, user)
     elif command == 'status':
@@ -226,7 +224,8 @@ def session(user, command, wager):
         current_session['winnings'] = winnings
     # All done here
     # save_state(state_name, user_name, state_data)
-    world_events.save_state(app_name, user, current_session)
+    if command in valid_actions:
+        world_events.save_state(app_name, user, current_session)
     return current_session
 
 def render_result(board_state, is_single_line):
@@ -349,15 +348,27 @@ if __name__ == '__main__':
     # sys.exit('temp breaking point')
     # print(myCard, '=', myVal)
     
-    
+    clean_board_state = {
+        "player_hand_val": 0,
+        "dealer_hand_val": 0,
+        "player_hand": "",
+        "dealer_hand": "",
+        "player_last_action": "",
+        "dealer_last_action": "",
+        "result": "",
+        "bet_return": 1,
+        "status": "",
+        "wager": 0
+    }
+
     # print('trying out the new loop')
     # current_state = session('noob','hit',10)
     # print(current_state)
     # sys.exit()
     play_mode = input('session, play, or render: ').lower()
     if play_mode == 'play':
-        current_state = default_board_state
-        current_state = play(default_board_state, 'hit')
+        current_state = clean_board_state
+        current_state = play(clean_board_state, 'hit')
         while current_state['result'] == '':
             print(current_state)
             player_action = input('Action: ')

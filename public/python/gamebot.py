@@ -42,7 +42,9 @@ async def twitch_bj(ctx):
     #blackjack_wrapper(user, command, wager)
     command_args = ctx.content.split(' ')
     print(command_args)
-    if len(command_args) > 2:
+    if len(command_args) == 1:
+        result = 'Last board state' + play_game.blackjack_wrapper(ctx.author.name.lower() , 'status', 0, True)
+    elif len(command_args) > 2:
         result = play_game.blackjack_wrapper(ctx.author.name.lower(), command_args[1], command_args[2], True)
     else:
         result = play_game.blackjack_wrapper(ctx.author.name.lower(), command_args[1], 0, True)

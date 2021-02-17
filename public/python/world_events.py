@@ -49,6 +49,43 @@ def create(event_name, event_data):
 
 def get_state(state_name, user_name):
     # print('get_state')
+    # input_file = data_dir + os.sep + state_dir_name + os.sep + state_name + os.sep + state_name + '_' + user_name + '.json'
+    input_dir = data_dir + os.sep + event_dir_name + os.sep + state_name
+
+    default_state = {
+        "state": state_name,
+        "user": user_name,
+        "status": "none",
+        "result": ""
+    }
+
+    latest_file = ''
+    latest_timestamp = 0
+
+    with os.scandir(input_dir) as entries:
+        for entry in entries:
+            # This is one level down, which I know is empty of actual files.
+            # Moving to subdirectories.
+            if not os.path.isfile(entry.path):
+                # Scan sub directories...
+                with os.scandir(entry.path) as sub_entries:
+                    for entry in sub_entries:
+                        # Check if the statename and the user name are both in the file name.
+                        if state_name in entry.name and user_name in entry.name:
+                            # Iterate through each file looking for the latest modified time and setting the file if so.
+                            if entry.stat().st_mtime > latest_timestamp:
+                                latest_timestamp = entry.stat().st_mtime
+                                latest_file = entry.path
+    
+    current_state = default_state
+    if not latest_file == '': # We have a valid file...
+        with open(latest_file, 'r', encoding='utf-8') as f:
+            current_state = json.load(f)
+            f.close()
+    return current_state
+
+def get_state2(state_name, user_name):
+    # print('get_state')
     input_file = data_dir + os.sep + state_dir_name + os.sep + state_name + os.sep + state_name + '_' + user_name + '.json'
 
     default_state = {
@@ -78,7 +115,7 @@ def save_state(state_name, user_name, state_data):
     except:
         state_data['status'] = 'error'
 
-    create('savestate-' + state_name, state_data)
+    create(state_name, state_data)
     return state_data
 
 def reset_state(state_name, user_name):
@@ -179,9 +216,10 @@ if __name__ == "__main__":
     # }
     # result = save_state('blackjack', 'james', myState)
     # print(result)
-    # result_two = get_state('wallet','james')
-    # print(result_two)
-    result_three = wallet_transaction('james', 100 * -1, 'blackjack wager')
-    print('wallet:', str(result_three))
+    result_two = get_state('blackjack','reaif')
+    print(result_two)
+    # print(result_two['event_date'])
+    # result_three = wallet_transaction('james', 100 * -1, 'blackjack wager')
+    # print('wallet:', str(result_three))
     # result_four = reset_state('blackjack','james')
     # print(result_four)
