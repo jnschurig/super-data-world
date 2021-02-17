@@ -61,6 +61,7 @@ def get_state(state_name, user_name):
     if os.path.exists(input_file):
         with open(input_file, 'r', encoding='utf-8') as f:
             current_state = json.load(f)
+            f.close()
     return current_state
 
 def save_state(state_name, user_name, state_data):
@@ -73,6 +74,7 @@ def save_state(state_name, user_name, state_data):
     try:
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(state_data, f, ensure_ascii=False, indent=4)
+            f.close()
     except:
         state_data['status'] = 'error'
 
@@ -99,11 +101,11 @@ def reset_state(state_name, user_name):
     create('reset-' + state_name, current_state)
     return reset_file
 
-def delete_state(state_name, user_name):
-    delete_file = data_dir + os.sep + state_dir_name + os.sep + state_name + os.sep + state_name + '_' + user_name + '.json'
-    if os.path.exists(delete_file):
-        os.remove(delete_file)
-    return delete_file
+# def delete_state(state_name, user_name):
+#     delete_file = data_dir + os.sep + state_dir_name + os.sep + state_name + os.sep + state_name + '_' + user_name + '.json'
+#     if os.path.exists(delete_file):
+#         os.remove(delete_file)
+#     return delete_file
     
 def wallet_transaction(user_name, transaction_amount, transaction_comment):
     # returns the balance on deposits and inqueries (0 transactions).

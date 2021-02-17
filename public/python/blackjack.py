@@ -198,11 +198,11 @@ def session(user, command, wager):
 
     if command == 'reset':
         # Reset to default. Don't play the game.
-        # current_session = default_board_state
+        current_session = default_board_state
         # This one v shouldn't work. It should be fine with this one ^
         # current_session = world_events.save_state(app_name, user, default_board_state)
         # Even that one ^ didn't work. So we are going to delete the state...
-        world_events.delete_state(app_name, user)
+        # world_events.delete_state(app_name, user)
     elif command == 'status':
         print('status')
     else:
