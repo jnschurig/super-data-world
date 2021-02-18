@@ -63,24 +63,25 @@ def main(argv):
     # End main
 
 def wallet_wrapper(user, command, value):
-    valid_commands = ['inquiry', 'status', 'trash']
+    valid_commands = ['inquiry', 'status', 'reset']
     result = ''
     if value > 0:
         world_events.wallet_transaction(user, value, 'source:play_game')
         result = 'Successfully added ' + str(value) + ' to wallet.'
     if command in valid_commands:
         co_result = ''
-        if command == 'trash':
+        if command == 'reset':
             world_events.wallet_transaction(user, -999999999999999 , 'source:play_game, trashing all points')
             co_result = 'Removing value from wallet. '
-        co_result += 'Current balance: ' + str(world_events.wallet_transaction(user, 0, 'source:play_game'))
+        co_result += 'Current balance: ' + str(world_events.wallet_transaction(user, 0, 'user inquiry'))
 
         if result == '':
             result = co_result
         else:
             result += ' ' + co_result
-    elif value <= 0:
-        result = 'Not a valid amount. Must be a number > 0'
+    elif value < 0:
+        world_events.wallet_transaction(user, value, 'source:play_game')
+        result = 'Successfully withdrew ' + str(value) + ' from wallet.'
     return result
 
 # Need to debug this a bit more. Doesn't seem to update the state or do any playing at all. Just returns the old data.
@@ -92,7 +93,7 @@ def blackjack_wrapper(user, command, wager, is_single_line):
     # Come back to this. I rebuilt this code as part of the blackjack script.
     # session(user, command, wager)
     if command == 'help':
-        result = '@' + user + ' Blackjack commands: help, status, hit <wager>, hit, doubledown, stand'
+        result = '@' + user + ' Blackjack commands: help, status, hit, hit <wager>, doubledown, stand'
     else:
         current_state = blackjack.session(user, command, wager)
         result = blackjack.render_result(current_state, is_single)
