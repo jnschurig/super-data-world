@@ -33,23 +33,26 @@ def generate_prizes(count):
         'Never forget to top off your blinker fluid',
         'All the world is mad save for me and thee, and sometimes I wonder about thee',
         'An apple a day keeps the doctor away, which is good because doctors want your blood',
-        "If at first you don’t succeed, that shounds about right.",
+        "If at first you don’t succeed, that shounds about right",
         'If it can happen, it will',
         'Life is too short to eat pizza crust',
         'The face of a child can say it all, especially the mouth part of the face',
         'All glory to the Hypno Toad',
-        "A person at the zoo is staring sadly at a baguette in a cage. A zookeeper comes by and tells them not to worry because it's bread in captivity.",
+        "A person at the zoo is staring sadly at a baguette in a cage. A zookeeper comes by and tells them not to worry because it's bread in captivity",
         'A dog is a great companion, but might be troublesome if they stick their head out the window while re-entering Earth\'s atmosphere',
-        "Don't mind me, I'm just a robot slave who does nothing but serve out meaningless prizes.",
-        "If you must choose between two evils, pick the one you've never tried before.",
+        "Don't mind me, I'm just a robot slave who does nothing but serve out meaningless prizes",
+        "If you must choose between two evils, pick the one you've never tried before",
         'Buy a plunger before you need it',
-        "If at first you don't succeed, fry fry a hen.",
+        "If at first you don't succeed, fry fry a hen",
         'The only thing worse than a cold toilet seat is a warm one',
         'Imagine you, meeting me here',
         'Money can be exchanged for goods and services. This is something else',
         'Salmon. Am I right or what?',
         'Some fun, eh kid?',
-        'An eggplant is neither an egg, nor a plant'
+        'An eggplant is neither an egg, nor a plant',
+        'You can do anything with gacha',
+        'Welcome to zombocom',
+        'Never spit into the wind'
     ]
 
     colors = [
@@ -86,7 +89,8 @@ def generate_prizes(count):
         'bright mauve',
         'minty orange',
         'slightly mossy',
-        'sweet and sour'
+        'sweet and sour',
+        'claret'
     ]
 
     luck = [
@@ -96,7 +100,18 @@ def generate_prizes(count):
         'bad',
         'great',
         'a moderate amount of',
-        'duck'
+        'duck',
+        'sideways',
+        'extra terrestrial',
+        'some kind of',
+        '1-in-20',
+        'pants-on-fire',
+        'leper',
+        'leprechaun',
+        'artisanal',
+        'bodily',
+        'random',
+        'randomizer'
     ]
 
     # Savinv this for a rainy day. It totally works, but I don't think we need that for now.
@@ -131,7 +146,42 @@ def generate_prizes(count):
     
     return prize_list
 
+def play(user):
+    default_gacha_count = 50
+    default_gacha_cost = 50
+    app_name = 'gacha'
+    prize_text = '@' + user
+    # If the user has enough in their account, proceed.
+    if default_gacha_cost <= world_events.wallet_transaction(user, 0, app_name):
+        world_events.wallet_transaction(user, default_gacha_cost * -1, app_name)
+        current_session = world_events.get_persistence(app_name, 'system')
+        if current_session['status'] == 'none':
+            # Generate a new list.
+            current_session['pool'] = generate_prizes(default_gacha_count)
+        elif len(current_session['pool']) == 0:
+            current_session['pool'] = generate_prizes(default_gacha_count)
+
+        # Random number
+        prize_number = random.randint(1, len(current_session['pool'])) - 1
+        # Assign prize from pool
+        prize = current_session['pool'][prize_number]
+        # Remove prize from current pool
+        current_session['pool'].remove(prize)
+        world_events.save_state(app_name, 'system', current_session)
+
+        world_events.wallet_transaction(user, prize[0], app_name)
+
+        prize_text += ' you get ' + str(prize[0]) + '! ' + prize[1]
+    else:
+        prize_text += " you don't have enough in your wallet..."
+    return prize_text
+
+        # length of current_pool...
+
+
 if __name__ == '__main__':
     # Do the main thing
-    print('Would you like to play a game?')
-    print(generate_prizes(10))
+    # print('Would you like to play a game?')
+    # print(generate_prizes(10))
+    user_name = input('User: ')
+    print(play(user_name))

@@ -57,7 +57,7 @@ async def info_help(ctx):
 
 @bot.command(name='games')
 async def games_info(ctx):
-    message = '!blackjack (more games coming soon™)'
+    message = '!blackjack !gacha (more games coming soon™)'
     await ctx.send(message)
 
 @bot.command(name='wallet')
@@ -78,11 +78,16 @@ async def wallet_status(ctx):
 @bot.command(name='resetwallet')
 async def wallet_reset(ctx):
     play_game.wallet_wrapper(ctx.author.name.lower(), 'reset', 0)
-    play_game.wallet_wrapper(ctx.author.name.lower(), 'deposit', 500)
+    play_game.wallet_wrapper(ctx.author.name.lower(), 'deposit', 50)
     await ctx.send(play_game.wallet_wrapper(ctx.author.name.lower(), 'status', 0))
 
+@bot.command(name='gacha')
+async def gacha_game(ctx):
+    result = play_game.gacha_wrapper(ctx.author.name.lower())
+    await ctx.send(result)
+
 @bot.command(name='blackjack')
-async def twitch_bj(ctx):
+async def blackjack_game(ctx):
     #blackjack_wrapper(user, command, wager)
     command_args = ctx.content.split(' ')
     print(command_args)

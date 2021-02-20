@@ -1,5 +1,5 @@
 import sys, getopt
-import blackjack, world_events
+import blackjack, world_events, gachaball
 
 valid_games = [
     'blackjack',
@@ -101,6 +101,10 @@ def blackjack_wrapper(user, command, wager, is_single_line):
     return result
     # return blackjack.render_result(blackjack.session(user, command, wager), is_single)
 
+def gacha_wrapper(user, command, value):
+    result = gachaball.play(user)
+    return result
+
 
 
 if __name__ == '__main__':
@@ -114,5 +118,9 @@ if __name__ == '__main__':
 
     elif settingsDict['game'] == 'wallet':
         result = wallet_wrapper(settingsDict['user'], settingsDict['command'], settingsDict['value'])
+        print(result)
+
+    elif settingsDict['game'] == 'gacha':
+        result = gacha_wrapper(settingsDict['user'], settingsDict['command'], settingsDict['value'])
         print(result)
     # print(settingsDict)

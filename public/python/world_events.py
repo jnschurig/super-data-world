@@ -84,7 +84,7 @@ def get_state(state_name, user_name):
             f.close()
     return current_state
 
-def get_state2(state_name, user_name):
+def get_persistence(state_name, user_name):
     # print('get_state')
     input_file = data_dir + os.sep + state_dir_name + os.sep + state_name + os.sep + state_name + '_' + user_name + '.json'
 
