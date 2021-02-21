@@ -51,8 +51,11 @@ def generate_prizes(count):
         'Some fun, eh kid?',
         'An eggplant is neither an egg, nor a plant',
         'You can do anything with gacha',
-        'Welcome to zombocom',
-        'Never spit into the wind'
+        # 'Welcome to zombocom',
+        'Never spit into the wind',
+        "Don't start none, won't be none",
+        "One man's trash is another man's last minute Christmas gift",
+        "My best advice isn't good enough"
     ]
 
     colors = [
@@ -111,7 +114,12 @@ def generate_prizes(count):
         'artisanal',
         'bodily',
         'random',
-        'randomizer'
+        'randomizer',
+        'ambiguous',
+        'perfect',
+        'profound',
+        'craptastic',
+        'inconvenient'
     ]
 
     # Savinv this for a rainy day. It totally works, but I don't think we need that for now.
