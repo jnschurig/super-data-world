@@ -102,7 +102,10 @@ def blackjack_wrapper(user, command, wager, is_single_line):
     # return blackjack.render_result(blackjack.session(user, command, wager), is_single)
 
 def gacha_wrapper(user, command, value):
-    result = gachaball.play(user)
+    if command.lower() == 'help':
+        result = 'Spend 50 to get a random prize. Type "!gacha" to play.'
+    else: 
+        result = gachaball.play(user)
     return result
 
 

@@ -49,7 +49,7 @@ async def about_me(ctx):
 
 @bot.command(name='info')
 async def info_help(ctx):
-    message = 'Play !games and check your !wallet. Use !resetwallet get started or set your current balance to 500.'
+    message = 'Play !games and check your !wallet. Use !resetwallet get started or set your current balance to 50.'
     command_args = ctx.content.split(' ')
     if len(command_args) > 1:
         message = '@' + command_args[1] + ' ' + message
@@ -66,14 +66,17 @@ async def wallet_status(ctx):
     command_args = ctx.content.split(' ')
     if len(command_args) == 1:
         message = '@' + ctx.author.name + ' ' + play_game.wallet_wrapper(ctx.author.name.lower(), 'status', 0)
+        await ctx.send(message)
     elif ctx.author.is_mod:
         if len(command_args) == 3:
             message = '@' + command_args[1] + ' ' + play_game.wallet_wrapper(command_args[1], 'mod transaction', int(command_args[2]))
+            await ctx.send(message)
         else:
             message = 'Usage: !wallet <user> <amount>'
+            await ctx.send(message)
     else:
         message = 'Must be a mod for advanced usage of !wallet command'
-    await ctx.send(message)
+    
 
 @bot.command(name='resetwallet')
 async def wallet_reset(ctx):
@@ -83,7 +86,7 @@ async def wallet_reset(ctx):
 
 @bot.command(name='gacha')
 async def gacha_game(ctx):
-    result = play_game.gacha_wrapper(ctx.author.name.lower())
+    result = play_game.gacha_wrapper(ctx.author.name.lower(), 'play', 0)
     await ctx.send(result)
 
 @bot.command(name='blackjack')
@@ -109,14 +112,17 @@ async def shut_me_down(ctx):
         if len(command_args) > 1:
             if command_args[1].lower() == 'please':
                 message = 'Goodbye :('
+                await ctx.send(message)
                 do_shutdown = True
             else:
                 message = "I don't know what you mean."
+                await ctx.send(message)
         else:
             message = "You didn't say the magic word."
+            await ctx.send(message)
     else:
         message = 'You must be very special to run this command.'
-    await ctx.send(message)
+    
     if do_shutdown:
         sys.exit('Received shutdown command')
 

@@ -84,7 +84,7 @@ def generate_prizes(count):
         'troubling',
         'nasty green',
         'purplish grey',
-        'red pink',
+        'red-pink',
         'dark mustard',
         'bordeaux',
         'taupe',
@@ -93,7 +93,8 @@ def generate_prizes(count):
         'minty orange',
         'slightly mossy',
         'sweet and sour',
-        'claret'
+        'claret',
+        'mud'
     ]
 
     luck = [
