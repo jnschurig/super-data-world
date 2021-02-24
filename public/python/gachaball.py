@@ -13,7 +13,7 @@ def generate_prizes(count):
     # prize_cost = 50
     # starting_number = 50
     prizes = {}
-    prizes['value'] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+    prizes['value'] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 115, 135]
     prizes['fluff'] = [
         '{saying}',
         'Your lucky color is {color}',
