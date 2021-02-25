@@ -57,7 +57,7 @@ def render_map(board):
     row = []
     row.append(char['tl'])
     while x < board['length']:
-        row.append('-')
+        row.append('--')
         x += 1
     row.append(char['tr'])
     render.append(row)
@@ -68,7 +68,7 @@ def render_map(board):
         row = []
         row.append('|')
         while x < board['length']:
-            row.append(' ')
+            row.append('  ')
             x += 1
         row.append('|')
         render.append(row)
@@ -79,7 +79,7 @@ def render_map(board):
     row.append(char['bl'])
     x = 0
     while x < board['length']:
-        row.append('-')
+        row.append('--')
         x += 1
     row.append(char['br'])
     render.append(row)
@@ -88,7 +88,7 @@ def render_map(board):
 
     # Iterate through the rows and columns and replace empty characters with a circle.
     for i in board['prizes']:
-        render[i['y']][i['x']] = 'X'
+        render[i['y']][i['x']] = '[]'
 
     for i in render:
         # now in a row
