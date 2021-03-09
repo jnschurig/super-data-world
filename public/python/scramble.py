@@ -1,11 +1,16 @@
 import random, re
+import world_events
+
+app_name = 'scramble'
+
+
 
 def generate_prize(length, height):
     values = [10, 100, 500]
     multiplier_range = [1, 5]
     prize = {
-        'x': random.randint(1, length-1),
-        'y': random.randint(1, height-1),
+        'x': random.randint(2, length-1),
+        'y': random.randint(2, height-1),
         'value': values[random.randint(1, len(values)) - 1] * multiplier_range[random.randint(1, len(multiplier_range)) - 1]
     }
     return prize
@@ -16,6 +21,7 @@ def generate_board(length, height, density):
     board['length'] = length
     board['height'] = height 
     board['prizes'] = []
+    board['players'] = []
 
     i = 0
     while i <= density:
@@ -40,6 +46,47 @@ def generate_board(length, height, density):
 
     return board
 
+def play(user, move):
+    
+    current_state = world_events.get_persistence(app_name, 'system')
+    if current_state['result'] in ['', 'finished']:
+        # Start a new state.
+        current_state = generate_board(15, 15, 10)
+        current_state['result'] = 'in progress'
+    world_events.save_state(app_name, 'system', current_state)
+    
+def register_player(user):
+    current_state = world_events.get_persistence(app_name, 'system')
+    if current_state['result'] == 'in progress':
+        # Check if user is in the list of users.
+        if user not in current_state['players']:
+            current_state['players'].append(user)
+            # Calculate distance between x and either wall, and y and either floor / ceiling
+            # right wall
+            # 1 = left, 2 = top, 3 = right, 4 = bottom
+            surface_index = random.randint(1, 4)
+            if surface_index % 2 == 1:
+                # Set random vertical position
+                starting_y = random.randint(1, current_state['height'])
+                if surface_index <= 2:
+                    # is left wall
+                    starting_x = 1
+                else:
+                    # is right wall
+                    starting_x = current_state['length']
+            else:
+                # set horizontal position
+                starting_x = random.randint(1, current_state['length'])
+                if surface_index <= 2:
+                    # is top wall
+                    starting_y = 1
+                else:
+                    # is bottom wall
+                    starting_y = current_state['height']
+            starting_position = [starting_x, starting_y]
+            print(starting_position)
+
+
 def render_map(board):
     result = ''
     char = {
@@ -63,7 +110,7 @@ def render_map(board):
     render.append(row)
     # First row done. Now fill an empty grid inside.
     
-    while y <= board['height']:
+    while y < board['height']:
         x = 0
         row = []
         row.append('|')
@@ -86,7 +133,7 @@ def render_map(board):
     # First row done. Now fill an empty grid inside.
     
 
-    # Iterate through the rows and columns and replace empty characters with a circle.
+    # Iterate through the rows and columns and replace empty characters with an item.
     for i in board['prizes']:
         render[i['y']][i['x']] = '[]'
 
@@ -101,8 +148,12 @@ def render_map(board):
 
     return result
 
+    
+
 if __name__ == '__main__':
     # Do the main thing
-    my_board = generate_board(50, 15, 10)
+    my_board = generate_board(10, 10, 10)
     print(my_board)
     print(render_map(my_board))
+    play('james', 'u')
+    register_player('james')
