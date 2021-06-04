@@ -8,6 +8,13 @@ with open(os.path.join(script_path, 'openai_credentials.json'), 'r', encoding='u
 
 openai.api_key = openai_creds['apikey']
 
-response = openai.Completion.create(engine="davinci", prompt="This is a test", max_tokens=10)
+prompt_val = 'alttpr is'
+
+response = openai.Completion.create(engine="davinci", prompt="alttpr is", max_tokens=20, stop='\n')
+
+full_completion = prompt_val + response['choices'][0]['text']
 
 print(response)
+
+print(full_completion)
+
